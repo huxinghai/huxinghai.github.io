@@ -3,11 +3,11 @@
 # ----------------------- #
 
 url: http://huxinghai1988.github.com
-title: kaka 博客
-subtitle: 相信自己，一定能行
+title: Ka Ka
+subtitle: 
 author: kaka
 simple_search: http://google.com/search
-description: "fdsafdsafdsafdsafdsafdsa"
+description: 
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -58,7 +58,7 @@ default_asides: [asides/recent_posts.html, asides/github.html,  asides/delicious
 # ----------------------- #
 
 # Github repositories
-github_user:
+github_user: huxinghai1988
 github_repo_count: 0
 github_show_profile_link: true
 github_skip_forks: true
@@ -69,7 +69,7 @@ google_plus_one_size: medium
 
 # Google Plus Profile
 # Hidden: No visible button, just add author information to search results
-googleplus_user:
+googleplus_user: 112941774242932854035
 googleplus_hidden: false
 
 # Pinboard
