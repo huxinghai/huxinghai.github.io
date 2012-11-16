@@ -1,0 +1,36 @@
+---
+layout: post
+title: "linux自动执行crontab"
+date: 2012-11-16 19:05
+comments: true
+categories: linux
+---
+
+<p>
+	首先是安装，大多数发行版都预装了<br />
+	我们可以使用crontab来定时执行一些脚本与程序<br />
+
+	首先，用户必须隶属于cron组才可以用crontab命令，可以用下面的命令把用户加入到cron组中：<br />
+	<pre>
+		gpasswd -a galeki cron
+	</pre>
+
+	crontab命令主要有3个参数：<br />
+
+	-e ：编辑用户的crontab。<br />
+
+	-l  ：列出用户的crontab的内容。<br />
+
+	-r  ：删除用户的crontab的内容。<br />
+
+	执行crontab -e，将自动打开编辑器，你可以编辑自己的crontab文件，语法和 /etc/crontab 文件一样，不同的只是，不必再指出执行的用户，编辑后保存即可。<br />
+
+	crontab -l用来查看自己的crontab文件内能，crontab -r删除自己的crontab。<br />
+
+	cron语法如下:
+	<pre>
+		0   7   *    *   *    root     ~/filename.mp3 
+		分  时 	日   月  周	
+	</pre>
+	前面数字代表时间，后面*号是不限制时间, 这里是每天早上7点播放这个mp3
+</p>
