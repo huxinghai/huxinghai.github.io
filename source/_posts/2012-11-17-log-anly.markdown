@@ -1,0 +1,66 @@
+---
+layout: post
+title: "登陆日志导入csv文件"
+date: 2012-11-17 17:03
+comments: true
+categories: ruby
+---
+<p>
+    首先我们需要把登陆的信息通过Rails.logger.info输入到日志文件<br />
+    我的输出格式是: <br ?>
+    <pre>
+        Trace Order: {:ip => request.remote_ip, :login => ***, :browser => client_browser_name, :login_date =>***** }
+    </pre>
+    然后通过下面代码导入csv<br />
+
+    <pre>
+        require "csv"
+
+        class LogAnalysis
+
+            def initialize(path)
+                @path = path
+            end    
+
+            def match_data(match) 
+                rows = []       
+                File.open(@path, "r:utf-8") do | file |
+                    file.each_line do | line |
+                        rows << instance_eval(line.gsub(match,"")) if line =~ match
+                    end
+                end        
+                rows
+            end
+
+            def file_name
+                "#{Time.now.strftime("%Y%m%d")}.csv"
+            end
+
+            #arguments: 
+            # name: 文件名称
+            # match: 匹配表代式
+            # &block: 代码块
+            # sort_field: 排序字段
+            def export(name, match , sort_field = nil, &block)
+                rows = match_data(match).sort{| x, y | x[sort_field] <=> y[sort_field] } if sort_field
+                if rows.length > 0
+                    columns = yield        
+                    CSV.open("#{name}#{file_name}", "wb:gbk") do | csv |
+                        csv << columns.values                
+                        rows.each{| r | csv << r.values_at(*columns.keys) }
+                    end
+                end
+            end
+        end
+
+        log_user = LogAnalysis.new("production.log-#{Time.now.strftime("%Y%m%d")}")
+        log_user.export("user_login", /Trace User:/, :login) do 
+            {
+                :login => "用户",
+                :ip => "ip", 
+                :browser => "浏览器", 
+                :login_date => "登陆日期"
+            }
+        end
+    </pre>
+</p>
