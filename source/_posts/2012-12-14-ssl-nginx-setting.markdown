@@ -45,7 +45,9 @@ server {
 
 然后重启nginx出现如下错误：
 <per>
-    nginx: [emerg] SSL_CTX_use_certificate_chain_file("/opt/nginx/conf/ssh.crt") failed (SSL: error:0906D066:PEM routines:PEM_read_bio:bad end line error:140DC009:SSL routines:SSL_CTX_use_certificate_chain_file:PEM lib)
+    nginx: [emerg] SSL_CTX_use_certificate_chain_file("/opt/nginx/conf/ssh.crt") 
+    failed (SSL: error:0906D066:PEM routines:PEM_read_bio:bad end line error:140DC009:SSL 
+    routines:SSL_CTX_use_certificate_chain_file:PEM lib)
 </per>
 在网上查了一下错误，原因是合并证书出了一点问题,把 your_server.crt文件打开修改如下代码
 
