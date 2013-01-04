@@ -5,7 +5,7 @@ date: 2013-01-04 20:13
 comments: true
 categories: nodejs
 ---
-源码： <a href="https://github.com/dannycoates/node-inspector">node-inspector<a>
+源码： <a href="https://github.com/dannycoates/node-inspector">node-inspector</a>
 <per>
 	$ npm install -g node-inspector
 
