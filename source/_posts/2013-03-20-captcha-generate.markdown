@@ -1,0 +1,36 @@
+---
+layout: post
+title: "使用php的Codeigniter框架 生图片验证码遇到的问题"
+date: 2013-03-20 22:58
+comments: true
+categories: php
+---
+根据官方网站介绍，可以使用<code>captcha</code>实现,实现方式如下<br />
+
+<pre>    
+
+  /*
+  * 控制加载
+  */
+  $this->load->helper('captcha');  
+  ...
+
+  /*
+  * 方法
+  */
+  $vals = array(        
+    'img_path' => './captcha/',
+    'img_url' => 'http://localhost/finance/captcha/',
+    'font_path' => "./system/fonts/texb.ttf"
+  );
+
+  $data["img_code"] = create_captcha($vals);
+  ...
+</pre>
+结果没有反应，然后进入<code>create_captcha</code>方法调试，发现在<code> extension_loaded('gd')</code><br/>
+过滤了，经过google 搜索是没有加载gd库，然后在网上查加载gd库,配置一下php.ini文件如下:
+
+<code>
+  extension=php_gd2.dll
+</code>
+由于我是安装wamp服务管理软件在里面选择一下，然后重启apache服务就ok了
