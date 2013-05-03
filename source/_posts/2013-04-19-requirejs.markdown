@@ -7,12 +7,11 @@ categories: javascript
 ---
 <a href='http://requirejs.org/'>requirejs</a>是一个管理js模块加载与依赖包，可以不使用script标签来加载js文件<br />
 1.引用requirejs文件<br />
-<pre>
+```js   
     <script data-main="scripts/main" src="scripts/require.js"></script>
-</pre>
-
-2.配置
-<pre>
+```
+2.配置, <a href='http://requirejs.org/docs/api.html#config'>更多配置</a>
+```js
     requirejs.config({
         
         //默认加载模块路径
@@ -34,11 +33,10 @@ categories: javascript
                 exports: "Backbone"       
             }
         }
-    })
-    <a href='http://requirejs.org/docs/api.html#config'>更多配置</a>
-</pre>
+    })    
+```
 3.使用
-<pre>
+```js
     // js/dom.js
     define(["backbone"], function(Backbone){
         LoginView = Backbone.View.extend({
@@ -52,4 +50,4 @@ categories: javascript
             ...
         )
     })
-</pre>
+```
