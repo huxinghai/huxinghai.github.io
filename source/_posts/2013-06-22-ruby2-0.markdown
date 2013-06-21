@@ -1,0 +1,12 @@
+---
+layout: post
+title: "ruby 2.0三个重要特性实例收藏"
+date: 2013-06-22 00:36
+comments: true
+categories: ruby
+---
+
+- [Module#prepend](http://dev.af83.com/2012/10/19/ruby-2-0-module-prepend.html)
+- [Module#refine](http://dev.af83.com/2012/10/19/ruby-2-0-module-prepend.html)
+- [Keyword arguments](http://dev.af83.com/2013/02/18/ruby-2-0-keyword-arguments.html)
+
