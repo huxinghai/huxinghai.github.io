@@ -8,7 +8,7 @@ categories: elasticsearch
 
 ### CURL
 
-```SHELL
+```bash
 curl -XGET 'http://localhost:9200/indexA,indexB/_search?pretty=1' -d '{
 "query" : {
     "bool": {
@@ -64,7 +64,7 @@ curl -XGET 'http://localhost:9200/indexA,indexB/_search?pretty=1' -d '{
 indexA 与 indexB 索引的 TypeA与TypeB
 
 #### ruby gem  Tire
-```RUBY
+```ruby
 Tire.search ['indexA', 'indexB'] do
   from _from
   size _size
