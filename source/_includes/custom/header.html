@@ -1,3 +1,7 @@
-{% for key in site.categories %}
-<a class='category' href="/blog/categories/{{ key[0] }}">{{ key[0] }}</a>
-{% endfor %}
+<ul>
+  <li>
+  {% for key in site.categories %}
+  <a href="/blog/categories/{{ key[0] }}">{{ key[0] }}</a>
+  {% endfor %}
+  </li>
+</ul>
