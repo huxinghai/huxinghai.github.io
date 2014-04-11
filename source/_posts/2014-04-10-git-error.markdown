@@ -1,0 +1,23 @@
+---
+layout: post
+title: "git 错误 object is empy / corrupt"
+date: 2014-04-10 14:12
+comments: true
+categories: git
+---
+#### 问题
+
+早上上班开始工作是准备git push到远程服务器时，出现下面错误！我估计是之前的merge导致的
+
+```shell
+  error: object file .git/objects/xx/xxx is empty
+  fatal: loose object xxx (stored in .git/objects/xx/xxx is corrupt
+```
+#### 解决方案
+
+参考[链接](http://vincesalvino.blogspot.jp/2013/08/git-empty-files-corrupt-objects-and.html), 其实我就是删除空的commit就可以了
+
+	find .git/objects/ -size 0 -exec rm -f {} \; 
+
+
+
