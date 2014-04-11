@@ -9,7 +9,7 @@ categories: git
 
 早上上班开始工作是准备git push到远程服务器时，出现下面错误！我估计是之前的merge导致的
 
-```shell
+```
   error: object file .git/objects/xx/xxx is empty
   fatal: loose object xxx (stored in .git/objects/xx/xxx is corrupt
 ```
