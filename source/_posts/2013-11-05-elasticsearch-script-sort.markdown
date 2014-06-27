@@ -96,7 +96,7 @@ curl -X GET 'http://localhost:9200/products/_search?pretty' -d '{
 ```
 
 
-js与native排序，性能方面有差距同样的5W数据,比较一下查询速度：
+单机做测试，js与native排序性能方面有差距同样的5W数据,比较一下查询速度：
   js：70ms, native: 20ms
 
 

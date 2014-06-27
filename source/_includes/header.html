@@ -1,5 +1,7 @@
 <div class="profilepic">	
-	<img src="/images/avatar.jpeg" alt="Profile Picture" style="width: 160px;">
+	<canvas id='myavatar' class='avatar'>
+  		<img src="./avatar.jpeg" class='avatar' />
+	</canvas>
 </div>
 <h1><a href="{{ root_url }}/">{{ site.title }}</a></h1>
 <nav id="main-nav">{% include navigation.html %}</nav>
