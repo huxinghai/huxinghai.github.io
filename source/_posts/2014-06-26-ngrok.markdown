@@ -1,0 +1,64 @@
+---
+layout: post
+title: "ngrok反向代理工具"
+date: 2014-06-26 14:24
+comments: true
+categories: 工具
+---
+ngrok是个款不错的工具，在我们开发中经常要用到。
+
+visit: [官网](https://ngrok.com/)
+
+### 使用方式
+
+1. 简单的运行
+
+        // 代理你电脑3001端口， 运行后通过http://127.0.0.1:4040查看请求状态    
+        ngrok 3001
+
+2. 验证运行
+  
+        // authtoken你在官方注册，就会生成一个, authtoken只要在电脑上运行一次就可以了会
+        // 记录的, 如果你验证了的话ngrok 生成的前缀域名不会被占用和变化
+        ngrok -authtoken U54UzZiDLFQxyZ-Ow*** 3001
+
+3. 需要别人验证才可以浏览
+
+        // helmet用户名, 12345密码
+        ngrok -httpauth="helmet:12345" 3001
+
+4. 设置前缀域名
+
+        ngrok -subdomain=example 3001
+  
+
+5. tcp代理
+
+        ngrok -proto=tcp 22
+
+6. 指定其它服务器代理
+  
+        //为192.168.1.16服务器的3001端口代理
+        ngrok 192.168.1.16:3001
+
+7. 运行多个类型服务
+
+        // ngrok.yml配置类型如下
+
+        tunnels:
+          client:
+            proto:
+              https: "3000"
+            auth: user:password
+          c99bba1.ngrok.com:
+            proto:
+              http: "3000"
+          ssh:
+            proto:
+              tcp: "22"
+
+
+        // config: 配置文件路径
+        // start: 运行哪几种类型服务(client, ssh c99bba1.ngrok.com)
+        ngrok -log=stdout -authtoken=U54UzZiDLFQxyZ-Ow*** -config=ngrok.yml start client ssh c99bba1.ngrok.com
+
