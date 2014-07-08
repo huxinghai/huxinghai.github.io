@@ -20,9 +20,10 @@ $(function(){
   var g=canvas.getContext("2d");      
   var img=new Image()
   img.src="/images/avatar.gif"
-  if(!detectmob()){
-    img.onload = function(){
-      g.drawImage(img, 0, 0, 160, 160, 0, 0 ,160, 160);        
+ 
+  img.onload = function(){
+    g.drawImage(img, 0, 0, 160, 160, 0, 0 ,160, 160);  
+    if(!detectmob()){      
       var i = 0.1
       g.lineWidth = 2           
       g.globalAlpha=0.5;     
