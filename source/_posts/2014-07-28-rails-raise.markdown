@@ -8,7 +8,7 @@ categories: ruby
 
 在一个*class*里面你想根据不同的异常回调不同事件
 
-		
+	
 		class NoMoneyException < StandardError
 		end
 
