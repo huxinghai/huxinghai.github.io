@@ -1,0 +1,14 @@
+---
+layout: default
+title: Blog categories
+---
+<div class='clearfix categories'>
+  <h1 class='title'>所有分类</h1>
+  <ul>  
+    {% for key in site.categories %}
+    <li>
+    <a href="/blog/categories/{{ key[0] }}">{{ key[0] }}</a>
+    </li>
+    {% endfor %}  
+  </ul>
+</div>

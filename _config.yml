@@ -20,6 +20,7 @@ subscribe_rss: /atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
 email: huxinghai1988@gmail.com
+gravatar_url: http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40
 
 # ----------------------- #
 #    Jekyll & Plugins     #

@@ -19,7 +19,7 @@ $(function(){
   var canvas=document.getElementById("myavatar");
   var g=canvas.getContext("2d");      
   var img=new Image()
-  img.src="/images/avatar.gif"
+  img.src= canvas.getAttribute("data-url")
  
   img.onload = function(){
     g.drawImage(img, 0, 0, 160, 160, 0, 0 ,160, 160);  

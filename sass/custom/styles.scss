@@ -9,3 +9,64 @@
 		-webkit-border-radius: 50%;
 	}
 }
+
+
+.container{
+
+  .left-col{
+    background: #3D4349;
+    height: 100%;
+    width: 23%;
+
+
+    #header{
+      padding: 0px;
+      
+      .wrap{
+        padding: 20% 10% 0% 15%;
+      }
+
+      .profilepic{
+        margin-bottom: 20px;
+      }
+
+      #main-nav{
+        margin-top: 20px;
+      }
+
+      #sub-nav{
+        margin-top: 50px;
+      }
+    }
+  }
+
+  .mid-col{
+    overflow: hidden;
+
+    .categories{
+      padding-bottom: 30px;
+
+      h1.title{
+        font-weight: 300;
+        line-height: 35px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      ul{
+        list-style: none;
+      }   
+
+
+      li{
+        float: left;
+        margin: 8px;
+      }
+    }
+  }
+
+}
+
+body{
+  background: whitesmoke;
+}
