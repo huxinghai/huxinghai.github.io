@@ -17,6 +17,14 @@
     background: #3D4349;
     height: 100%;
     width: 23%;
+    filter: Alpha(opacity=30);
+    opacity: 0.3;
+
+
+    &:hover{
+      filter: Alpha(opacity=100);
+      opacity: 1;
+    } 
 
 
     #header{
