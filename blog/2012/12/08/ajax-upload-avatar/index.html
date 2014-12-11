@@ -1,0 +1,155 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>mongoid 使用ajax 无刷新上传 - Ka Ka Blog</title>
+	<meta name="author" content="kaka">
+
+	
+	<meta name="description" content="使用以下的gem包: gem 'carrierwave' gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid' gem 'mini_magick' gem 'rack-raw-upload' 然后前端js， &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ka Ka Blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	
+	<script src="/javascripts/jquery-1.8.3.js"></script>
+<script src="/javascripts/application.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="stylesheets/bootstrap-responsive.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<header id="header" class="inner"><div class='wrap'>
+  <div class="profilepic">  
+    <canvas id='myavatar' width="160" height="160" class='avatar' data-url="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" >
+        <img src="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" class='avatar' />
+    </canvas>
+  </div>
+  <h1><a href="/">Ka Ka Blog</a></h1>
+  <nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+  <li><a href="/blog/about">About</a></li>
+</ul>
+</nav>
+  <br/>
+  <p>
+    优秀的判断能力来自经验，但经验来自于错误的判断！
+  </p>
+  <h3 class="alignleft"></h3>
+  <nav id="sub-nav" class="alignright">
+    <div class="social">
+      
+      
+      <a class="google" href="https://plus.google.com/112941774242932854035?rel=author" title="Google+">Google+</a>
+      
+      
+      
+      <a class="github" href="https://github.com/huxinghai1988" title="GitHub">GitHub</a>
+      
+      
+      
+      
+      
+      <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+      
+    </div>
+  </nav>
+</div>
+
+</header>
+		</div>		
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post">
+	<h1 class="title">Mongoid 使用ajax 无刷新上传</h1>
+	<div class="entry-content"><p>使用以下的gem包:</p>
+
+<pre>
+    gem 'carrierwave'
+    gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
+    gem 'mini_magick'
+    gem 'rack-raw-upload'
+</pre>
+
+
+
+
+<p>
+然后前端js，本来使用<a href='http://fineuploader.com'>fineuploader</a>，但是在ie8下面有问题,原因是ajax send 的时候头部<br />
+信息类型<code>Content-Type: multipart/form-data</code>,而其它浏览头部类型正常，但是官方说支持ie 7以上，但是弄了很久，还是不行<br />
+决定使用<a href='https://github.com/Valums-File-Uploader/file-uploader.git'>file-uploader</a>前端，这使用方式很雷同，使用file-uploader在ie 8下面，但当服务器返回状态不等于200时，会出现错误，错误信息说iframe.contentDocument 没有权限！通过其它状态处理错误信息!
+</p>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+
+    kaka
+
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'mbkk';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2012/12/08/ajax-upload-avatar/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2012/12/08/ajax-upload-avatar/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

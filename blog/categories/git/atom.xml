@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: git | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[git 错误 object is empy / corrupt]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/04/10/git-error/"/>
+    <updated>2014-04-10T14:12:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/04/10/git-error</id>
+    <content type="html"><![CDATA[<h4>问题</h4>
+
+<p>早上上班开始工作是准备git push到远程服务器时，出现下面错误！我估计是之前的merge导致的</p>
+
+<p><code>
+  error: object file .git/objects/xx/xxx is empty
+  fatal: loose object xxx (stored in .git/objects/xx/xxx is corrupt
+</code></p>
+
+<h4>解决方案</h4>
+
+<p>参考<a href="http://vincesalvino.blogspot.jp/2013/08/git-empty-files-corrupt-objects-and.html">链接</a>, 其实我就是删除空的commit就可以了</p>
+
+<pre><code>find .git/objects/ -size 0 -exec rm -f {} \; 
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ruby根据不同的异常处理不同事件]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/07/28/rails-raise/"/>
+    <updated>2014-07-28T23:39:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/07/28/rails-raise</id>
+    <content type="html"><![CDATA[<p>在一个<em>class</em>里面你想根据不同的异常回调不同事件</p>
+
+<pre><code>class NoMoneyException &lt; StandardError
+end
+
+class ValidNumberException &lt; StandardError
+end
+
+class Sale
+
+    def self.create(options)
+        obj = new(options)
+        obj.validation
+    end
+
+    def validation
+
+        raise NoMoneyException if money &gt; current_user.money
+        raise ValidNumberException if number &gt; warehouse.nventory
+    end
+end
+
+
+begin
+    Sale.create({...})
+rescue NoMoneyException =&gt; e
+    callback ..
+rescue ValidNumberException =&gt; e
+    callback ..
+end
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ruby 2.0三个重要特性实例收藏]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/06/22/ruby2-0/"/>
+    <updated>2013-06-22T00:36:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/06/22/ruby2-0</id>
+    <content type="html"><![CDATA[<ul>
+<li><a href="http://dev.af83.com/2012/10/19/ruby-2-0-module-prepend.html">Module#prepend</a></li>
+<li><a href="http://dev.af83.com/2012/10/19/ruby-2-0-module-prepend.html">Module#refine</a></li>
+<li><a href="http://dev.af83.com/2013/02/18/ruby-2-0-keyword-arguments.html">Keyword arguments</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[gem requirejs-rails assets precompile 简介]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/06/22/requirejs-rails/"/>
+    <updated>2013-06-22T00:13:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/06/22/requirejs-rails</id>
+    <content type="html"><![CDATA[<p>安装<a href="https://github.com/jwhitley/requirejs-rails">requirejs-rails</a>, 然后新建配置文件<code>config/requirejs.yml</code></p>
+
+<p>requirejs.yml</p>
+
+<p>```ruby</p>
+
+<h1>配置单个模块，会编译一个单独的模块</h1>
+
+<p>modules:
+  - name: 'mytoplevel'</p>
+
+<h1>路径</h1>
+
+<p>paths</p>
+
+<pre><code>jquery: "lib/jquery.js"
+</code></pre>
+
+<h1>设置依赖关系</h1>
+
+<p>shim:
+```
+其实与requirejs配置差不多，只是rails会根据requirejs.yml编译</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ruby 设计模式观察者模式]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2012/12/23/observer/"/>
+    <updated>2012-12-23T12:57:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2012/12/23/observer</id>
+    <content type="html"><![CDATA[<p>ruby 自带一个观察者类<code>observer</code>,我们可以用它实现观察者模式<br />
+案例：
+<per></p>
+
+<pre><code>require 'observer'
+
+#被观察者  
+class Beobservable
+    include Observable
+end 
+
+#观察者A
+class Aobserver
+    def update(args)
+        puts "a is observer! #{args}"
+    end
+end
+
+#观察者B
+class Bobserver
+    def update(args)
+        puts "b is observer! #{args}"
+    end
+end
+
+observer_a = Aobserver.new
+observer_b = Bobserver.new
+
+
+b_servable = Beobservable.new
+
+#添加观察者
+b_servable.add_observer(observer_a)
+b_servable.add_observer(observer_b)
+
+#被观察者改变时
+b_servable.changed
+
+#通知观察者
+b_servable.notify_observers("test")
+</code></pre>
+
+<p></per></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ruby 设计模式适配器]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2012/12/22/adapter/"/>
+    <updated>2012-12-22T10:04:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2012/12/22/adapter</id>
+    <content type="html"><![CDATA[<p>案例:
+<per></p>
+
+<pre><code>class FormatAdapter
+    def format
+        puts "build format"
+    end
+end
+
+class BuildFormat
+    attr_accessor some_adapter
+
+    def initialize(some_adapter)
+        @some_adapter = some_adapter.new            
+    end
+
+    def build
+        @some_adapter.format
+    end
+end
+
+# 使用
+bf = BuildFormat.new FormatAdapter
+bf.build
+</code></pre>
+
+<p></per></p>
+]]></content>
+  </entry>
+  
+</feed>

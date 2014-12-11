@@ -1,0 +1,168 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>两个常用的shell脚本 - Ka Ka Blog</title>
+	<meta name="author" content="kaka">
+
+	
+	<meta name="description" content="日志切割 #!/bin/sh log_path="/home/littlefire/var/www/apps/littlefire/current/log" to_day=`date -d "yesterday" +"%Y%m%d"` cp ${log_path}/production.log &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ka Ka Blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	
+	<script src="/javascripts/jquery-1.8.3.js"></script>
+<script src="/javascripts/application.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="stylesheets/bootstrap-responsive.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<header id="header" class="inner"><div class='wrap'>
+  <div class="profilepic">  
+    <canvas id='myavatar' width="160" height="160" class='avatar' data-url="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" >
+        <img src="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" class='avatar' />
+    </canvas>
+  </div>
+  <h1><a href="/">Ka Ka Blog</a></h1>
+  <nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+  <li><a href="/blog/about">About</a></li>
+</ul>
+</nav>
+  <br/>
+  <p>
+    优秀的判断能力来自经验，但经验来自于错误的判断！
+  </p>
+  <h3 class="alignleft"></h3>
+  <nav id="sub-nav" class="alignright">
+    <div class="social">
+      
+      
+      <a class="google" href="https://plus.google.com/112941774242932854035?rel=author" title="Google+">Google+</a>
+      
+      
+      
+      <a class="github" href="https://github.com/huxinghai1988" title="GitHub">GitHub</a>
+      
+      
+      
+      
+      
+      <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+      
+    </div>
+  </nav>
+</div>
+
+</header>
+		</div>		
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post">
+	<h1 class="title">两个常用的shell脚本</h1>
+	<div class="entry-content"><ol>
+<li><p>日志切割</p>
+
+<pre><code> #!/bin/sh
+ log_path="/home/littlefire/var/www/apps/littlefire/current/log"
+ to_day=`date -d "yesterday" +"%Y%m%d"`
+ cp ${log_path}/production.log ${log_path}/production_${to_day}.log
+ echo "" &gt; ${log_path}/production.log
+ chown littlefire:littlefire ${log_path}/production.log
+ bzip2 ${log_path}/production_${to_day}.log
+</code></pre></li>
+<li><p>mysql数据库定时备份</p>
+
+<pre><code> #!/bin/sh
+ #
+ #发送Email的话要安装 mutt与msmtp才可以
+
+ today=`date -d "today" +"%Y%m%d"`
+ path=/home/kaka/data_backup/
+ filename=backup_${today}.sql
+ file_path=${path}${filename}
+ tar_name=${path}backup_${today}.tar.gz
+ /usr/bin/mysqldump -uroot -p** database_name &gt; ${file_path}
+
+ tar -zcvf $tar_name -C $path $filename
+ rm $file_path
+ find $path -mtime +6 -type f -name backup_*.tar.gz | xargs rm -rf 
+ #echo "littefire data dump ${today}" | mutt -s "${today} dump data" ***@qq.com -a $tar_name
+</code></pre></li>
+</ol>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+
+    kaka
+
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'mbkk';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2014/07/24/shell-service-dump-and-cut/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2014/07/24/shell-service-dump-and-cut/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

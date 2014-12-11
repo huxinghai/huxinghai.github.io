@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rabbitmq | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/rabbitmq/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ubuntu rabbitmq 服务器安装过程]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/05/11/rabbitmq-install/"/>
+    <updated>2013-05-11T12:28:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/05/11/rabbitmq-install</id>
+    <content type="html"><![CDATA[<p>rabbitmq是用于消息列队处理的,准备研究一下它来做消息处理
+rabbitmq是用Erlang开发的,所有安装之前要部署Erlang环境</p>
+
+<h4>Erlang部署</h4>
+
+<pre><code>wget https://elearning.erlang-solutions.com/binaries/sources/otp_src_R16B.tar.gz
+tar xvzf otp_src_R16B.tar.gz
+cd otp_src_R16B
+./configure
+make &amp;&amp; make install
+</code></pre>
+
+<h4>Rabbitmq部署</h4>
+
+<p><a href="http://www.rabbitmq.com/install-debian.html">官方安装文档</a></p>
+
+<ol>
+<li><p>添加公共key</p>
+
+<p> wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc</p>
+
+<p> sudo apt-key add rabbitmq-signing-key-public.asc</p></li>
+<li><p>安装</p>
+
+<p> sudo apt-get install rabbitmq-server</p></li>
+</ol>
+
+
+<p><a href="http://www.rabbitmq.com/configure.html">官方配置文档</a>配置文件路径在<code>/etc/rabbitmq/</code></p>
+
+<h4>启动rabbitmq_management管理</h4>
+
+<pre><code>cd /usr/lib/rabbitmq/lib/rabbitmq_server-2.7.1/sbin
+sudo ./rabbitmq-plugins enable rabbitmq_management
+</code></pre>
+
+<p>然后浏览地址<code>http://server-name:55672/</code>, 官方说3.0以下版本端口是55672</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rails | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails调用oracle的存储过程]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/08/21/oracle-call-stored-procedure/"/>
+    <updated>2014-08-21T00:41:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/08/21/oracle-call-stored-procedure</id>
+    <content type="html"><![CDATA[<p>调用方式如下：</p>
+
+<pre><code>cursor = ActiveRecord::Base.connection.raw_connection.parse("BEGIN MYPROC(:age, :name, :fathers_age, :capital_name); END;")
+cursor.bind_param(:name, 'akshay')
+cursor.bind_param(:age, '20')
+cursor.bind_param(:fathers_age, nil, Fixnum)
+cursor.bind_param(:capital_name, nil, String, 20)
+cursor.exec()
+p cursor[:fathers_age], cursor[:capital_name]
+
+
+require 'sequel'
+db = Sequel.connect(:adapter=&gt;'oracle', :host=&gt;'localhost', :database=&gt;'db_name', :user=&gt;'test', :password=&gt;'test')
+db.execute("begin MYPROC(:age, :name, :fathers_age, :capital_name); end;", {:arguments =&gt; [[20, "integer"], ["akshay", "string"], [nil, "integer"], [nil, "string"]]}) { |cursor| [cursor[3], cursor[4]] }
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[mongoid 使用ajax 无刷新上传]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2012/12/08/ajax-upload-avatar/"/>
+    <updated>2012-12-08T14:43:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2012/12/08/ajax-upload-avatar</id>
+    <content type="html"><![CDATA[<p>使用以下的gem包:</p>
+
+<pre>
+    gem 'carrierwave'
+    gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
+    gem 'mini_magick'
+    gem 'rack-raw-upload'
+</pre>
+
+
+
+
+<p>
+然后前端js，本来使用<a href='http://fineuploader.com'>fineuploader</a>，但是在ie8下面有问题,原因是ajax send 的时候头部<br />
+信息类型<code>Content-Type: multipart/form-data</code>,而其它浏览头部类型正常，但是官方说支持ie 7以上，但是弄了很久，还是不行<br />
+决定使用<a href='https://github.com/Valums-File-Uploader/file-uploader.git'>file-uploader</a>前端，这使用方式很雷同，使用file-uploader在ie 8下面，但当服务器返回状态不等于200时，会出现错误，错误信息说iframe.contentDocument 没有权限！通过其它状态处理错误信息!
+</p>
+
+]]></content>
+  </entry>
+  
+</feed>

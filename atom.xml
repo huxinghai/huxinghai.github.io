@@ -1,110 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE HTML>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>Ka Ka Blog</title>
-	<meta name="author" content="kaka">
-
-	
-	<meta name="description" content="在项目里我们用的比较多的bundle install当遇到一些gem包环境问题时，在安装gem时需要加一些配置
-比如： gem install pg -v '0.12.0' -- --with-pg-config=/usr/pgsql-9.1/bin/pg_config &hellip;">
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<link href="/atom.xml" rel="alternate" title="Ka Ka Blog" type="application/atom+xml">
-	<link rel="canonical" href="">
-	<link href="/favicon.png" rel="shortcut icon">
-	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	
-	<script src="/javascripts/jquery-1.8.3.js"></script>
-<script src="/javascripts/application.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="stylesheets/bootstrap-responsive.css" rel="stylesheet">
-</head>
-
-<body>
-	<div class="container">
-		<div class="left-col">
-			<header id="header" class="inner"><div class='wrap'>
-  <div class="profilepic">  
-    <canvas id='myavatar' width="160" height="160" class='avatar' data-url="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" >
-        <img src="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" class='avatar' />
-    </canvas>
-  </div>
-  <h1><a href="/">Ka Ka Blog</a></h1>
-  <nav id="main-nav"><ul class="main">
-	<li><a href="/">Blog</a></li>
-	<li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/blog/categories">Categories</a></li>
-  <li><a href="/blog/about">About</a></li>
-</ul>
-</nav>
-  <br/>
-  <p>
-    优秀的判断能力来自经验，但经验来自于错误的判断！
-  </p>
-  <h3 class="alignleft"></h3>
-  <nav id="sub-nav" class="alignright">
-    <div class="social">
-      
-      
-      <a class="google" href="https://plus.google.com/112941774242932854035?rel=author" title="Google+">Google+</a>
-      
-      
-      
-      <a class="github" href="https://github.com/huxinghai1988" title="GitHub">GitHub</a>
-      
-      
-      
-      
-      
-      <a class="rss" href="/atom.xml" title="RSS">RSS</a>
-      
-    </div>
-  </nav>
-</div>
-
-</header>
-		</div>		
-		<div class="mid-col">
-			
-				
-			
-			<div class="mid-col-container">
-				<div id="content" class="inner">
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
+  <title><![CDATA[Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2014-12-10T14:11:00+08:00" pubdate data-updated="true">Dec 10<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/gem/'>gem</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/12/10/bundle-config//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/12/10/bundle-config/">Ruby Bundle Gem的配置</a></h1>
-	<div class="entry-content">
-		<p>在项目里我们用的比较多的bundle install当遇到一些gem包环境问题时，在安装gem时需要加一些配置
+  <entry>
+    <title type="html"><![CDATA[ruby bundle gem的配置]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/12/10/bundle-config/"/>
+    <updated>2014-12-10T14:11:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/12/10/bundle-config</id>
+    <content type="html"><![CDATA[<p>在项目里我们用的比较多的bundle install当遇到一些gem包环境问题时，在安装gem时需要加一些配置
 比如：</p>
 
 <pre><code>gem install pg -v '0.12.0' -- --with-pg-config=/usr/pgsql-9.1/bin/pg_config
@@ -136,43 +50,15 @@ bundle config --local NAME VALUE
 #删除一个配置
 bundle config --delete NAME
 </code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2014-08-21T00:41:00+08:00" pubdate data-updated="true">Aug 21<span>st</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rails/'>rails</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/08/21/oracle-call-stored-procedure//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/08/21/oracle-call-stored-procedure/">Rails调用oracle的存储过程</a></h1>
-	<div class="entry-content">
-		<p>调用方式如下：</p>
+  <entry>
+    <title type="html"><![CDATA[Rails调用oracle的存储过程]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/08/21/oracle-call-stored-procedure/"/>
+    <updated>2014-08-21T00:41:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/08/21/oracle-call-stored-procedure</id>
+    <content type="html"><![CDATA[<p>调用方式如下：</p>
 
 <pre><code>cursor = ActiveRecord::Base.connection.raw_connection.parse("BEGIN MYPROC(:age, :name, :fathers_age, :capital_name); END;")
 cursor.bind_param(:name, 'akshay')
@@ -187,43 +73,15 @@ require 'sequel'
 db = Sequel.connect(:adapter=&gt;'oracle', :host=&gt;'localhost', :database=&gt;'db_name', :user=&gt;'test', :password=&gt;'test')
 db.execute("begin MYPROC(:age, :name, :fathers_age, :capital_name); end;", {:arguments =&gt; [[20, "integer"], ["akshay", "string"], [nil, "integer"], [nil, "string"]]}) { |cursor| [cursor[3], cursor[4]] }
 </code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2014-07-28T23:39:00+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/07/28/rails-raise//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/07/28/rails-raise/">Ruby根据不同的异常处理不同事件</a></h1>
-	<div class="entry-content">
-		<p>在一个<em>class</em>里面你想根据不同的异常回调不同事件</p>
+  <entry>
+    <title type="html"><![CDATA[ruby根据不同的异常处理不同事件]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/07/28/rails-raise/"/>
+    <updated>2014-07-28T23:39:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/07/28/rails-raise</id>
+    <content type="html"><![CDATA[<p>在一个<em>class</em>里面你想根据不同的异常回调不同事件</p>
 
 <pre><code>class NoMoneyException &lt; StandardError
 end
@@ -254,43 +112,15 @@ rescue ValidNumberException =&gt; e
     callback ..
 end
 </code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2014-07-24T22:10:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/linux/'>linux</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/07/24/shell-service-dump-and-cut//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/07/24/shell-service-dump-and-cut/">两个常用的shell脚本</a></h1>
-	<div class="entry-content">
-		<ol>
+  <entry>
+    <title type="html"><![CDATA[两个常用的shell脚本]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/07/24/shell-service-dump-and-cut/"/>
+    <updated>2014-07-24T22:10:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/07/24/shell-service-dump-and-cut</id>
+    <content type="html"><![CDATA[<ol>
 <li><p>日志切割</p>
 
 <pre><code> #!/bin/sh
@@ -321,43 +151,15 @@ end
 </code></pre></li>
 </ol>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2014-07-08T22:21:00+08:00" pubdate data-updated="true">Jul 8<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/工具/'>工具</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/07/08/exceptional//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/07/08/exceptional/">异常平台 Exceptional</a></h1>
-	<div class="entry-content">
-		<p>visit: <a href="https://www.exceptional.io">官网</a></p>
+  <entry>
+    <title type="html"><![CDATA[异常平台 exceptional]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/07/08/exceptional/"/>
+    <updated>2014-07-08T22:21:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/07/08/exceptional</id>
+    <content type="html"><![CDATA[<p>visit: <a href="https://www.exceptional.io">官网</a></p>
 
 <p>一个不错的统计项目的出错请求,而且支持多种语言，但是不是免费($9/month)</p>
 
@@ -379,43 +181,15 @@ end
 </code></pre></li>
 </ol>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2014-06-26T14:24:00+08:00" pubdate data-updated="true">Jun 26<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/工具/'>工具</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/06/26/ngrok//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/06/26/ngrok/">Ngrok反向代理工具</a></h1>
-	<div class="entry-content">
-		<p>ngrok是个款不错的工具，在我们开发中经常要用到。</p>
+  <entry>
+    <title type="html"><![CDATA[ngrok反向代理工具]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/06/26/ngrok/"/>
+    <updated>2014-06-26T14:24:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/06/26/ngrok</id>
+    <content type="html"><![CDATA[<p>ngrok是个款不错的工具，在我们开发中经常要用到。</p>
 
 <p>visit: <a href="https://ngrok.com/">官网</a></p>
 
@@ -474,43 +248,15 @@ end
 </code></pre></li>
 </ol>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2014-04-10T14:12:00+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/git/'>git</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/04/10/git-error//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/04/10/git-error/">Git 错误 Object Is Empy / Corrupt</a></h1>
-	<div class="entry-content">
-		<h4>问题</h4>
+  <entry>
+    <title type="html"><![CDATA[git 错误 object is empy / corrupt]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/04/10/git-error/"/>
+    <updated>2014-04-10T14:12:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/04/10/git-error</id>
+    <content type="html"><![CDATA[<h4>问题</h4>
 
 <p>早上上班开始工作是准备git push到远程服务器时，出现下面错误！我估计是之前的merge导致的</p>
 
@@ -526,43 +272,15 @@ end
 
 <pre><code>find .git/objects/ -size 0 -exec rm -f {} \; 
 </code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2014-01-25T15:13:00+08:00" pubdate data-updated="true">Jan 25<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/elasticsearch/'>elasticsearch</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/01/25/elasticsearch-dynamic-template//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/01/25/elasticsearch-dynamic-template/">Elasticsearch 动态加载属性的mapping</a></h1>
-	<div class="entry-content">
-		<p>代码示例:</p>
+  <entry>
+    <title type="html"><![CDATA[elasticsearch 动态加载属性的mapping]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/01/25/elasticsearch-dynamic-template/"/>
+    <updated>2014-01-25T15:13:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/01/25/elasticsearch-dynamic-template</id>
+    <content type="html"><![CDATA[<p>代码示例:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -668,43 +386,15 @@ end
 </span><span class='line'>  curl -XGET <span class="s1">&#39;localhost:9200/products/product/_mapping?pretty&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2013-11-05T09:37:00+08:00" pubdate data-updated="true">Nov 5<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/elasticsearch/'>elasticsearch</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/11/05/elasticsearch-script-sort//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2013/11/05/elasticsearch-script-sort/">Elasticsearch脚本排序</a></h1>
-	<div class="entry-content">
-		<p>由于自己要自定义score, 所以才会使用script来写复杂的sort</p>
+  <entry>
+    <title type="html"><![CDATA[elasticsearch脚本排序]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/11/05/elasticsearch-script-sort/"/>
+    <updated>2013-11-05T09:37:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/11/05/elasticsearch-script-sort</id>
+    <content type="html"><![CDATA[<p>由于自己要自定义score, 所以才会使用script来写复杂的sort</p>
 
 <h4>javascript script 排序</h4>
 
@@ -863,43 +553,15 @@ end
 
 <p>单机做测试，js与native排序性能方面有差距同样的5W数据,比较一下查询速度：
   js：70ms, native: 20ms</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2013-09-25T09:18:00+08:00" pubdate data-updated="true">Sep 25<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/elasticsearch/'>elasticsearch</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/09/25/elasticsearch-mutiple-search//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2013/09/25/elasticsearch-mutiple-search/">Elasticsearch 多个索引查询，根据不同类型条件判定</a></h1>
-	<div class="entry-content">
-		<h3>CURL</h3>
+  <entry>
+    <title type="html"><![CDATA[elasticsearch 多个索引查询，根据不同类型条件判定]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/09/25/elasticsearch-mutiple-search/"/>
+    <updated>2013-09-25T09:18:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/09/25/elasticsearch-mutiple-search</id>
+    <content type="html"><![CDATA[<h3>CURL</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1074,53 +736,601 @@ end
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ruby 2.0三个重要特性实例收藏]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/06/22/ruby2-0/"/>
+    <updated>2013-06-22T00:36:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/06/22/ruby2-0</id>
+    <content type="html"><![CDATA[<ul>
+<li><a href="http://dev.af83.com/2012/10/19/ruby-2-0-module-prepend.html">Module#prepend</a></li>
+<li><a href="http://dev.af83.com/2012/10/19/ruby-2-0-module-prepend.html">Module#refine</a></li>
+<li><a href="http://dev.af83.com/2013/02/18/ruby-2-0-keyword-arguments.html">Keyword arguments</a></li>
+</ul>
 
-		
-		
-	</div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[gem requirejs-rails assets precompile 简介]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/06/22/requirejs-rails/"/>
+    <updated>2013-06-22T00:13:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/06/22/requirejs-rails</id>
+    <content type="html"><![CDATA[<p>安装<a href="https://github.com/jwhitley/requirejs-rails">requirejs-rails</a>, 然后新建配置文件<code>config/requirejs.yml</code></p>
 
-</article>
+<p>requirejs.yml</p>
 
-<nav id="pagenavi">
-    
-    
-        <a href="/blog/page/2/" class="next">Next</a>
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
-			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2014
-
-    kaka
-
-</footer>
-			<script src="/javascripts/slash.js"></script>
-<script src="/javascripts/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-	$('.fancybox').fancybox();
-})(jQuery);
-</script> <!-- Delete or comment this line to disable Fancybox -->
-
-
-<script type="text/javascript">
-      var disqus_shortname = 'mbkk';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#配置单个模块，会编译一个单独的模块</span>
+</span><span class='line'><span class="n">modules</span><span class="p">:</span>
+</span><span class='line'>  <span class="o">-</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;mytoplevel&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#路径</span>
+</span><span class='line'><span class="n">paths</span>
+</span><span class='line'>  <span class="n">jquery</span><span class="p">:</span> <span class="s2">&quot;lib/jquery.js&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#设置依赖关系</span>
+</span><span class='line'><span class="n">shim</span><span class="p">:</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>其实与requirejs配置差不多，只是rails会根据requirejs.yml编译</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ubuntu rabbitmq 服务器安装过程]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/05/11/rabbitmq-install/"/>
+    <updated>2013-05-11T12:28:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/05/11/rabbitmq-install</id>
+    <content type="html"><![CDATA[<p>rabbitmq是用于消息列队处理的,准备研究一下它来做消息处理
+rabbitmq是用Erlang开发的,所有安装之前要部署Erlang环境</p>
+
+<h4>Erlang部署</h4>
+
+<pre><code>wget https://elearning.erlang-solutions.com/binaries/sources/otp_src_R16B.tar.gz
+tar xvzf otp_src_R16B.tar.gz
+cd otp_src_R16B
+./configure
+make &amp;&amp; make install
+</code></pre>
+
+<h4>Rabbitmq部署</h4>
+
+<p><a href="http://www.rabbitmq.com/install-debian.html">官方安装文档</a></p>
+
+<ol>
+<li><p>添加公共key</p>
+
+<p> wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc</p>
+
+<p> sudo apt-key add rabbitmq-signing-key-public.asc</p></li>
+<li><p>安装</p>
+
+<p> sudo apt-get install rabbitmq-server</p></li>
+</ol>
 
 
+<p><a href="http://www.rabbitmq.com/configure.html">官方配置文档</a>配置文件路径在<code>/etc/rabbitmq/</code></p>
 
-		</div>
-	</div>
-</body>
-</html>
+<h4>启动rabbitmq_management管理</h4>
+
+<pre><code>cd /usr/lib/rabbitmq/lib/rabbitmq_server-2.7.1/sbin
+sudo ./rabbitmq-plugins enable rabbitmq_management
+</code></pre>
+
+<p>然后浏览地址<code>http://server-name:55672/</code>, 官方说3.0以下版本端口是55672</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[postMessage 跨域通讯]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/05/03/post-message/"/>
+    <updated>2013-05-03T23:48:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/05/03/post-message</id>
+    <content type="html"><![CDATA[<p>不相同的域可以相互通讯, 例如iframe与页面进行通讯, <a href='https://github.com/daepark/postmessage'>postMessage</a>是个封装不错的包<br /></p>
+
+<p>简单实例解释</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>  <span class="c1">//在iframe 绑定频道</span>
+</span><span class='line'>  <span class="nx">pm</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s2">&quot;message1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//发送消息</span>
+</span><span class='line'>  <span class="nx">pm</span><span class="p">({</span>
+</span><span class='line'>    <span class="c1">//给那个iframe</span>
+</span><span class='line'>    <span class="nx">target</span><span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">frames</span><span class="p">[</span><span class="s2">&quot;example1&quot;</span><span class="p">],</span>
+</span><span class='line'>    <span class="c1">//频道</span>
+</span><span class='line'>    <span class="nx">type</span><span class="o">:</span><span class="s2">&quot;message1&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="c1">//内容</span>
+</span><span class='line'>    <span class="nx">data</span><span class="o">:</span><span class="p">{</span><span class="nx">hello</span><span class="o">:</span><span class="s2">&quot;world&quot;</span><span class="p">}</span>
+</span><span class='line'>  <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[requirejs 使用]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/04/19/requirejs/"/>
+    <updated>2013-04-19T22:59:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/04/19/requirejs</id>
+    <content type="html"><![CDATA[<p><a href='http://requirejs.org/'>requirejs</a>是一个管理js模块加载与依赖包，可以不使用script标签来加载js文件<br />
+1.引用requirejs文件<br /></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">data</span><span class="o">-</span><span class="nx">main</span><span class="o">=</span><span class="s2">&quot;scripts/main&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;scripts/require.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.配置, <a href='http://requirejs.org/docs/api.html#config'>更多配置</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">requirejs</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//默认加载模块路径</span>
+</span><span class='line'>    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s2">&quot;js/lib&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//指定模块的路径</span>
+</span><span class='line'>    <span class="nx">paths</span><span class="o">:</span><span class="p">{</span>
+</span><span class='line'>        <span class="c1">//前面别名， 后面路径</span>
+</span><span class='line'>        <span class="s2">&quot;jquery&quot;</span> <span class="o">:</span> <span class="s2">&quot;js/core/jquery.2.0.js&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;backbone&quot;</span> <span class="o">:</span> <span class="s2">&quot;js/core/backbone0.9.js&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;underscore&quot;</span><span class="o">:</span> <span class="s2">&quot;js/core/underscore.js&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//设置依赖关系</span>
+</span><span class='line'>    <span class="nx">shim</span><span class="o">:</span><span class="p">{</span>
+</span><span class='line'>        <span class="nx">backbone</span><span class="o">:</span><span class="p">{</span>
+</span><span class='line'>            <span class="nx">deps</span><span class="o">:</span><span class="p">[</span><span class="s2">&quot;underscore&quot;</span><span class="p">,</span> <span class="s2">&quot;jquery&quot;</span><span class="p">],</span>
+</span><span class='line'>            <span class="c1">//可以使用全局别名</span>
+</span><span class='line'>            <span class="nx">exports</span><span class="o">:</span> <span class="s2">&quot;Backbone&quot;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.使用</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// js/dom.js</span>
+</span><span class='line'><span class="nx">define</span><span class="p">([</span><span class="s2">&quot;backbone&quot;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Backbone</span><span class="p">){</span>
+</span><span class='line'>    <span class="nx">LoginView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">LoginView</span>
+</span><span class='line'><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">require</span><span class="p">([</span><span class="s2">&quot;js/dom&quot;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">LoginView</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">new</span> <span class="nx">LoginView</span><span class="p">(</span>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">)</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[backbone升级0.9.9版本，添加两个方法listenTo与stopListening]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/04/12/backbone-updated/"/>
+    <updated>2013-04-12T23:35:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/04/12/backbone-updated</id>
+    <content type="html"><![CDATA[<p>listenTo用于绑定事件，stopListening关闭绑定事件了<br />
+它们与on有什么不同的呢！这里做个例子<br /></p>
+
+<pre>
+  var Todo = Backbone.Model.extend({
+    ...
+  })
+   
+  var todo = new Todo()
+  var appView = Backbone.View.extend({
+    initialize: function(){
+      this.listenTo(todo, "change:name", this.edit_attr)
+    },
+    edit_attr: function(){
+      this.$(".name").html(this.model.get('name'))
+    }
+  })
+
+  var app_view = new appView()
+  app_view.remove()  
+</pre>
+
+
+<p>当我们<code>app_view.remove()</code>删除之后会自动执行<code>stopListening</code>方法关注绑定事件<br />
+<code>todo</code>模型就不会有这个视图绑的事件了，如果<br /></p>
+
+<pre>
+  this.listenTo(todo, "change:name", this.edit_attr)
+</pre>
+
+
+<p>改用这种绑定方式</p>
+
+<pre>
+  todo.on("change:name", this.edit_attr, this)
+</pre>
+
+
+<p><code>app_view.remove()</code>删除之后，todo模型还是会有这个绑定的事件<br />
+当然也可以用off来处理，但是现在有listenTo就不用做特别的处理了。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用php的Codeigniter框架 生图片验证码遇到的问题]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/03/20/captcha-generate/"/>
+    <updated>2013-03-20T22:58:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/03/20/captcha-generate</id>
+    <content type="html"><![CDATA[<p>根据官方网站介绍，可以使用<code>captcha</code>实现,实现方式如下<br /></p>
+
+<pre>    
+
+  /*
+  * 控制加载
+  */
+  $this->load->helper('captcha');  
+  ...
+
+  /*
+  * 方法
+  */
+  $vals = array(        
+    'img_path' => './captcha/',
+    'img_url' => 'http://localhost/finance/captcha/',
+    'font_path' => "./system/fonts/texb.ttf"
+  );
+
+  $data["img_code"] = create_captcha($vals);
+  ...
+</pre>
+
+
+<p>结果没有反应，然后进入<code>create_captcha</code>方法调试，发现在<code> extension_loaded('gd')</code><br/>
+过滤了，经过google 搜索是没有加载gd库，然后在网上查加载gd库,配置一下php.ini文件如下:</p>
+
+<p><code>
+  extension=php_gd2.dll
+</code>
+由于我是安装wamp服务管理软件在里面选择一下，然后重启apache服务就ok了</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[centOS rails + nginx + rvm  + capistrano + passenger + git  部署]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/03/01/capistrano-deploy/"/>
+    <updated>2013-03-01T23:24:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/03/01/capistrano-deploy</id>
+    <content type="html"><![CDATA[<p>所谓自动化部署<br />
+步聚如下：<br /></p>
+
+<p>1.在项目gemfile文件加入如下gem包，然后<code>bundle</code><br /></p>
+
+<pre>
+    gem rvm-capistrano
+    gem passenger
+</pre>
+
+
+<p>2.然后执行<code>capify .</code>命令，生成两个文件路径如下<br /></p>
+
+<pre>
+    config/deploy.rb
+
+    Capfile
+</pre>
+
+
+<p>3.配置deploy.rb文件，如下<br /></p>
+
+<pre>
+    #设置应用名称
+    set :application, "dom1"
+    #服务登陆用户与密码
+    set :user,"root"
+    set :password,"321654"
+    #项目仓库地址
+    set :repository,  "git@github.com:huxinghai1988/capistrano_dom"
+    #服务地址
+    set :domain,"192.168.2.27"
+
+    #设置伪登陆
+    default_run_options[:pty] = true 
+
+    #设置权限
+    set :use_sudo,false
+    #使用git更新代码也可以使用svn
+    set :scm, "git"
+    #git用户名
+    set :scm_user,"root"
+    #git密码
+    set :scm_passphrase,"123456"
+    #部署服务器位置
+    set :deploy_to,"/var/www/#{application}"
+    #部署分支
+    set :branch, "master"
+    #产品模式
+    set :rails_env, 'production'
+
+    # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
+
+
+    role :web, domain                          # Your HTTP server, Apache/etc
+    role :app, domain                         # This may be the same as your `Web` server
+    role :db,  domain, :primary => true      # This is where Rails migrations will run
+
+    #rvm 安装路径与 ruby版本
+    set :rvm_path,"/usr/local/rvm"
+    set :rvm_bin_path,"/usr/local/rvm/bin"
+    set :rvm_ruby_string,'ruby-1.9.2'
+
+    require 'rvm/capistrano'
+    require 'bundler/capistrano'
+
+    #deploy:setup前安装rvm与ruby
+    before 'deploy:setup' do
+        run 'echo insecure > ~/.curlrc', :shell => 'bash -c'
+        find_and_execute_task "rvm:install_rvm"
+        find_and_execute_task 'rvm:install_ruby'
+    end
+
+    #可以在发布后设置上传目录
+    after 'deploy' do
+        run "mkdir -p #{release_path}/public/uploads"        
+        run "ln -nfs #{shared_path}/user #{release_path}/public/uploads"
+        run "chown -R nobody:nobody #{release_path}/public/uploads"    
+    end
+
+
+    load 'deploy/assets'
+</pre>
+
+
+<p>4.执行<code>cap deploy:setup</code>可以运行<code>cap -T</code>查看所有命令</p>
+
+<p>5.安装完之后，执行<code>cap deploy</code>部署</p>
+
+<p>6.成功部署后，到服务器安装nginx与passenger<br /></p>
+
+<pre>
+    passenger-install-nginx-module
+</pre>
+
+
+<p>出现如下选择<br /></p>
+
+<pre>
+    1.Yes: download, compile and install Nginx for me. (recommended)
+    The easiest way to get started. A stock Nginx 1.0.10 with Passenger
+    support, but with no other additional third party modules, will be
+    installed for you to a directory of your choice.
+
+    2.No: I want to customize my Nginx installation. (for advanced users)
+    Choose this if you want to compile Nginx with more third party modules
+    besides Passenger, or if you need to pass additional options to Nginx's
+    'configure' script. This installer will 1) ask you for the location of
+    the Nginx source code, 2) run the 'configure' script according to your
+    instructions, and 3) run 'make install'.
+
+    Whichever you choose, if you already have an existing Nginx configuration file,
+    then it will be preserved.
+
+    Enter your choice (1 or 2) or press Ctrl-C to abort: 这里建议选择1
+
+    当询问nginx的安装路径的时候，个人建议安装默认，安回车就行了
+    Please specify a prefix directory [/opt/nginx]: 
+</pre>
+
+
+<p>当安装完成后，会在console中提示如何配置Nginx<br />
+Passenger会自动帮你将下面两行添加到Nginx的配置文件中/opt/nginx/conf/nginx.conf（很人性化）<br /></p>
+
+<pre>
+    http {
+        ...
+        passenger_root /Users/Daniel/.rvm/gems/ruby-1.9.3-p374/gems/passenger-3.0.19;
+        passenger_ruby /Users/Daniel/.rvm/wrappers/ruby-1.9.3-p374/ruby;
+        ...
+    }
+</pre>
+
+
+<p>6.设置nginx.conf的静态目录,root参数指定到项目的public目录</p>
+
+<pre>
+    server {
+        listen 80;
+        server_name www.yourhost.com;
+        root /var/www/dom1/current/public;   # <--- be sure to point to 'public'!
+        passenger_enabled on;
+    }
+</pre>
+
+
+<p>整体nginx.conf配置如下：<br /></p>
+
+<pre>
+    user  root;
+    worker_processes  1;
+
+    events {
+        worker_connections  1024;
+    }
+
+
+http {
+    passenger_root /Users/Daniel/.rvm/gems/ruby-1.9.3-p374/gems/passenger-3.0.19;
+    passenger_ruby /Users/Daniel/.rvm/wrappers/ruby-1.9.3-p374/ruby;
+
+    autoindex on;
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+
+    keepalive_timeout  65;
+    server {
+        listen       80;
+        server_name  test1.local;
+        passenger_enabled on;
+        rails_env production;
+
+        location / {
+            passenger_enabled on;
+            rails_env production;
+            root   /var/www/dom1/current/public;
+            index  index.html index.htm;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+    }
+
+}
+</pre>
+
+
+<p>7.重新运行</p>
+
+<pre>
+    killall nginx           #杀死所有nginx进程
+    /opt/nginx/sbin/nginx   #启动nginx
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[gem包含js文件]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/01/19/gem-include-js/"/>
+    <updated>2013-01-19T18:11:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/01/19/gem-include-js</id>
+    <content type="html"><![CDATA[<p><a href="http://prioritized.net/blog/gemify-assets-for-rails/">RT</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[rack 与 rack middleware]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/01/10/rack-middleware/"/>
+    <updated>2013-01-10T19:13:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/01/10/rack-middleware</id>
+    <content type="html"><![CDATA[<p>在没有了解rack之前，大概知道是个中间组件没有详细的去了解它，今天花一点时间查了一下资料！<br />
+这编文章讲的比较详细<a href='http://wp.xdite.net/?p=1557'>http://wp.xdite.net/?p=1557</a><br /></p>
+
+<p>在项目执行<code>rake middleware</code>命令可以看到使用列表: <br />
+<per></p>
+
+<pre><code>use ActionDispatch::Static
+use Rack::Lock
+use #&lt;ActiveSupport::Cache::Strategy::LocalCache::Middleware:0x00000002164a70&gt;
+use Rack::Runtime
+use Rack::MethodOverride
+use ActionDispatch::RequestId
+use Rails::Rack::Logger
+use ActionDispatch::ShowExceptions
+use ActionDispatch::DebugExceptions
+use ActionDispatch::RemoteIp
+use ActionDispatch::Reloader
+use ActionDispatch::Callbacks
+use ActiveRecord::ConnectionAdapters::ConnectionManagement
+use ActiveRecord::QueryCache
+use ActionDispatch::Cookies
+use ActionDispatch::Session::CookieStore
+use ActionDispatch::Flash
+use ActionDispatch::ParamsParser
+use ActionDispatch::Head
+use Rack::ConditionalGet
+use Rack::ETag
+use ActionDispatch::BestStandardsSupport
+run MysqlDom::Application.routes
+</code></pre>
+
+<p></per></p>
+
+<p>中间件一些使用:
+<per></p>
+
+<pre><code>#添加中间件
+config.middleware.use(new_middleware, args)
+#添加新的中间件到指定的中间件堆栈中现有的中间件前
+config.middleware.insert_before(existing_middleware, new_middleware, args) 
+#添加新的中间件到指定的中间件堆栈中现有的中间件后
+config.middleware.insert_after(existing_middleware, new_middleware, args)
+#交换现有的中间件中间件
+config.middleware.swap ActionController::Failsafe, Lifo::Failsafe
+#删除中间件
+config.middleware.delete(middleware)
+#清空中间件
+config.middleware.clear
+</code></pre>
+
+<p></per></p>
+]]></content>
+  </entry>
+  
+</feed>

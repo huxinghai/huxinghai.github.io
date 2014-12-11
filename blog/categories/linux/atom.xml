@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: linux | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[两个常用的shell脚本]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/07/24/shell-service-dump-and-cut/"/>
+    <updated>2014-07-24T22:10:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/07/24/shell-service-dump-and-cut</id>
+    <content type="html"><![CDATA[<ol>
+<li><p>日志切割</p>
+
+<pre><code> #!/bin/sh
+ log_path="/home/littlefire/var/www/apps/littlefire/current/log"
+ to_day=`date -d "yesterday" +"%Y%m%d"`
+ cp ${log_path}/production.log ${log_path}/production_${to_day}.log
+ echo "" &gt; ${log_path}/production.log
+ chown littlefire:littlefire ${log_path}/production.log
+ bzip2 ${log_path}/production_${to_day}.log
+</code></pre></li>
+<li><p>mysql数据库定时备份</p>
+
+<pre><code> #!/bin/sh
+ #
+ #发送Email的话要安装 mutt与msmtp才可以
+
+ today=`date -d "today" +"%Y%m%d"`
+ path=/home/kaka/data_backup/
+ filename=backup_${today}.sql
+ file_path=${path}${filename}
+ tar_name=${path}backup_${today}.tar.gz
+ /usr/bin/mysqldump -uroot -p** database_name &gt; ${file_path}
+
+ tar -zcvf $tar_name -C $path $filename
+ rm $file_path
+ find $path -mtime +6 -type f -name backup_*.tar.gz | xargs rm -rf 
+ #echo "littefire data dump ${today}" | mutt -s "${today} dump data" ***@qq.com -a $tar_name
+</code></pre></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[linux自动执行crontab]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2012/11/16/crontab/"/>
+    <updated>2012-11-16T19:05:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2012/11/16/crontab</id>
+    <content type="html"><![CDATA[<p>
+    首先是安装，大多数发行版都预装了<br />
+    我们可以使用crontab来定时执行一些脚本与程序<br />
+
+    首先，用户必须隶属于cron组才可以用crontab命令，可以用下面的命令把用户加入到cron组中：<br />
+    <pre>
+        gpasswd -a galeki cron
+    </pre>
+
+    crontab命令主要有3个参数：<br />
+
+    -e ：编辑用户的crontab。<br />
+
+    -l  ：列出用户的crontab的内容。<br />
+
+    -r  ：删除用户的crontab的内容。<br />
+
+    执行crontab -e，将自动打开编辑器，你可以编辑自己的crontab文件，语法和 /etc/crontab 文件一样，不同的只是，不必再指出执行的用户，编辑后保存即可。<br />
+
+    crontab -l用来查看自己的crontab文件内能，crontab -r删除自己的crontab。<br />
+
+    cron语法如下:
+    <pre>
+        0   7   *    *   *    root     ~/filename.mp3 
+        分  时    日   月  周  
+    </pre>
+    前面数字代表时间，后面*号是不限制时间, 这里是每天早上7点播放这个mp3
+</p>
+
+]]></content>
+  </entry>
+  
+</feed>

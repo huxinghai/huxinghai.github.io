@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mongodb | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/mongodb/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[错误的使用mongodb的mapReduce]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2012/12/24/map-reduce/"/>
+    <updated>2012-12-24T18:58:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2012/12/24/map-reduce</id>
+    <content type="html"><![CDATA[<p>使用mapReduce进行聚合，使用不当遇到的问题，本来一开始我是如下方式：</p>
+
+<p><per></p>
+
+<pre><code>map = function(){
+    emit({
+        product_id : this.product_id,
+        store_id : this.store_id
+    },{
+        quantity : this.quantity,
+        id : this._id
+    })
+}
+
+reduce = function(key, values){
+    var results = { quantity : 0, ids : []}
+    values.forEach(function(val){
+        results.quantity += val.quantity
+        results.ids.push(val.id)
+    })
+}
+
+db.transfers.mapReduce(map, reduce, {out: {inline : 1}})
+</code></pre>
+
+<p></per>
+问题来了，一个key的<code>reduce</code>返回结果ids与实际相差不符合！ 后来经过一翻折腾<br />
+把代码改如下:<br />
+<per></p>
+
+<pre><code>map = function(){
+    emit({
+        product_id : this.product_id,
+        store_id : this.store_id
+    },{
+        quantity : this.quantity,
+        ids : [this._id]
+    })
+}
+
+reduce = function(key, values){
+    var results = { quantity : 0, ids : []}
+    values.forEach(function(val){
+        results.quantity += val.quantity
+        results.ids.concat(val.id)
+    })
+}
+
+db.transfers.mapReduce(map, reduce, {out: {inline : 1}})
+</code></pre>
+
+<p></per>
+原因是<code>mapReduce</code>执行的时候不是一个key一次聚合完，而是分段聚合！</p>
+]]></content>
+  </entry>
+  
+</feed>

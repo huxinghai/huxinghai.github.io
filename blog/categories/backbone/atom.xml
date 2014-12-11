@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: backbone | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/backbone/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[backbone升级0.9.9版本，添加两个方法listenTo与stopListening]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/04/12/backbone-updated/"/>
+    <updated>2013-04-12T23:35:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/04/12/backbone-updated</id>
+    <content type="html"><![CDATA[<p>listenTo用于绑定事件，stopListening关闭绑定事件了<br />
+它们与on有什么不同的呢！这里做个例子<br /></p>
+
+<pre>
+  var Todo = Backbone.Model.extend({
+    ...
+  })
+   
+  var todo = new Todo()
+  var appView = Backbone.View.extend({
+    initialize: function(){
+      this.listenTo(todo, "change:name", this.edit_attr)
+    },
+    edit_attr: function(){
+      this.$(".name").html(this.model.get('name'))
+    }
+  })
+
+  var app_view = new appView()
+  app_view.remove()  
+</pre>
+
+
+<p>当我们<code>app_view.remove()</code>删除之后会自动执行<code>stopListening</code>方法关注绑定事件<br />
+<code>todo</code>模型就不会有这个视图绑的事件了，如果<br /></p>
+
+<pre>
+  this.listenTo(todo, "change:name", this.edit_attr)
+</pre>
+
+
+<p>改用这种绑定方式</p>
+
+<pre>
+  todo.on("change:name", this.edit_attr, this)
+</pre>
+
+
+<p><code>app_view.remove()</code>删除之后，todo模型还是会有这个绑定的事件<br />
+当然也可以用off来处理，但是现在有listenTo就不用做特别的处理了。</p>
+]]></content>
+  </entry>
+  
+</feed>

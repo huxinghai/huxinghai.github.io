@@ -1,0 +1,225 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>使用oauth2登陆github - Ka Ka Blog</title>
+	<meta name="author" content="kaka">
+
+	
+	<meta name="description" content="贴代码： require 'oauth2' module Login class Github def initialize(config) @config = config end #登陆第三方认证 def authorize_url @client = OAuth2::Client.new(* &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ka Ka Blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	
+	<script src="/javascripts/jquery-1.8.3.js"></script>
+<script src="/javascripts/application.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="stylesheets/bootstrap-responsive.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<header id="header" class="inner"><div class='wrap'>
+  <div class="profilepic">  
+    <canvas id='myavatar' width="160" height="160" class='avatar' data-url="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" >
+        <img src="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" class='avatar' />
+    </canvas>
+  </div>
+  <h1><a href="/">Ka Ka Blog</a></h1>
+  <nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+  <li><a href="/blog/about">About</a></li>
+</ul>
+</nav>
+  <br/>
+  <p>
+    优秀的判断能力来自经验，但经验来自于错误的判断！
+  </p>
+  <h3 class="alignleft"></h3>
+  <nav id="sub-nav" class="alignright">
+    <div class="social">
+      
+      
+      <a class="google" href="https://plus.google.com/112941774242932854035?rel=author" title="Google+">Google+</a>
+      
+      
+      
+      <a class="github" href="https://github.com/huxinghai1988" title="GitHub">GitHub</a>
+      
+      
+      
+      
+      
+      <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+      
+    </div>
+  </nav>
+</div>
+
+</header>
+		</div>		
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post">
+	<h1 class="title">使用oauth2登陆github</h1>
+	<div class="entry-content"><p>贴代码：</p>
+
+<pre>
+require 'oauth2'
+
+module Login
+    class Github      
+        def initialize(config)
+            @config = config
+        end
+        
+        #登陆第三方认证
+        def authorize_url               
+            @client = OAuth2::Client.new(*client_params)
+            @client.auth_code.authorize_url(author_params)
+        end
+
+        #获取认证返回值        
+        def get_access_token(params)
+            @github = @client.auth_code.get_token(
+                params[:code], 
+                :state => params[:state], 
+                :redirect_uri => @config['callback'])
+            @to_ken = @github.token
+            @github
+        end
+
+        #获取用户信息
+        def get_userinfo                
+            return {} if @to_ken.nil? || @github.nil?                
+            response = @github.get(@config["userinfo_url"], :params => { :access_token => @to_ken })                                
+            JSON.parse(response.body)
+        end
+
+        private 
+        def client_params
+            [
+                @config['app_key'], 
+                @config['app_secret'], 
+                @config['options'].symbolize_keys
+            ]
+        end
+
+        def author_params
+            {
+                :client_id => @config['app_key'],
+                :redirect_uri => @config['callback'],
+                :scope => @config['scope'],
+                :state => @config['state']
+            }
+        end
+    end
+end
+</pre>
+
+
+<p>
+   使用如下:</p>
+
+<pre>
+    oauth = Login::Github.new(
+        :app_key => "*********",
+        :app_secret => "***********************",
+        :options => {
+            site: "https://github.com"
+            authorize_url: "/login/oauth/authorize"
+            token_url: "/login/oauth/access_token"
+        },
+        :callback => "http://localhost:3000/users/github_callback",
+        :scope => "no scope",
+        :state => "456789",
+        :userinfo_url => "https://api.github.com/user"
+    )
+
+    #跳转到第三方认证
+    redirect_to oauth.authorize_url   
+    
+    #认证成功回调 github_callback 这个方法
+    #例如:
+
+    def github_callback
+        oauth.get_access_token(params)            
+        oauth.get_userinfo
+    end
+</pre>
+
+
+<p></p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+
+    kaka
+
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'mbkk';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2012/11/26/oauth-github/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2012/11/26/oauth-github/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

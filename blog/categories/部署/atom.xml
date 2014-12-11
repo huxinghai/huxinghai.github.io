@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 部署 | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/部署/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[centOS rails + nginx + rvm  + capistrano + passenger + git  部署]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/03/01/capistrano-deploy/"/>
+    <updated>2013-03-01T23:24:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/03/01/capistrano-deploy</id>
+    <content type="html"><![CDATA[<p>所谓自动化部署<br />
+步聚如下：<br /></p>
+
+<p>1.在项目gemfile文件加入如下gem包，然后<code>bundle</code><br /></p>
+
+<pre>
+    gem rvm-capistrano
+    gem passenger
+</pre>
+
+
+<p>2.然后执行<code>capify .</code>命令，生成两个文件路径如下<br /></p>
+
+<pre>
+    config/deploy.rb
+
+    Capfile
+</pre>
+
+
+<p>3.配置deploy.rb文件，如下<br /></p>
+
+<pre>
+    #设置应用名称
+    set :application, "dom1"
+    #服务登陆用户与密码
+    set :user,"root"
+    set :password,"321654"
+    #项目仓库地址
+    set :repository,  "git@github.com:huxinghai1988/capistrano_dom"
+    #服务地址
+    set :domain,"192.168.2.27"
+
+    #设置伪登陆
+    default_run_options[:pty] = true 
+
+    #设置权限
+    set :use_sudo,false
+    #使用git更新代码也可以使用svn
+    set :scm, "git"
+    #git用户名
+    set :scm_user,"root"
+    #git密码
+    set :scm_passphrase,"123456"
+    #部署服务器位置
+    set :deploy_to,"/var/www/#{application}"
+    #部署分支
+    set :branch, "master"
+    #产品模式
+    set :rails_env, 'production'
+
+    # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
+
+
+    role :web, domain                          # Your HTTP server, Apache/etc
+    role :app, domain                         # This may be the same as your `Web` server
+    role :db,  domain, :primary => true      # This is where Rails migrations will run
+
+    #rvm 安装路径与 ruby版本
+    set :rvm_path,"/usr/local/rvm"
+    set :rvm_bin_path,"/usr/local/rvm/bin"
+    set :rvm_ruby_string,'ruby-1.9.2'
+
+    require 'rvm/capistrano'
+    require 'bundler/capistrano'
+
+    #deploy:setup前安装rvm与ruby
+    before 'deploy:setup' do
+        run 'echo insecure > ~/.curlrc', :shell => 'bash -c'
+        find_and_execute_task "rvm:install_rvm"
+        find_and_execute_task 'rvm:install_ruby'
+    end
+
+    #可以在发布后设置上传目录
+    after 'deploy' do
+        run "mkdir -p #{release_path}/public/uploads"        
+        run "ln -nfs #{shared_path}/user #{release_path}/public/uploads"
+        run "chown -R nobody:nobody #{release_path}/public/uploads"    
+    end
+
+
+    load 'deploy/assets'
+</pre>
+
+
+<p>4.执行<code>cap deploy:setup</code>可以运行<code>cap -T</code>查看所有命令</p>
+
+<p>5.安装完之后，执行<code>cap deploy</code>部署</p>
+
+<p>6.成功部署后，到服务器安装nginx与passenger<br /></p>
+
+<pre>
+    passenger-install-nginx-module
+</pre>
+
+
+<p>出现如下选择<br /></p>
+
+<pre>
+    1.Yes: download, compile and install Nginx for me. (recommended)
+    The easiest way to get started. A stock Nginx 1.0.10 with Passenger
+    support, but with no other additional third party modules, will be
+    installed for you to a directory of your choice.
+
+    2.No: I want to customize my Nginx installation. (for advanced users)
+    Choose this if you want to compile Nginx with more third party modules
+    besides Passenger, or if you need to pass additional options to Nginx's
+    'configure' script. This installer will 1) ask you for the location of
+    the Nginx source code, 2) run the 'configure' script according to your
+    instructions, and 3) run 'make install'.
+
+    Whichever you choose, if you already have an existing Nginx configuration file,
+    then it will be preserved.
+
+    Enter your choice (1 or 2) or press Ctrl-C to abort: 这里建议选择1
+
+    当询问nginx的安装路径的时候，个人建议安装默认，安回车就行了
+    Please specify a prefix directory [/opt/nginx]: 
+</pre>
+
+
+<p>当安装完成后，会在console中提示如何配置Nginx<br />
+Passenger会自动帮你将下面两行添加到Nginx的配置文件中/opt/nginx/conf/nginx.conf（很人性化）<br /></p>
+
+<pre>
+    http {
+        ...
+        passenger_root /Users/Daniel/.rvm/gems/ruby-1.9.3-p374/gems/passenger-3.0.19;
+        passenger_ruby /Users/Daniel/.rvm/wrappers/ruby-1.9.3-p374/ruby;
+        ...
+    }
+</pre>
+
+
+<p>6.设置nginx.conf的静态目录,root参数指定到项目的public目录</p>
+
+<pre>
+    server {
+        listen 80;
+        server_name www.yourhost.com;
+        root /var/www/dom1/current/public;   # <--- be sure to point to 'public'!
+        passenger_enabled on;
+    }
+</pre>
+
+
+<p>整体nginx.conf配置如下：<br /></p>
+
+<pre>
+    user  root;
+    worker_processes  1;
+
+    events {
+        worker_connections  1024;
+    }
+
+
+http {
+    passenger_root /Users/Daniel/.rvm/gems/ruby-1.9.3-p374/gems/passenger-3.0.19;
+    passenger_ruby /Users/Daniel/.rvm/wrappers/ruby-1.9.3-p374/ruby;
+
+    autoindex on;
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+
+    keepalive_timeout  65;
+    server {
+        listen       80;
+        server_name  test1.local;
+        passenger_enabled on;
+        rails_env production;
+
+        location / {
+            passenger_enabled on;
+            rails_env production;
+            root   /var/www/dom1/current/public;
+            index  index.html index.htm;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+    }
+
+}
+</pre>
+
+
+<p>7.重新运行</p>
+
+<pre>
+    killall nginx           #杀死所有nginx进程
+    /opt/nginx/sbin/nginx   #启动nginx
+</pre>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[nginx 配置ssl]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2012/12/14/ssl-nginx-setting/"/>
+    <updated>2012-12-14T17:41:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2012/12/14/ssl-nginx-setting</id>
+    <content type="html"><![CDATA[<p>将申请的证书与私key放到nginx的conf目录里面然后，配置nginx.conf文件，如下:<br />
+<per></p>
+
+<pre><code>server {
+    listen       443;
+    server_name  localhost;
+
+    ssl                  on;
+    ssl_certificate      /**/nginx/conf/ssl.crt;
+    ssl_certificate_key  /**/nginx/conf/ssl.key;
+
+    ssl_session_timeout  5m;
+
+    ssl_protocols  SSLv2 SSLv3 TLSv1;
+    ssl_ciphers  HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers   on;
+
+    location / {
+        root   /var/www/neza/current/public;
+        passenger_enabled on;
+        rails_env production;
+        index  index.html index.htm;
+    }
+}
+</code></pre>
+
+<p></per>
+然后可以通过https访问了,如果你想把80端口转到443的话加在nginx.conf的80端口的server下面添加如下代码：
+<per></p>
+
+<pre><code>rewrite ^(.*) https://$server_name$1 permanent;
+</code></pre>
+
+<p></per></p>
+
+<p><a href="startssl.com">startssl</a>的根证书与sub class1的证书合并方法如下：
+<per></p>
+
+<pre><code>wget https://www.startssl.com/certs/ca.pem
+wget https://www.startssl.com/certs/sub.class1.server.ca.pem
+cat ca.pem sub.class1.server.ca.pem &gt;&gt; ca-certs.crt
+cat ca-certs.crt &gt;&gt; your_server.crt
+</code></pre>
+
+<p></per></p>
+
+<p>然后重启nginx出现如下错误：
+<per></p>
+
+<pre><code>nginx: [emerg] SSL_CTX_use_certificate_chain_file("/opt/nginx/conf/ssh.crt") 
+failed (SSL: error:0906D066:PEM routines:PEM_read_bio:bad end line error:140DC009:SSL 
+routines:SSL_CTX_use_certificate_chain_file:PEM lib)
+</code></pre>
+
+<p></per>
+在网上查了一下错误，原因是合并证书出了一点问题,把 your_server.crt文件打开修改如下代码</p>
+
+<p><per></p>
+
+<pre><code>-----END CERTIFICATE----------BEGIN CERTIFICATE-----
+</code></pre>
+
+<p></per>
+改为
+<per></p>
+
+<pre><code>-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+</code></pre>
+
+<p></per>
+这样重启nginx的时候没有出错了，ok了</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[终于申请到免费ssl]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2012/12/13/ssl-free/"/>
+    <updated>2012-12-13T19:16:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2012/12/13/ssl-free</id>
+    <content type="html"><![CDATA[<p>在<a href='https://www.startssl.com/'>startssl</a>申请免费的证书，准备把站点改为https访问。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[octopress 添加theme 与 comments]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2012/11/15/my-first-blog/"/>
+    <updated>2012-11-15T18:41:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2012/11/15/my-first-blog</id>
+    <content type="html"><![CDATA[<p>
+    添加theme步骤如下: <br />
+    首先到<a href='https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes'>github</a>选择主题<br />
+    <pre>
+        cd octopress
+        $ git clone GIT_URL .themes/THEME_NAME
+        $ rake install['THEME_NAME']
+        $ rake generate
+    </pre>
+    <br />
+    添加comments步骤如下: <br />
+    到<a href="http://disqus.com/">disqus</a>注册帐户<br />
+    然后打开”_config.yml”，找到了disqus相关的配置项，修改即可<br />
+    <pre>
+        disqus_short_name: your_disqus_short_name
+        disqus_show_comment_count: true
+    </pre>
+</p>
+
+]]></content>
+  </entry>
+  
+</feed>

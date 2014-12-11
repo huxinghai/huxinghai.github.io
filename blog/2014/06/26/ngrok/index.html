@@ -1,0 +1,196 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ngrok反向代理工具 - Ka Ka Blog</title>
+	<meta name="author" content="kaka">
+
+	
+	<meta name="description" content="ngrok是个款不错的工具，在我们开发中经常要用到。 visit: 官网 使用方式 简单的运行 // 代理你电脑3001端口， 运行后通过http://127.0.0.1:4040查看请求状态 ngrok 3001 验证运行 // authtoken你在官方注册，就会生成一个, &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ka Ka Blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	
+	<script src="/javascripts/jquery-1.8.3.js"></script>
+<script src="/javascripts/application.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="stylesheets/bootstrap-responsive.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<header id="header" class="inner"><div class='wrap'>
+  <div class="profilepic">  
+    <canvas id='myavatar' width="160" height="160" class='avatar' data-url="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" >
+        <img src="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" class='avatar' />
+    </canvas>
+  </div>
+  <h1><a href="/">Ka Ka Blog</a></h1>
+  <nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+  <li><a href="/blog/about">About</a></li>
+</ul>
+</nav>
+  <br/>
+  <p>
+    优秀的判断能力来自经验，但经验来自于错误的判断！
+  </p>
+  <h3 class="alignleft"></h3>
+  <nav id="sub-nav" class="alignright">
+    <div class="social">
+      
+      
+      <a class="google" href="https://plus.google.com/112941774242932854035?rel=author" title="Google+">Google+</a>
+      
+      
+      
+      <a class="github" href="https://github.com/huxinghai1988" title="GitHub">GitHub</a>
+      
+      
+      
+      
+      
+      <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+      
+    </div>
+  </nav>
+</div>
+
+</header>
+		</div>		
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post">
+	<h1 class="title">Ngrok反向代理工具</h1>
+	<div class="entry-content"><p>ngrok是个款不错的工具，在我们开发中经常要用到。</p>
+
+<p>visit: <a href="https://ngrok.com/">官网</a></p>
+
+<h3>使用方式</h3>
+
+<ol>
+<li><p>简单的运行</p>
+
+<pre><code> // 代理你电脑3001端口， 运行后通过http://127.0.0.1:4040查看请求状态    
+ ngrok 3001
+</code></pre></li>
+<li><p>验证运行</p>
+
+<pre><code> // authtoken你在官方注册，就会生成一个, authtoken只要在电脑上运行一次就可以了会
+ // 记录的, 如果你验证了的话ngrok 生成的前缀域名不会被占用和变化
+ ngrok -authtoken U54UzZiDLFQxyZ-Ow*** 3001
+</code></pre></li>
+<li><p>需要别人验证才可以浏览</p>
+
+<pre><code> // helmet用户名, 12345密码
+ ngrok -httpauth="helmet:12345" 3001
+</code></pre></li>
+<li><p>设置前缀域名</p>
+
+<pre><code> ngrok -subdomain=example 3001
+</code></pre></li>
+<li><p>tcp代理</p>
+
+<pre><code> ngrok -proto=tcp 22
+</code></pre></li>
+<li><p>指定其它服务器代理</p>
+
+<pre><code> //为192.168.1.16服务器的3001端口代理
+ ngrok 192.168.1.16:3001
+</code></pre></li>
+<li><p>运行多个类型服务</p>
+
+<pre><code> // ngrok.yml配置类型如下
+
+ tunnels:
+   client:
+     proto:
+       https: "3000"
+     auth: user:password
+   c99bba1.ngrok.com:
+     proto:
+       http: "3000"
+   ssh:
+     proto:
+       tcp: "22"
+
+
+ // config: 配置文件路径
+ // start: 运行哪几种类型服务(client, ssh c99bba1.ngrok.com)
+ ngrok -log=stdout -authtoken=U54UzZiDLFQxyZ-Ow*** -config=ngrok.yml start client ssh c99bba1.ngrok.com
+</code></pre></li>
+</ol>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+
+    kaka
+
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'mbkk';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2014/06/26/ngrok/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2014/06/26/ngrok/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

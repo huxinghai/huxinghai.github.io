@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: nodejs | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/nodejs/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[nodejs使用调试]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/01/04/node-inspector/"/>
+    <updated>2013-01-04T20:13:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/01/04/node-inspector</id>
+    <content type="html"><![CDATA[<p>源码： <a href="https://github.com/dannycoates/node-inspector">node-inspector</a>
+<per></p>
+
+<pre><code>$ npm install -g node-inspector
+
+#从节点debug
+$ node --debug your/node/program.js
+
+#从第一行进行debug
+$ node --debug-brk your/short/node/script.js
+</code></pre>
+
+<p></per></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用nodejs与faye一个简单的聊天室dom]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/01/04/nodejs-faye-chat-dom/"/>
+    <updated>2013-01-04T19:56:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/01/04/nodejs-faye-chat-dom</id>
+    <content type="html"><![CDATA[<p><a href='https://github.com/huxinghai1988/node_faye_chat_dom'>github</a></p>
+]]></content>
+  </entry>
+  
+</feed>

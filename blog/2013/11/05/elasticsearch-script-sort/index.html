@@ -1,0 +1,297 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>elasticsearch脚本排序 - Ka Ka Blog</title>
+	<meta name="author" content="kaka">
+
+	
+	<meta name="description" content="由于自己要自定义score, 所以才会使用script来写复杂的sort javascript script 排序 安装 elasticsearch-lang-javascript 1
+bin/plugin -install elasticsearch/elasticsearch-lang- &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ka Ka Blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	
+	<script src="/javascripts/jquery-1.8.3.js"></script>
+<script src="/javascripts/application.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="stylesheets/bootstrap-responsive.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<header id="header" class="inner"><div class='wrap'>
+  <div class="profilepic">  
+    <canvas id='myavatar' width="160" height="160" class='avatar' data-url="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" >
+        <img src="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" class='avatar' />
+    </canvas>
+  </div>
+  <h1><a href="/">Ka Ka Blog</a></h1>
+  <nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+  <li><a href="/blog/about">About</a></li>
+</ul>
+</nav>
+  <br/>
+  <p>
+    优秀的判断能力来自经验，但经验来自于错误的判断！
+  </p>
+  <h3 class="alignleft"></h3>
+  <nav id="sub-nav" class="alignright">
+    <div class="social">
+      
+      
+      <a class="google" href="https://plus.google.com/112941774242932854035?rel=author" title="Google+">Google+</a>
+      
+      
+      
+      <a class="github" href="https://github.com/huxinghai1988" title="GitHub">GitHub</a>
+      
+      
+      
+      
+      
+      <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+      
+    </div>
+  </nav>
+</div>
+
+</header>
+		</div>		
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post">
+	<h1 class="title">Elasticsearch脚本排序</h1>
+	<div class="entry-content"><p>由于自己要自定义score, 所以才会使用script来写复杂的sort</p>
+
+<h4>javascript script 排序</h4>
+
+<ul>
+<li>安装 <a href="https://github.com/elasticsearch/elasticsearch-lang-javascript">elasticsearch-lang-javascript</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bin/plugin -install elasticsearch/elasticsearch-lang-javascript/1.4.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>写js脚本</li>
+</ul>
+
+
+<p>在你的配置目录下新建文件scripts/products/sort.js, 我的配置目录是<em>/etc/elasticsearch</em>,简单实例:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">doc</span><span class="p">.</span><span class="nx">_score</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">likes</span><span class="p">.</span><span class="nx">value</span>
+</span><span class='line'><span class="p">})()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查询</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -XGET <span class="s1">&#39;http://localhost:9200/products/_search?pretty&#39;</span> -d <span class="s1">&#39;{</span>
+</span><span class='line'><span class="s1">  &quot;query&quot;: {</span>
+</span><span class='line'><span class="s1">    &quot;custom_score&quot;: {</span>
+</span><span class='line'><span class="s1">      &quot;script&quot;: &quot;global_product&quot;,</span>
+</span><span class='line'><span class="s1">      &quot;query&quot;: {</span>
+</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
+</span><span class='line'><span class="s1">          &quot;filter&quot;: {</span>
+</span><span class='line'><span class="s1">            &quot;and&quot;: [</span>
+</span><span class='line'><span class="s1">              {</span>
+</span><span class='line'><span class="s1">                &quot;term&quot;: {</span>
+</span><span class='line'><span class="s1">                  &quot;_type&quot;: &quot;product&quot;</span>
+</span><span class='line'><span class="s1">                }</span>
+</span><span class='line'><span class="s1">              }</span>
+</span><span class='line'><span class="s1">            ]</span>
+</span><span class='line'><span class="s1">          }</span>
+</span><span class='line'><span class="s1">        }</span>
+</span><span class='line'><span class="s1">      }</span>
+</span><span class='line'><span class="s1">    }</span>
+</span><span class='line'><span class="s1">  },</span>
+</span><span class='line'><span class="s1">  &quot;sort&quot;: [</span>
+</span><span class='line'><span class="s1">    {</span>
+</span><span class='line'><span class="s1">      &quot;_score&quot;: &quot;desc&quot;</span>
+</span><span class='line'><span class="s1">    }</span>
+</span><span class='line'><span class="s1">  ]</span>
+</span><span class='line'><span class="s1">}&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>products_sort: products是目录sort脚本文件名</p>
+
+<h4>native script 排序</h4>
+
+<ul>
+<li><p>案例</p>
+
+<p><a href="https://github.com/imotov/elasticsearch-native-script-example">官方example</a></p>
+
+<p><a href="https://github.com/huxinghai1988/sort-score-script">自己写了个简单的排序</a></p></li>
+<li><p>查询</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -X GET <span class="s1">&#39;http://localhost:9200/products/_search?pretty&#39;</span> -d <span class="s1">&#39;{</span>
+</span><span class='line'><span class="s1">  &quot;query&quot;: {</span>
+</span><span class='line'><span class="s1">    &quot;custom_score&quot;: {</span>
+</span><span class='line'><span class="s1">      &quot;script&quot;: &quot;productSort&quot;,</span>
+</span><span class='line'><span class="s1">      &quot;lang&quot;: &quot;native&quot;,</span>
+</span><span class='line'><span class="s1">      &quot;query&quot;: {</span>
+</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
+</span><span class='line'><span class="s1">          &quot;filter&quot;: {</span>
+</span><span class='line'><span class="s1">            &quot;and&quot;: [</span>
+</span><span class='line'><span class="s1">              {</span>
+</span><span class='line'><span class="s1">                &quot;term&quot;: {</span>
+</span><span class='line'><span class="s1">                  &quot;_type&quot;: &quot;product&quot;</span>
+</span><span class='line'><span class="s1">                }</span>
+</span><span class='line'><span class="s1">              }</span>
+</span><span class='line'><span class="s1">            ]</span>
+</span><span class='line'><span class="s1">          }</span>
+</span><span class='line'><span class="s1">        }</span>
+</span><span class='line'><span class="s1">      }</span>
+</span><span class='line'><span class="s1">    }</span>
+</span><span class='line'><span class="s1">  },</span>
+</span><span class='line'><span class="s1">  &quot;sort&quot;: [</span>
+</span><span class='line'><span class="s1">    {</span>
+</span><span class='line'><span class="s1">      &quot;_score&quot;: &quot;desc&quot;</span>
+</span><span class='line'><span class="s1">    }</span>
+</span><span class='line'><span class="s1">  ]</span>
+</span><span class='line'><span class="s1">}&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>单机做测试，js与native排序性能方面有差距同样的5W数据,比较一下查询速度：
+  js：70ms, native: 20ms</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+
+    kaka
+
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'mbkk';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2013/11/05/elasticsearch-script-sort/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2013/11/05/elasticsearch-script-sort/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

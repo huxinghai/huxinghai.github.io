@@ -1,0 +1,175 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ubuntu rabbitmq 服务器安装过程 - Ka Ka Blog</title>
+	<meta name="author" content="kaka">
+
+	
+	<meta name="description" content="rabbitmq是用于消息列队处理的,准备研究一下它来做消息处理
+rabbitmq是用Erlang开发的,所有安装之前要部署Erlang环境 Erlang部署 wget https://elearning.erlang-solutions.com/binaries/sources/ &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ka Ka Blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	
+	<script src="/javascripts/jquery-1.8.3.js"></script>
+<script src="/javascripts/application.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="stylesheets/bootstrap-responsive.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<header id="header" class="inner"><div class='wrap'>
+  <div class="profilepic">  
+    <canvas id='myavatar' width="160" height="160" class='avatar' data-url="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" >
+        <img src="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" class='avatar' />
+    </canvas>
+  </div>
+  <h1><a href="/">Ka Ka Blog</a></h1>
+  <nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+  <li><a href="/blog/about">About</a></li>
+</ul>
+</nav>
+  <br/>
+  <p>
+    优秀的判断能力来自经验，但经验来自于错误的判断！
+  </p>
+  <h3 class="alignleft"></h3>
+  <nav id="sub-nav" class="alignright">
+    <div class="social">
+      
+      
+      <a class="google" href="https://plus.google.com/112941774242932854035?rel=author" title="Google+">Google+</a>
+      
+      
+      
+      <a class="github" href="https://github.com/huxinghai1988" title="GitHub">GitHub</a>
+      
+      
+      
+      
+      
+      <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+      
+    </div>
+  </nav>
+</div>
+
+</header>
+		</div>		
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post">
+	<h1 class="title">Ubuntu Rabbitmq 服务器安装过程</h1>
+	<div class="entry-content"><p>rabbitmq是用于消息列队处理的,准备研究一下它来做消息处理
+rabbitmq是用Erlang开发的,所有安装之前要部署Erlang环境</p>
+
+<h4>Erlang部署</h4>
+
+<pre><code>wget https://elearning.erlang-solutions.com/binaries/sources/otp_src_R16B.tar.gz
+tar xvzf otp_src_R16B.tar.gz
+cd otp_src_R16B
+./configure
+make &amp;&amp; make install
+</code></pre>
+
+<h4>Rabbitmq部署</h4>
+
+<p><a href="http://www.rabbitmq.com/install-debian.html">官方安装文档</a></p>
+
+<ol>
+<li><p>添加公共key</p>
+
+<p> wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc</p>
+
+<p> sudo apt-key add rabbitmq-signing-key-public.asc</p></li>
+<li><p>安装</p>
+
+<p> sudo apt-get install rabbitmq-server</p></li>
+</ol>
+
+
+<p><a href="http://www.rabbitmq.com/configure.html">官方配置文档</a>配置文件路径在<code>/etc/rabbitmq/</code></p>
+
+<h4>启动rabbitmq_management管理</h4>
+
+<pre><code>cd /usr/lib/rabbitmq/lib/rabbitmq_server-2.7.1/sbin
+sudo ./rabbitmq-plugins enable rabbitmq_management
+</code></pre>
+
+<p>然后浏览地址<code>http://server-name:55672/</code>, 官方说3.0以下版本端口是55672</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+
+    kaka
+
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'mbkk';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2013/05/11/rabbitmq-install/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2013/05/11/rabbitmq-install/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

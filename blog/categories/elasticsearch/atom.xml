@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: elasticsearch | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/elasticsearch/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[elasticsearch 动态加载属性的mapping]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/01/25/elasticsearch-dynamic-template/"/>
+    <updated>2014-01-25T15:13:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/01/25/elasticsearch-dynamic-template</id>
+    <content type="html"><![CDATA[<p>代码示例:</p>
+
+<p>```bash
+  curl -XPUT 'localhost:9200/products' -d '{</p>
+
+<pre><code>"settings": {
+  "analysis": {
+    "analyzer": {
+      "pinyin_analyzer": {
+        "tokenizer": "my_pinyin",
+        "filter": ["standard", "nGram"]
+      }
+    },
+    "tokenizer": {
+      "my_pinyin": {
+        "type": "pinyin",
+        "first_letter": "prefix",
+        "padding_char": ""
+      }
+    }
+  }
+},
+"mappings": {
+  "product": {
+    "dynamic_templates": [
+      {
+        "property_template": {
+          "path_match": "properties.*",
+          "mapping": {
+            "type": "multi_field",
+            "fields": {
+              "{name}": {
+                "type": "string",
+                "analyzer" : "pinyin_analyzer",
+                "boost": 10,
+                "store": "no",
+                "term_vector": "with_positions_offsets"
+              },
+              "{name}_untouched": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
+</code></pre>
+
+<p>  }'</p>
+
+<p>  curl -XPOST 'localhost:9200/products/product' -d '{name: "加多宝", properties: {ping: 1} }'
+  curl -XPOST 'localhost:9200/products/product' -d '{name: "水杯", properties: {ge: 1} }'</p>
+
+<p>  curl -XGET 'localhost:9200/products/product/_mapping?pretty'
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[elasticsearch脚本排序]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/11/05/elasticsearch-script-sort/"/>
+    <updated>2013-11-05T09:37:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/11/05/elasticsearch-script-sort</id>
+    <content type="html"><![CDATA[<p>由于自己要自定义score, 所以才会使用script来写复杂的sort</p>
+
+<h4>javascript script 排序</h4>
+
+<ul>
+<li>安装 <a href="https://github.com/elasticsearch/elasticsearch-lang-javascript">elasticsearch-lang-javascript</a></li>
+</ul>
+
+
+<p><code>bash
+bin/plugin -install elasticsearch/elasticsearch-lang-javascript/1.4.0
+</code></p>
+
+<ul>
+<li>写js脚本</li>
+</ul>
+
+
+<p>在你的配置目录下新建文件scripts/products/sort.js, 我的配置目录是<em>/etc/elasticsearch</em>,简单实例:</p>
+
+<p><code>js
+(function(){
+  doc._score.value + doc.likes.value
+})()
+</code></p>
+
+<ul>
+<li>查询</li>
+</ul>
+
+
+<p>```bash
+curl -XGET 'http://localhost:9200/products/_search?pretty' -d '{
+  "query": {</p>
+
+<pre><code>"custom_score": {
+  "script": "global_product",
+  "query": {
+    "filtered": {
+      "filter": {
+        "and": [
+          {
+            "term": {
+              "_type": "product"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+</code></pre>
+
+<p>  },
+  "sort": [</p>
+
+<pre><code>{
+  "_score": "desc"
+}
+</code></pre>
+
+<p>  ]
+}'
+```
+products_sort: products是目录sort脚本文件名</p>
+
+<h4>native script 排序</h4>
+
+<ul>
+<li><p>案例</p>
+
+<p><a href="https://github.com/imotov/elasticsearch-native-script-example">官方example</a></p>
+
+<p><a href="https://github.com/huxinghai1988/sort-score-script">自己写了个简单的排序</a></p></li>
+<li><p>查询</p></li>
+</ul>
+
+
+<p>```bash
+curl -X GET 'http://localhost:9200/products/_search?pretty' -d '{
+  "query": {</p>
+
+<pre><code>"custom_score": {
+  "script": "productSort",
+  "lang": "native",
+  "query": {
+    "filtered": {
+      "filter": {
+        "and": [
+          {
+            "term": {
+              "_type": "product"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+</code></pre>
+
+<p>  },
+  "sort": [</p>
+
+<pre><code>{
+  "_score": "desc"
+}
+</code></pre>
+
+<p>  ]
+}'
+```</p>
+
+<p>单机做测试，js与native排序性能方面有差距同样的5W数据,比较一下查询速度：
+  js：70ms, native: 20ms</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[elasticsearch 多个索引查询，根据不同类型条件判定]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/09/25/elasticsearch-mutiple-search/"/>
+    <updated>2013-09-25T09:18:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/09/25/elasticsearch-mutiple-search</id>
+    <content type="html"><![CDATA[<h3>CURL</h3>
+
+<p>```bash
+curl -XGET 'http://localhost:9200/indexA,indexB/_search?pretty=1' -d '{
+"query" : {</p>
+
+<pre><code>"bool": {
+  "should": [{
+    "filtered": {
+      "filter":{
+        "and": [
+          {
+            "range":{
+              "start_time":{
+                "lte": "2013-09-24T00:00:00+08:00"
+              }
+            }
+          },{
+            "range": {
+              "end_time": {
+                "gt": "2013-09-24T00:00:00+08:00"
+              }
+            }
+          },
+          {
+            "term": {
+              "_type": "TypeA"
+            }
+          }]
+      }
+    }
+  },{
+    "filtered": {
+      "filter": {
+        "term": {
+          "_type": "TypeB"
+        }
+      }
+    }
+  }]
+}
+</code></pre>
+
+<p>  },
+  "sort": [</p>
+
+<pre><code>{
+  "_script": {
+    "script": "doc[\u0027score\u0027].value/((time()-doc[\u0027start_time_ms\u0027].value) / 3600)",
+    "type": "number",
+    "order": "desc"
+  },
+  "_score": {
+
+  }
+}
+</code></pre>
+
+<p>  ]
+}'
+```
+indexA 与 indexB 索引的 TypeA与TypeB</p>
+
+<h4>ruby gem  Tire</h4>
+
+<p>```ruby
+Tire.search ['indexA', 'indexB'] do
+  from <em>from
+  size </em>size</p>
+
+<p>  query do</p>
+
+<pre><code>boolean do
+  should do
+    filtered do
+      filter :range, :end_time =&gt; {gt: toDay}
+      filter :range, :start_time =&gt; {lte: toDay}
+      filter :term, :_type =&gt; "TypeA"
+      filter :term, :status =&gt; 1
+      filter :terms, {"category.id" =&gt; category_ids} if q[:catalog_id].present?
+    end
+  end
+  should do
+    filtered do
+      filter :term, {:_type =&gt; "TypeB"}
+    end
+  end
+
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  sort("_script" => {</p>
+
+<pre><code>:script =&gt; "doc['score'].value/((time()-doc['start_time_ms'].value) / 3600)",
+:type   =&gt; "number",
+:order  =&gt; "desc"
+</code></pre>
+
+<p>  }, "_score" => {})</p>
+
+<p>end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

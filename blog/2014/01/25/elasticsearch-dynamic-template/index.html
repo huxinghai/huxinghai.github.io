@@ -1,0 +1,293 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>elasticsearch 动态加载属性的mapping - Ka Ka Blog</title>
+	<meta name="author" content="kaka">
+
+	
+	<meta name="description" content="代码示例: 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51 &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ka Ka Blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	
+	<script src="/javascripts/jquery-1.8.3.js"></script>
+<script src="/javascripts/application.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="stylesheets/bootstrap-responsive.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<header id="header" class="inner"><div class='wrap'>
+  <div class="profilepic">  
+    <canvas id='myavatar' width="160" height="160" class='avatar' data-url="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" >
+        <img src="http://www.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" class='avatar' />
+    </canvas>
+  </div>
+  <h1><a href="/">Ka Ka Blog</a></h1>
+  <nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+  <li><a href="/blog/about">About</a></li>
+</ul>
+</nav>
+  <br/>
+  <p>
+    优秀的判断能力来自经验，但经验来自于错误的判断！
+  </p>
+  <h3 class="alignleft"></h3>
+  <nav id="sub-nav" class="alignright">
+    <div class="social">
+      
+      
+      <a class="google" href="https://plus.google.com/112941774242932854035?rel=author" title="Google+">Google+</a>
+      
+      
+      
+      <a class="github" href="https://github.com/huxinghai1988" title="GitHub">GitHub</a>
+      
+      
+      
+      
+      
+      <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+      
+    </div>
+  </nav>
+</div>
+
+</header>
+		</div>		
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post">
+	<h1 class="title">Elasticsearch 动态加载属性的mapping</h1>
+	<div class="entry-content"><p>代码示例:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>  curl -XPUT <span class="s1">&#39;localhost:9200/products&#39;</span> -d <span class="s1">&#39;{</span>
+</span><span class='line'><span class="s1">    &quot;settings&quot;: {</span>
+</span><span class='line'><span class="s1">      &quot;analysis&quot;: {</span>
+</span><span class='line'><span class="s1">        &quot;analyzer&quot;: {</span>
+</span><span class='line'><span class="s1">          &quot;pinyin_analyzer&quot;: {</span>
+</span><span class='line'><span class="s1">            &quot;tokenizer&quot;: &quot;my_pinyin&quot;,</span>
+</span><span class='line'><span class="s1">            &quot;filter&quot;: [&quot;standard&quot;, &quot;nGram&quot;]</span>
+</span><span class='line'><span class="s1">          }</span>
+</span><span class='line'><span class="s1">        },</span>
+</span><span class='line'><span class="s1">        &quot;tokenizer&quot;: {</span>
+</span><span class='line'><span class="s1">          &quot;my_pinyin&quot;: {</span>
+</span><span class='line'><span class="s1">            &quot;type&quot;: &quot;pinyin&quot;,</span>
+</span><span class='line'><span class="s1">            &quot;first_letter&quot;: &quot;prefix&quot;,</span>
+</span><span class='line'><span class="s1">            &quot;padding_char&quot;: &quot;&quot;</span>
+</span><span class='line'><span class="s1">          }</span>
+</span><span class='line'><span class="s1">        }</span>
+</span><span class='line'><span class="s1">      }</span>
+</span><span class='line'><span class="s1">    },</span>
+</span><span class='line'><span class="s1">    &quot;mappings&quot;: {</span>
+</span><span class='line'><span class="s1">      &quot;product&quot;: {</span>
+</span><span class='line'><span class="s1">        &quot;dynamic_templates&quot;: [</span>
+</span><span class='line'><span class="s1">          {</span>
+</span><span class='line'><span class="s1">            &quot;property_template&quot;: {</span>
+</span><span class='line'><span class="s1">              &quot;path_match&quot;: &quot;properties.*&quot;,</span>
+</span><span class='line'><span class="s1">              &quot;mapping&quot;: {</span>
+</span><span class='line'><span class="s1">                &quot;type&quot;: &quot;multi_field&quot;,</span>
+</span><span class='line'><span class="s1">                &quot;fields&quot;: {</span>
+</span><span class='line'><span class="s1">                  &quot;{name}&quot;: {</span>
+</span><span class='line'><span class="s1">                    &quot;type&quot;: &quot;string&quot;,</span>
+</span><span class='line'><span class="s1">                    &quot;analyzer&quot; : &quot;pinyin_analyzer&quot;,</span>
+</span><span class='line'><span class="s1">                    &quot;boost&quot;: 10,</span>
+</span><span class='line'><span class="s1">                    &quot;store&quot;: &quot;no&quot;,</span>
+</span><span class='line'><span class="s1">                    &quot;term_vector&quot;: &quot;with_positions_offsets&quot;</span>
+</span><span class='line'><span class="s1">                  },</span>
+</span><span class='line'><span class="s1">                  &quot;{name}_untouched&quot;: {</span>
+</span><span class='line'><span class="s1">                    &quot;type&quot;: &quot;string&quot;,</span>
+</span><span class='line'><span class="s1">                    &quot;index&quot;: &quot;not_analyzed&quot;</span>
+</span><span class='line'><span class="s1">                  }</span>
+</span><span class='line'><span class="s1">                }</span>
+</span><span class='line'><span class="s1">              }</span>
+</span><span class='line'><span class="s1">            }</span>
+</span><span class='line'><span class="s1">          }</span>
+</span><span class='line'><span class="s1">        ]</span>
+</span><span class='line'><span class="s1">      }</span>
+</span><span class='line'><span class="s1">    }</span>
+</span><span class='line'><span class="s1">  }&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  curl -XPOST <span class="s1">&#39;localhost:9200/products/product&#39;</span> -d <span class="s1">&#39;{name: &quot;加多宝&quot;, properties: {ping: 1} }&#39;</span>
+</span><span class='line'>  curl -XPOST <span class="s1">&#39;localhost:9200/products/product&#39;</span> -d <span class="s1">&#39;{name: &quot;水杯&quot;, properties: {ge: 1} }&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  curl -XGET <span class="s1">&#39;localhost:9200/products/product/_mapping?pretty&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2014
+
+    kaka
+
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'mbkk';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2014/01/25/elasticsearch-dynamic-template/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2014/01/25/elasticsearch-dynamic-template/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: javascript | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2014-12-10T14:36:38+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[postMessage 跨域通讯]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/05/03/post-message/"/>
+    <updated>2013-05-03T23:48:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/05/03/post-message</id>
+    <content type="html"><![CDATA[<p>不相同的域可以相互通讯, 例如iframe与页面进行通讯, <a href='https://github.com/daepark/postmessage'>postMessage</a>是个封装不错的包<br /></p>
+
+<p>简单实例解释
+```js</p>
+
+<p>  //在iframe 绑定频道
+  pm.bind("message1", function(data) {</p>
+
+<pre><code>$(document.body).append(JSON.stringify(data));
+</code></pre>
+
+<p>  });</p>
+
+<p>  //发送消息</p>
+
+<pre><code>pm({
+//给那个iframe
+  target: window.frames["example1"],
+//频道
+  type:"message1", 
+//内容
+  data:{hello:"world"}
+});
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[requirejs 使用]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2013/04/19/requirejs/"/>
+    <updated>2013-04-19T22:59:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2013/04/19/requirejs</id>
+    <content type="html"><![CDATA[<p><a href='http://requirejs.org/'>requirejs</a>是一个管理js模块加载与依赖包，可以不使用script标签来加载js文件<br />
+1.引用requirejs文件<br />
+```js</p>
+
+<pre><code>&lt;script data-main="scripts/main" src="scripts/require.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p><code>
+2.配置, &lt;a href='http://requirejs.org/docs/api.html#config'&gt;更多配置&lt;/a&gt;
+</code>js</p>
+
+<pre><code>requirejs.config({
+
+    //默认加载模块路径
+    baseUrl: "js/lib"
+
+    //指定模块的路径
+    paths:{            
+        //前面别名， 后面路径
+        "jquery" : "js/core/jquery.2.0.js",
+        "backbone" : "js/core/backbone0.9.js",
+        "underscore": "js/core/underscore.js"
+    }
+
+    //设置依赖关系
+    shim:{
+        backbone:{
+            deps:["underscore", "jquery"],
+            //可以使用全局别名
+            exports: "Backbone"       
+        }
+    }
+})    
+</code></pre>
+
+<p><code>
+3.使用
+</code>js</p>
+
+<pre><code>// js/dom.js
+define(["backbone"], function(Backbone){
+    LoginView = Backbone.View.extend({
+        ...
+    });
+    return LoginView        
+})
+
+require(["js/dom"], function(LoginView){
+    new LoginView(
+        ...
+    )
+})
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>
