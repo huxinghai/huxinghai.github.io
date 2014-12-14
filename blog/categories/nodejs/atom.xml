@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nodejs | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2014-12-10T14:36:38+08:00</updated>
+  <updated>2014-12-14T17:43:05+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[pomelo centOs 环境部署]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/12/11/pomelo-deploy/"/>
+    <updated>2014-12-11T23:44:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/12/11/pomelo-deploy</id>
+    <content type="html"><![CDATA[<p>由于pomelo 依赖node-gyp这modules所以有点麻烦,安装之前配置python环境，官方推荐版本2.7</p>
+
+<pre><code>npm config set python /usr/local/bin/python2.7
+
+npm install -g node-gyp
+
+npm install -g pomelo 
+
+pomelo start -e production --daemon
+
+//host 与 port 是master地址
+pomelo stop --host 172.0.0.1 --port 4005
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[nodejs使用调试]]></title>

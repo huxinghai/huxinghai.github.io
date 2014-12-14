@@ -7,9 +7,57 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content=" Module#prepend
-Module#refine
-Keyword arguments ">
+	<meta name="description" content="CURL 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -75,6 +123,217 @@ Keyword arguments ">
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-25T09:18:00+08:00" pubdate data-updated="true">Sep 25<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/elasticsearch/'>elasticsearch</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/09/25/elasticsearch-mutiple-search//blog/page/2/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2013/09/25/elasticsearch-mutiple-search/">Elasticsearch 多个索引查询，根据不同类型条件判定</a></h1>
+	<div class="entry-content">
+		<h3>CURL</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -XGET <span class="s1">&#39;http://localhost:9200/indexA,indexB/_search?pretty=1&#39;</span> -d <span class="s1">&#39;{</span>
+</span><span class='line'><span class="s1">&quot;query&quot; : {</span>
+</span><span class='line'><span class="s1">    &quot;bool&quot;: {</span>
+</span><span class='line'><span class="s1">      &quot;should&quot;: [{</span>
+</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
+</span><span class='line'><span class="s1">          &quot;filter&quot;:{</span>
+</span><span class='line'><span class="s1">            &quot;and&quot;: [</span>
+</span><span class='line'><span class="s1">              {</span>
+</span><span class='line'><span class="s1">                &quot;range&quot;:{</span>
+</span><span class='line'><span class="s1">                  &quot;start_time&quot;:{</span>
+</span><span class='line'><span class="s1">                    &quot;lte&quot;: &quot;2013-09-24T00:00:00+08:00&quot;</span>
+</span><span class='line'><span class="s1">                  }</span>
+</span><span class='line'><span class="s1">                }</span>
+</span><span class='line'><span class="s1">              },{</span>
+</span><span class='line'><span class="s1">                &quot;range&quot;: {</span>
+</span><span class='line'><span class="s1">                  &quot;end_time&quot;: {</span>
+</span><span class='line'><span class="s1">                    &quot;gt&quot;: &quot;2013-09-24T00:00:00+08:00&quot;</span>
+</span><span class='line'><span class="s1">                  }</span>
+</span><span class='line'><span class="s1">                }</span>
+</span><span class='line'><span class="s1">              },</span>
+</span><span class='line'><span class="s1">              {</span>
+</span><span class='line'><span class="s1">                &quot;term&quot;: {</span>
+</span><span class='line'><span class="s1">                  &quot;_type&quot;: &quot;TypeA&quot;</span>
+</span><span class='line'><span class="s1">                }</span>
+</span><span class='line'><span class="s1">              }]</span>
+</span><span class='line'><span class="s1">          }</span>
+</span><span class='line'><span class="s1">        }</span>
+</span><span class='line'><span class="s1">      },{</span>
+</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
+</span><span class='line'><span class="s1">          &quot;filter&quot;: {</span>
+</span><span class='line'><span class="s1">            &quot;term&quot;: {</span>
+</span><span class='line'><span class="s1">              &quot;_type&quot;: &quot;TypeB&quot;</span>
+</span><span class='line'><span class="s1">            }</span>
+</span><span class='line'><span class="s1">          }</span>
+</span><span class='line'><span class="s1">        }</span>
+</span><span class='line'><span class="s1">      }]</span>
+</span><span class='line'><span class="s1">    }</span>
+</span><span class='line'><span class="s1">  },</span>
+</span><span class='line'><span class="s1">  &quot;sort&quot;: [</span>
+</span><span class='line'><span class="s1">    {</span>
+</span><span class='line'><span class="s1">      &quot;_script&quot;: {</span>
+</span><span class='line'><span class="s1">        &quot;script&quot;: &quot;doc[\u0027score\u0027].value/((time()-doc[\u0027start_time_ms\u0027].value) / 3600)&quot;,</span>
+</span><span class='line'><span class="s1">        &quot;type&quot;: &quot;number&quot;,</span>
+</span><span class='line'><span class="s1">        &quot;order&quot;: &quot;desc&quot;</span>
+</span><span class='line'><span class="s1">      },</span>
+</span><span class='line'><span class="s1">      &quot;_score&quot;: {</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">      }</span>
+</span><span class='line'><span class="s1">    }</span>
+</span><span class='line'><span class="s1">  ]</span>
+</span><span class='line'><span class="s1">}&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>indexA 与 indexB 索引的 TypeA与TypeB</p>
+
+<h4>ruby gem  Tire</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Tire</span><span class="o">.</span><span class="n">search</span> <span class="o">[</span><span class="s1">&#39;indexA&#39;</span><span class="p">,</span> <span class="s1">&#39;indexB&#39;</span><span class="o">]</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">from</span> <span class="n">_from</span>
+</span><span class='line'>  <span class="n">size</span> <span class="n">_size</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">query</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">boolean</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">should</span> <span class="k">do</span>
+</span><span class='line'>        <span class="n">filtered</span> <span class="k">do</span>
+</span><span class='line'>          <span class="n">filter</span> <span class="ss">:range</span><span class="p">,</span> <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="n">gt</span><span class="p">:</span> <span class="n">toDay</span><span class="p">}</span>
+</span><span class='line'>          <span class="n">filter</span> <span class="ss">:range</span><span class="p">,</span> <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="n">lte</span><span class="p">:</span> <span class="n">toDay</span><span class="p">}</span>
+</span><span class='line'>          <span class="n">filter</span> <span class="ss">:term</span><span class="p">,</span> <span class="ss">:_type</span> <span class="o">=&gt;</span> <span class="s2">&quot;TypeA&quot;</span>
+</span><span class='line'>          <span class="n">filter</span> <span class="ss">:term</span><span class="p">,</span> <span class="ss">:status</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+</span><span class='line'>          <span class="n">filter</span> <span class="ss">:terms</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;category.id&quot;</span> <span class="o">=&gt;</span> <span class="n">category_ids</span><span class="p">}</span> <span class="k">if</span> <span class="n">q</span><span class="o">[</span><span class="ss">:catalog_id</span><span class="o">].</span><span class="n">present?</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="n">should</span> <span class="k">do</span>
+</span><span class='line'>        <span class="n">filtered</span> <span class="k">do</span>
+</span><span class='line'>          <span class="n">filter</span> <span class="ss">:term</span><span class="p">,</span> <span class="p">{</span><span class="ss">:_type</span> <span class="o">=&gt;</span> <span class="s2">&quot;TypeB&quot;</span><span class="p">}</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">sort</span><span class="p">(</span><span class="s2">&quot;_script&quot;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span><span class='line'>    <span class="ss">:script</span> <span class="o">=&gt;</span> <span class="s2">&quot;doc[&#39;score&#39;].value/((time()-doc[&#39;start_time_ms&#39;].value) / 3600)&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:type</span>   <span class="o">=&gt;</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:order</span>  <span class="o">=&gt;</span> <span class="s2">&quot;desc&quot;</span>
+</span><span class='line'>  <span class="p">},</span> <span class="s2">&quot;_score&quot;</span> <span class="o">=&gt;</span> <span class="p">{})</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -856,93 +1115,6 @@ http {
 	<h1 class="title"><a href="/blog/2013/01/19/gem-include-js/">Gem包含js文件</a></h1>
 	<div class="entry-content">
 		<p><a href="http://prioritized.net/blog/gemify-assets-for-rails/">RT</a></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-10T19:13:00+08:00" pubdate data-updated="true">Jan 10<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rack/'>rack</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/01/10/rack-middleware//blog/page/2/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2013/01/10/rack-middleware/">Rack 与 Rack Middleware</a></h1>
-	<div class="entry-content">
-		<p>在没有了解rack之前，大概知道是个中间组件没有详细的去了解它，今天花一点时间查了一下资料！<br />
-这编文章讲的比较详细<a href='http://wp.xdite.net/?p=1557'>http://wp.xdite.net/?p=1557</a><br /></p>
-
-<p>在项目执行<code>rake middleware</code>命令可以看到使用列表: <br />
-<per></p>
-
-<pre><code>use ActionDispatch::Static
-use Rack::Lock
-use #&lt;ActiveSupport::Cache::Strategy::LocalCache::Middleware:0x00000002164a70&gt;
-use Rack::Runtime
-use Rack::MethodOverride
-use ActionDispatch::RequestId
-use Rails::Rack::Logger
-use ActionDispatch::ShowExceptions
-use ActionDispatch::DebugExceptions
-use ActionDispatch::RemoteIp
-use ActionDispatch::Reloader
-use ActionDispatch::Callbacks
-use ActiveRecord::ConnectionAdapters::ConnectionManagement
-use ActiveRecord::QueryCache
-use ActionDispatch::Cookies
-use ActionDispatch::Session::CookieStore
-use ActionDispatch::Flash
-use ActionDispatch::ParamsParser
-use ActionDispatch::Head
-use Rack::ConditionalGet
-use Rack::ETag
-use ActionDispatch::BestStandardsSupport
-run MysqlDom::Application.routes
-</code></pre>
-
-<p></per></p>
-
-<p>中间件一些使用:
-<per></p>
-
-<pre><code>#添加中间件
-config.middleware.use(new_middleware, args)
-#添加新的中间件到指定的中间件堆栈中现有的中间件前
-config.middleware.insert_before(existing_middleware, new_middleware, args) 
-#添加新的中间件到指定的中间件堆栈中现有的中间件后
-config.middleware.insert_after(existing_middleware, new_middleware, args)
-#交换现有的中间件中间件
-config.middleware.swap ActionController::Failsafe, Lifo::Failsafe
-#删除中间件
-config.middleware.delete(middleware)
-#清空中间件
-config.middleware.clear
-</code></pre>
-
-<p></per></p>
 
 		
 		

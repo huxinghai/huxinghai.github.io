@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2014-12-10T14:36:38+08:00</updated>
+  <updated>2014-12-14T17:43:05+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[pomelo centOs 环境部署]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2014/12/11/pomelo-deploy/"/>
+    <updated>2014-12-11T23:44:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2014/12/11/pomelo-deploy</id>
+    <content type="html"><![CDATA[<p>由于pomelo 依赖node-gyp这modules所以有点麻烦,安装之前配置python环境，官方推荐版本2.7</p>
+
+<pre><code>npm config set python /usr/local/bin/python2.7
+
+npm install -g node-gyp
+
+npm install -g pomelo 
+
+pomelo start -e production --daemon
+
+//host 与 port 是master地址
+pomelo stop --host 172.0.0.1 --port 4005
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ruby bundle gem的配置]]></title>
@@ -1271,65 +1292,6 @@ http {
     <updated>2013-01-19T18:11:00+08:00</updated>
     <id>http://huxinghai1988.github.com/blog/2013/01/19/gem-include-js</id>
     <content type="html"><![CDATA[<p><a href="http://prioritized.net/blog/gemify-assets-for-rails/">RT</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[rack 与 rack middleware]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2013/01/10/rack-middleware/"/>
-    <updated>2013-01-10T19:13:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2013/01/10/rack-middleware</id>
-    <content type="html"><![CDATA[<p>在没有了解rack之前，大概知道是个中间组件没有详细的去了解它，今天花一点时间查了一下资料！<br />
-这编文章讲的比较详细<a href='http://wp.xdite.net/?p=1557'>http://wp.xdite.net/?p=1557</a><br /></p>
-
-<p>在项目执行<code>rake middleware</code>命令可以看到使用列表: <br />
-<per></p>
-
-<pre><code>use ActionDispatch::Static
-use Rack::Lock
-use #&lt;ActiveSupport::Cache::Strategy::LocalCache::Middleware:0x00000002164a70&gt;
-use Rack::Runtime
-use Rack::MethodOverride
-use ActionDispatch::RequestId
-use Rails::Rack::Logger
-use ActionDispatch::ShowExceptions
-use ActionDispatch::DebugExceptions
-use ActionDispatch::RemoteIp
-use ActionDispatch::Reloader
-use ActionDispatch::Callbacks
-use ActiveRecord::ConnectionAdapters::ConnectionManagement
-use ActiveRecord::QueryCache
-use ActionDispatch::Cookies
-use ActionDispatch::Session::CookieStore
-use ActionDispatch::Flash
-use ActionDispatch::ParamsParser
-use ActionDispatch::Head
-use Rack::ConditionalGet
-use Rack::ETag
-use ActionDispatch::BestStandardsSupport
-run MysqlDom::Application.routes
-</code></pre>
-
-<p></per></p>
-
-<p>中间件一些使用:
-<per></p>
-
-<pre><code>#添加中间件
-config.middleware.use(new_middleware, args)
-#添加新的中间件到指定的中间件堆栈中现有的中间件前
-config.middleware.insert_before(existing_middleware, new_middleware, args) 
-#添加新的中间件到指定的中间件堆栈中现有的中间件后
-config.middleware.insert_after(existing_middleware, new_middleware, args)
-#交换现有的中间件中间件
-config.middleware.swap ActionController::Failsafe, Lifo::Failsafe
-#删除中间件
-config.middleware.delete(middleware)
-#清空中间件
-config.middleware.clear
-</code></pre>
-
-<p></per></p>
 ]]></content>
   </entry>
   
