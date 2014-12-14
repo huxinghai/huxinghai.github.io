@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2014-12-14T17:43:05+08:00</updated>
+  <updated>2014-12-14T19:16:47+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -18,7 +18,9 @@
     <link href="http://huxinghai1988.github.com/blog/2014/12/11/pomelo-deploy/"/>
     <updated>2014-12-11T23:44:00+08:00</updated>
     <id>http://huxinghai1988.github.com/blog/2014/12/11/pomelo-deploy</id>
-    <content type="html"><![CDATA[<p>由于pomelo 依赖node-gyp这modules所以有点麻烦,安装之前配置python环境，官方推荐版本2.7</p>
+    <content type="html"><![CDATA[<p>pomelo强大的可伸缩性和灵活性使得pomelo也可以作为通用的分布式实时应用开发框架，用于一些高实时应用的开发，而且pomelo在很多方面的表现甚至超越了现有的开源实时应用框架</p>
+
+<p>由于pomelo 依赖node-gyp这modules所以有点麻烦,安装之前配置python环境，官方推荐版本2.7</p>
 
 <pre><code>npm config set python /usr/local/bin/python2.7
 
