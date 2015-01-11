@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nodejs | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2015-01-11T11:16:47+08:00</updated>
+  <updated>2015-01-11T11:20:38+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<p>如果使用pomelo默认的gate分配很慢, 因为socket去连接服务，然后disconnect再连接connector
 服务器这过程就会拖慢用户连接时间，使用http方便而且快。</p>
 
-<p>pomelo 本身支持Plugin扩展，已经有人用express写了(pomelo－http)[https://github.com/pipi32167/pomelo-http-plugin]插件了, 插件存在一个问题定义post请求拿不到参数, <em>body-parser</em>使用可以解决这个问题。</p>
+<p>pomelo 本身支持Plugin扩展，已经有人用express写了<a href="https://github.com/pipi32167/pomelo-http-plugin">pomelo-http</a>插件了, 插件存在一个问题定义post请求拿不到参数, <em>body-parser</em>使用可以解决这个问题。</p>
 
 <p>```js
 var dispatcher = require('../../../util/dispatcher');</p>
