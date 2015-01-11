@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2014-12-14T19:16:47+08:00</updated>
+  <updated>2015-01-11T11:16:47+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,59 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用pomelo做聊天服务器分配connector服务使用http分配]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2015/01/11/pomelo-gate-http/"/>
+    <updated>2015-01-11T10:10:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2015/01/11/pomelo-gate-http</id>
+    <content type="html"><![CDATA[<p>如果使用pomelo默认的gate分配很慢, 因为socket去连接服务，然后disconnect再连接connector
+服务器这过程就会拖慢用户连接时间，使用http方便而且快。</p>
+
+<p>pomelo 本身支持Plugin扩展，已经有人用express写了(pomelo－http)[https://github.com/pipi32167/pomelo-http-plugin]插件了, 插件存在一个问题定义post请求拿不到参数, <em>body-parser</em>使用可以解决这个问题。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">dispatcher</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../../util/dispatcher&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">,</span> <span class="nx">http</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;/system/dispatcher&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">c_type</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">c_type</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">uid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">uuid</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">c_type</span> <span class="o">=</span> <span class="p">(</span><span class="nx">c_type</span> <span class="o">&amp;&amp;</span> <span class="nx">c_type</span><span class="o">===</span><span class="s1">&#39;mqtt&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s1">&#39;mqtt-connector&#39;</span> <span class="o">:</span> <span class="s1">&#39;sio-connector&#39;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">connectors</span> <span class="o">=</span> <span class="nx">app</span><span class="p">.</span><span class="nx">getServersByType</span><span class="p">(</span><span class="nx">c_type</span><span class="p">);</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">uid</span><span class="p">,</span> <span class="nx">connectors</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">s</span><span class="p">){</span>
+</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">403</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span><span class="nx">error</span><span class="o">:</span> <span class="s2">&quot;not invalid server connectors!!!&quot;</span><span class="p">})</span>
+</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span><span class="nx">host</span><span class="o">:</span> <span class="nx">s</span><span class="p">.</span><span class="nx">host</span><span class="p">,</span> <span class="nx">port</span><span class="o">:</span> <span class="nx">s</span><span class="p">.</span><span class="nx">clientPort</span><span class="p">});</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">})</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[pomelo centOs 环境部署]]></title>
@@ -1285,15 +1338,6 @@ http {
     /opt/nginx/sbin/nginx   #启动nginx
 </pre>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[gem包含js文件]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2013/01/19/gem-include-js/"/>
-    <updated>2013-01-19T18:11:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2013/01/19/gem-include-js</id>
-    <content type="html"><![CDATA[<p><a href="http://prioritized.net/blog/gemify-assets-for-rails/">RT</a></p>
 ]]></content>
   </entry>
   

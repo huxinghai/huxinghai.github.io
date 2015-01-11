@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nodejs | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2014-12-14T19:16:47+08:00</updated>
+  <updated>2015-01-11T11:16:47+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用pomelo做聊天服务器分配connector服务使用http分配]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2015/01/11/pomelo-gate-http/"/>
+    <updated>2015-01-11T10:10:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2015/01/11/pomelo-gate-http</id>
+    <content type="html"><![CDATA[<p>如果使用pomelo默认的gate分配很慢, 因为socket去连接服务，然后disconnect再连接connector
+服务器这过程就会拖慢用户连接时间，使用http方便而且快。</p>
+
+<p>pomelo 本身支持Plugin扩展，已经有人用express写了(pomelo－http)[https://github.com/pipi32167/pomelo-http-plugin]插件了, 插件存在一个问题定义post请求拿不到参数, <em>body-parser</em>使用可以解决这个问题。</p>
+
+<p>```js
+var dispatcher = require('../../../util/dispatcher');</p>
+
+<p>module.exports = function(app, http){
+  http.get("/system/dispatcher", function(req, res){</p>
+
+<pre><code>var c_type = req.query.c_type,
+  uid = req.query.uuid;
+
+c_type = (c_type &amp;&amp; c_type==='mqtt') ? 'mqtt-connector' : 'sio-connector'
+
+var connectors = app.getServersByType(c_type);
+var s = dispatcher.dispatch(uid, connectors);
+if(!s){
+  res.status(403).json({error: "not invalid server connectors!!!"})
+}else{
+  res.json({host: s.host, port: s.clientPort});
+}
+</code></pre>
+
+<p>  })
+}
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[pomelo centOs 环境部署]]></title>
