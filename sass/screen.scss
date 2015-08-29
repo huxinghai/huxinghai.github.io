@@ -18,8 +18,8 @@
       display: none;
       width: 0px;
     }
-    figure.code td.code{
-      padding-left: 0px;
+    figure.code td.code, td.code{
+      padding-left: 0px !important;
     }
 
   }
