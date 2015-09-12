@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jekyll | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/jekyll/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2015-08-29T18:55:57+08:00</updated>
+  <updated>2015-09-12T13:07:34+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -23,14 +23,14 @@
 <p><code>source/_includes/custom/header.html</code>
 文件加如下代码:<br /></p>
 
-<p></p>
+<p>{% raw %}</p>
 
 <pre><code>{%  for key in site.categories %}
     &lt;a href="http://huxinghai1988.github.com/blog/categories/{{ key[0] }}"&gt;{{ key[0] }}&lt;/a&gt;
 {% endfor %}
 </code></pre>
 
-<p></p>
+<p>{% endraw %}</p>
 ]]></content>
   </entry>
   
