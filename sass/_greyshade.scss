@@ -119,7 +119,8 @@ body {
         }
     }
     .left-col {
-        width: 16%;
+        min-width: 154px;
+        width: 18%;
         position: fixed;
         #header {
             width: 100%;
