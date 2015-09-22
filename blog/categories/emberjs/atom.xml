@@ -4,7 +4,7 @@
   <title><![CDATA[Category: emberjs | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/emberjs/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2015-09-12T13:07:34+08:00</updated>
+  <updated>2015-09-22T22:23:51+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,44 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[emberjs2 自定义adapter方法与json序列化model]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2015/09/22/emberjsguide/"/>
+    <updated>2015-09-22T21:50:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2015/09/22/emberjsguide</id>
+    <content type="html"><![CDATA[<ol>
+<li><p>自定义adapter请求服务器</p>
+
+<p> 有时候model CURD 满足不了我们的需求，需要自己定义方法请求服务器，我们可以把这种方法定义adapter
+代码如下：</p>
+
+<pre><code>App.UserAdapter = App.ApplicationAdapter.extend({
+  createRelation: function(opts){
+    var url = [this.urlPrefix(), "users", "/pass"].join("/")
+    return this.ajax(url, "POST", {data: opts})  
+  }
+})
+</code></pre>
+
+<p>controller调用</p>
+
+<pre><code>var adapter = this.store.adapterFor("user");
+adapter.createRelation({status: 1}).then(function(){
+  // success
+}, function(){
+  // catch
+})
+</code></pre></li>
+<li><p>json序列化model</p></li>
+</ol>
+
+
+<p>  <code>
+  this.store.push(this.store.normalize("user", {id: 1, name: 'xxxxxxxxx'}))
+ </code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[emberjs 2.0 遇到一个坑]]></title>

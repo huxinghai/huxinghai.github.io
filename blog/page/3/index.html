@@ -7,8 +7,7 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="所谓自动化部署
-步聚如下： 1.在项目gemfile文件加入如下gem包，然后bundle gem rvm-capistrano gem passenger 2.然后执行capify .命令，生成两个文件路径如下 config/deploy.rb Capfile 3.配置deploy.rb文件， &hellip;">
+	<meta name="description" content="根据官方网站介绍，可以使用captcha实现,实现方式如下 /* * 控制加载 */ $this->load->helper('captcha'); ... /* * 方法 */ $vals = array( 'img_path' => './captcha/', 'img_url' => ' &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -74,6 +73,73 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-20T22:58:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/php/'>php</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/03/20/captcha-generate//blog/page/3/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2013/03/20/captcha-generate/">使用php的Codeigniter框架 生图片验证码遇到的问题</a></h1>
+	<div class="entry-content">
+		<p>根据官方网站介绍，可以使用<code>captcha</code>实现,实现方式如下<br /></p>
+
+<pre>    
+
+  /*
+  * 控制加载
+  */
+  $this->load->helper('captcha');  
+  ...
+
+  /*
+  * 方法
+  */
+  $vals = array(        
+    'img_path' => './captcha/',
+    'img_url' => 'http://localhost/finance/captcha/',
+    'font_path' => "./system/fonts/texb.ttf"
+  );
+
+  $data["img_code"] = create_captcha($vals);
+  ...
+</pre>
+
+
+<p>结果没有反应，然后进入<code>create_captcha</code>方法调试，发现在<code> extension_loaded('gd')</code><br/>
+过滤了，经过google 搜索是没有加载gd库，然后在网上查加载gd库,配置一下php.ini文件如下:</p>
+
+<p><code>
+  extension=php_gd2.dll
+</code>
+由于我是安装wamp服务管理软件在里面选择一下，然后重启apache服务就ok了</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -789,114 +855,6 @@ bf.build
 </code></pre>
 
 <p></per></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-14T17:41:00+08:00" pubdate data-updated="true">Dec 14<span>th</span>, 2012</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/部署/'>部署</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2012/12/14/ssl-nginx-setting//blog/page/3/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2012/12/14/ssl-nginx-setting/">Nginx 配置ssl</a></h1>
-	<div class="entry-content">
-		<p>将申请的证书与私key放到nginx的conf目录里面然后，配置nginx.conf文件，如下:<br />
-<per></p>
-
-<pre><code>server {
-    listen       443;
-    server_name  localhost;
-
-    ssl                  on;
-    ssl_certificate      /**/nginx/conf/ssl.crt;
-    ssl_certificate_key  /**/nginx/conf/ssl.key;
-
-    ssl_session_timeout  5m;
-
-    ssl_protocols  SSLv2 SSLv3 TLSv1;
-    ssl_ciphers  HIGH:!aNULL:!MD5;
-    ssl_prefer_server_ciphers   on;
-
-    location / {
-        root   /var/www/neza/current/public;
-        passenger_enabled on;
-        rails_env production;
-        index  index.html index.htm;
-    }
-}
-</code></pre>
-
-<p></per>
-然后可以通过https访问了,如果你想把80端口转到443的话加在nginx.conf的80端口的server下面添加如下代码：
-<per></p>
-
-<pre><code>rewrite ^(.*) https://$server_name$1 permanent;
-</code></pre>
-
-<p></per></p>
-
-<p><a href="startssl.com">startssl</a>的根证书与sub class1的证书合并方法如下：
-<per></p>
-
-<pre><code>wget https://www.startssl.com/certs/ca.pem
-wget https://www.startssl.com/certs/sub.class1.server.ca.pem
-cat ca.pem sub.class1.server.ca.pem &gt;&gt; ca-certs.crt
-cat ca-certs.crt &gt;&gt; your_server.crt
-</code></pre>
-
-<p></per></p>
-
-<p>然后重启nginx出现如下错误：
-<per></p>
-
-<pre><code>nginx: [emerg] SSL_CTX_use_certificate_chain_file("/opt/nginx/conf/ssh.crt") 
-failed (SSL: error:0906D066:PEM routines:PEM_read_bio:bad end line error:140DC009:SSL 
-routines:SSL_CTX_use_certificate_chain_file:PEM lib)
-</code></pre>
-
-<p></per>
-在网上查了一下错误，原因是合并证书出了一点问题,把 your_server.crt文件打开修改如下代码</p>
-
-<p><per></p>
-
-<pre><code>-----END CERTIFICATE----------BEGIN CERTIFICATE-----
-</code></pre>
-
-<p></per>
-改为
-<per></p>
-
-<pre><code>-----END CERTIFICATE-----
------BEGIN CERTIFICATE-----
-</code></pre>
-
-<p></per>
-这样重启nginx的时候没有出错了，ok了</p>
 
 		
 		

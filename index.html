@@ -7,16 +7,8 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="最近项目使用emberjs 2.0版本，本身用2.0是比较纠结的事，由于之前就是只闻其术，不见其码，而且emberjs 1.x版本到2.0 做了一次无痛升级，之前用backbone框架感觉有些概念还是一样的，先说说用的emberjs 第一个坑贴代码。 1
-2
-3
-4
-5
-6
-7
-8
-9
-10 &hellip;">
+	<meta name="description" content="自定义adapter请求服务器 有时候model CURD 满足不了我们的需求，需要自己定义方法请求服务器，我们可以把这种方法定义adapter
+代码如下： App.UserAdapter = App.ApplicationAdapter.extend({ createRelation: &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -82,6 +74,72 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-22T21:50:00+08:00" pubdate data-updated="true">Sep 22<span>nd</span>, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/emberjs/'>emberjs</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/09/22/emberjsguide//index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2015/09/22/emberjsguide/">Emberjs2 自定义adapter方法与json序列化model</a></h1>
+	<div class="entry-content">
+		<ol>
+<li><p>自定义adapter请求服务器</p>
+
+<p> 有时候model CURD 满足不了我们的需求，需要自己定义方法请求服务器，我们可以把这种方法定义adapter
+代码如下：</p>
+
+<pre><code>App.UserAdapter = App.ApplicationAdapter.extend({
+  createRelation: function(opts){
+    var url = [this.urlPrefix(), "users", "/pass"].join("/")
+    return this.ajax(url, "POST", {data: opts})  
+  }
+})
+</code></pre>
+
+<p>controller调用</p>
+
+<pre><code>var adapter = this.store.adapterFor("user");
+adapter.createRelation({status: 1}).then(function(){
+  // success
+}, function(){
+  // catch
+})
+</code></pre></li>
+<li><p>json序列化model</p></li>
+</ol>
+
+
+<p>  <code>
+  this.store.push(this.store.normalize("user", {id: 1, name: 'xxxxxxxxx'}))
+ </code></p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -694,58 +752,6 @@ end
 </code></pre></li>
 </ol>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-10T14:12:00+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/git/'>git</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/04/10/git-error//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/04/10/git-error/">Git 错误 Object Is Empy / Corrupt</a></h1>
-	<div class="entry-content">
-		<h4>问题</h4>
-
-<p>早上上班开始工作是准备git push到远程服务器时，出现下面错误！我估计是之前的merge导致的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  error: object file .git/objects/xx/xxx is empty
-</span><span class='line'>  fatal: loose object xxx (stored in .git/objects/xx/xxx is corrupt</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>解决方案</h4>
-
-<p>参考<a href="http://vincesalvino.blogspot.jp/2013/08/git-empty-files-corrupt-objects-and.html">链接</a>, 其实我就是删除空的commit就可以了</p>
-
-<pre><code>find .git/objects/ -size 0 -exec rm -f {} \; 
-</code></pre>
 
 		
 		

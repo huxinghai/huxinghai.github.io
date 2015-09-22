@@ -3,11 +3,12 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Category: emberjs - Ka Ka Blog</title>
+	<title>emberjs2 自定义adapter方法与json序列化model - Ka Ka Blog</title>
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="Category: emberjs">
+	<meta name="description" content="自定义adapter请求服务器 有时候model CURD 满足不了我们的需求，需要自己定义方法请求服务器，我们可以把这种方法定义adapter
+代码如下： App.UserAdapter = App.ApplicationAdapter.extend({ createRelation: &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -72,53 +73,59 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner">
-    
+				<div id="content" class="inner"><article class="post">
+	<h1 class="title">Emberjs2 自定义adapter方法与json序列化model</h1>
+	<div class="entry-content"><ol>
+<li><p>自定义adapter请求服务器</p>
+
+<p> 有时候model CURD 满足不了我们的需求，需要自己定义方法请求服务器，我们可以把这种方法定义adapter
+代码如下：</p>
+
+<pre><code>App.UserAdapter = App.ApplicationAdapter.extend({
+  createRelation: function(opts){
+    var url = [this.urlPrefix(), "users", "/pass"].join("/")
+    return this.ajax(url, "POST", {data: opts})  
+  }
+})
+</code></pre>
+
+<p>controller调用</p>
+
+<pre><code>var adapter = this.store.adapterFor("user");
+adapter.createRelation({status: 1}).then(function(){
+  // success
+}, function(){
+  // catch
+})
+</code></pre></li>
+<li><p>json序列化model</p></li>
+</ol>
 
 
-	
-	
-	<section class="archives"><h1 class="year">2015</h1>
+<p>  <code>
+  this.store.push(this.store.normalize("user", {id: 1, name: 'xxxxxxxxx'}))
+ </code></p>
+</div>
 
-<article>
-	<div class="meta">
-		<span class="date">Sep 22</span>
-		<br>
-		<span class="tags">
-
-
-	<a class='category' href='/blog/categories/emberjs/'>emberjs</a>
-
-
-</span>
-	    
-	    <span class="comments"><a href="/blog/2015/09/22/emberjsguide/#disqus_thread">Comments</a></span>
-	    
-	</div>
-	<h1 class="title"><a href="/blog/2015/09/22/emberjsguide/">emberjs2 自定义adapter方法与json序列化model</a></h1>
 </article>
 
-    
-
-
-<article>
-	<div class="meta">
-		<span class="date">Sep 12</span>
-		<br>
-		<span class="tags">
-
-
-	<a class='category' href='/blog/categories/emberjs/'>emberjs</a>
-
-
-</span>
-	    
-	    <span class="comments"><a href="/blog/2015/09/12/emberjs-pit/#disqus_thread">Comments</a></span>
-	    
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
 	</div>
-	<h1 class="title"><a href="/blog/2015/09/12/emberjs-pit/">emberjs 2.0 遇到一个坑</a></h1>
-</article>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
 
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
 </div>
 			</div>
 			<footer id="footer" class="inner">Copyright &copy; 2015
@@ -139,7 +146,10 @@
       var disqus_shortname = 'mbkk';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2015/09/22/emberjsguide/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2015/09/22/emberjsguide/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

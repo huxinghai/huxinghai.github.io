@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2015-09-12T13:07:32+08:00</updated>
+  <updated>2015-09-22T22:23:51+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,44 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[emberjs2 自定义adapter方法与json序列化model]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2015/09/22/emberjsguide/"/>
+    <updated>2015-09-22T21:50:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2015/09/22/emberjsguide</id>
+    <content type="html"><![CDATA[<ol>
+<li><p>自定义adapter请求服务器</p>
+
+<p> 有时候model CURD 满足不了我们的需求，需要自己定义方法请求服务器，我们可以把这种方法定义adapter
+代码如下：</p>
+
+<pre><code>App.UserAdapter = App.ApplicationAdapter.extend({
+  createRelation: function(opts){
+    var url = [this.urlPrefix(), "users", "/pass"].join("/")
+    return this.ajax(url, "POST", {data: opts})  
+  }
+})
+</code></pre>
+
+<p>controller调用</p>
+
+<pre><code>var adapter = this.store.adapterFor("user");
+adapter.createRelation({status: 1}).then(function(){
+  // success
+}, function(){
+  // catch
+})
+</code></pre></li>
+<li><p>json序列化model</p></li>
+</ol>
+
+
+<p>  <code>
+  this.store.push(this.store.normalize("user", {id: 1, name: 'xxxxxxxxx'}))
+ </code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[emberjs 2.0 遇到一个坑]]></title>
@@ -1144,45 +1182,6 @@ sudo ./rabbitmq-plugins enable rabbitmq_management
 
 <p><code>app_view.remove()</code>删除之后，todo模型还是会有这个绑定的事件<br />
 当然也可以用off来处理，但是现在有listenTo就不用做特别的处理了。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用php的Codeigniter框架 生图片验证码遇到的问题]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2013/03/20/captcha-generate/"/>
-    <updated>2013-03-20T22:58:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2013/03/20/captcha-generate</id>
-    <content type="html"><![CDATA[<p>根据官方网站介绍，可以使用<code>captcha</code>实现,实现方式如下<br /></p>
-
-<pre>    
-
-  /*
-  * 控制加载
-  */
-  $this->load->helper('captcha');  
-  ...
-
-  /*
-  * 方法
-  */
-  $vals = array(        
-    'img_path' => './captcha/',
-    'img_url' => 'http://localhost/finance/captcha/',
-    'font_path' => "./system/fonts/texb.ttf"
-  );
-
-  $data["img_code"] = create_captcha($vals);
-  ...
-</pre>
-
-
-<p>结果没有反应，然后进入<code>create_captcha</code>方法调试，发现在<code> extension_loaded('gd')</code><br/>
-过滤了，经过google 搜索是没有加载gd库，然后在网上查加载gd库,配置一下php.ini文件如下:</p>
-
-<p><code>
-  extension=php_gd2.dll
-</code>
-由于我是安装wamp服务管理软件在里面选择一下，然后重启apache服务就ok了</p>
 ]]></content>
   </entry>
   
