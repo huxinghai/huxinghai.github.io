@@ -7,8 +7,8 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="自定义adapter请求服务器 有时候model CURD 满足不了我们的需求，需要自己定义方法请求服务器，我们可以把这种方法定义adapter
-代码如下： App.UserAdapter = App.ApplicationAdapter.extend({ createRelation: &hellip;">
+	<meta name="description" content="没有看元编程第二版之前还不知道Module有refine特效，可以将一个class重新打开定义方法
+然后使用using生效，这样不会影响原有class，下面我们看看这个案例： module FooBar refine String do def hello puts "#{self} says &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -74,6 +74,71 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-11-08T00:00:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/11/08/module-refine//index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2015/11/08/module-refine/">元编程Ruby2.0 Module#refine</a></h1>
+	<div class="entry-content">
+		<p>没有看元编程第二版之前还不知道Module有<strong><em>refine</em></strong>特效，可以将一个class重新打开定义方法
+然后使用using生效，这样不会影响原有class，下面我们看看这个案例：</p>
+
+<pre><code>module FooBar
+  refine String do
+    def hello
+      puts "#{self} says : Hello, world"
+    end
+  end
+end
+
+class Bar
+  using FooBar
+  attr_reader :user
+
+  def initialize(user)
+    @user = user
+  end
+
+  def say
+    user.hello
+  end
+end
+
+Bar.new('ruby').say
+String.new.say
+</code></pre>
+
+<p>String.new.say调用会报错， 因为say只在Bar类里面生效。</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -654,101 +719,6 @@ end
 
 <pre><code> #YOUR-API-KEY 你申请的key
  bundle exec exceptional install YOUR-API-KEY
-</code></pre></li>
-</ol>
-
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-26T14:24:00+08:00" pubdate data-updated="true">Jun 26<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/工具/'>工具</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/06/26/ngrok//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/06/26/ngrok/">Ngrok反向代理工具</a></h1>
-	<div class="entry-content">
-		<p>ngrok是个款不错的工具，在我们开发中经常要用到。</p>
-
-<p>visit: <a href="https://ngrok.com/">官网</a></p>
-
-<h3>使用方式</h3>
-
-<ol>
-<li><p>简单的运行</p>
-
-<pre><code> // 代理你电脑3001端口， 运行后通过http://127.0.0.1:4040查看请求状态    
- ngrok 3001
-</code></pre></li>
-<li><p>验证运行</p>
-
-<pre><code> // authtoken你在官方注册，就会生成一个, authtoken只要在电脑上运行一次就可以了会
- // 记录的, 如果你验证了的话ngrok 生成的前缀域名不会被占用和变化
- ngrok -authtoken U54UzZiDLFQxyZ-Ow*** 3001
-</code></pre></li>
-<li><p>需要别人验证才可以浏览</p>
-
-<pre><code> // helmet用户名, 12345密码
- ngrok -httpauth="helmet:12345" 3001
-</code></pre></li>
-<li><p>设置前缀域名</p>
-
-<pre><code> ngrok -subdomain=example 3001
-</code></pre></li>
-<li><p>tcp代理</p>
-
-<pre><code> ngrok -proto=tcp 22
-</code></pre></li>
-<li><p>指定其它服务器代理</p>
-
-<pre><code> //为192.168.1.16服务器的3001端口代理
- ngrok 192.168.1.16:3001
-</code></pre></li>
-<li><p>运行多个类型服务</p>
-
-<pre><code> // ngrok.yml配置类型如下
-
- tunnels:
-   client:
-     proto:
-       https: "3000"
-     auth: user:password
-   c99bba1.ngrok.com:
-     proto:
-       http: "3000"
-   ssh:
-     proto:
-       tcp: "22"
-
-
- // config: 配置文件路径
- // start: 运行哪几种类型服务(client, ssh c99bba1.ngrok.com)
- ngrok -log=stdout -authtoken=U54UzZiDLFQxyZ-Ow*** -config=ngrok.yml start client ssh c99bba1.ngrok.com
 </code></pre></li>
 </ol>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2015-09-22T22:23:51+08:00</updated>
+  <updated>2015-11-08T00:11:17+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[元编程Ruby2.0 Module#refine]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2015/11/08/module-refine/"/>
+    <updated>2015-11-08T00:00:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2015/11/08/module-refine</id>
+    <content type="html"><![CDATA[<p>没有看元编程第二版之前还不知道Module有<strong><em>refine</em></strong>特效，可以将一个class重新打开定义方法
+然后使用using生效，这样不会影响原有class，下面我们看看这个案例：</p>
+
+<pre><code>module FooBar
+  refine String do
+    def hello
+      puts "#{self} says : Hello, world"
+    end
+  end
+end
+
+class Bar
+  using FooBar
+  attr_reader :user
+
+  def initialize(user)
+    @user = user
+  end
+
+  def say
+    user.hello
+  end
+end
+
+Bar.new('ruby').say
+String.new.say
+</code></pre>
+
+<p>String.new.say调用会报错， 因为say只在Bar类里面生效。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[emberjs2 自定义adapter方法与json序列化model]]></title>
@@ -1134,54 +1171,6 @@ sudo ./rabbitmq-plugins enable rabbitmq_management
 </span><span class='line'><span class="p">})</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[backbone升级0.9.9版本，添加两个方法listenTo与stopListening]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2013/04/12/backbone-updated/"/>
-    <updated>2013-04-12T23:35:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2013/04/12/backbone-updated</id>
-    <content type="html"><![CDATA[<p>listenTo用于绑定事件，stopListening关闭绑定事件了<br />
-它们与on有什么不同的呢！这里做个例子<br /></p>
-
-<pre>
-  var Todo = Backbone.Model.extend({
-    ...
-  })
-   
-  var todo = new Todo()
-  var appView = Backbone.View.extend({
-    initialize: function(){
-      this.listenTo(todo, "change:name", this.edit_attr)
-    },
-    edit_attr: function(){
-      this.$(".name").html(this.model.get('name'))
-    }
-  })
-
-  var app_view = new appView()
-  app_view.remove()  
-</pre>
-
-
-<p>当我们<code>app_view.remove()</code>删除之后会自动执行<code>stopListening</code>方法关注绑定事件<br />
-<code>todo</code>模型就不会有这个视图绑的事件了，如果<br /></p>
-
-<pre>
-  this.listenTo(todo, "change:name", this.edit_attr)
-</pre>
-
-
-<p>改用这种绑定方式</p>
-
-<pre>
-  todo.on("change:name", this.edit_attr, this)
-</pre>
-
-
-<p><code>app_view.remove()</code>删除之后，todo模型还是会有这个绑定的事件<br />
-当然也可以用off来处理，但是现在有listenTo就不用做特别的处理了。</p>
 ]]></content>
   </entry>
   
