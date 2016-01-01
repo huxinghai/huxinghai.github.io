@@ -35,6 +35,6 @@ categories: gem ruby
   libraries and/or headers.
 ```  
 
-这里面有一个重要的信息``DYLD_LIBRARY_PATH is not set``但是我在``~/.bash_profile``文件里面配置了DYLD_LIBRARY_PATH路径，我在终端``env | grep DYLD_LIBRARY_PATH``但是为空，后来我在终端``export DYLD_LIBRARY_PATH=/opt/oracle/instantclient_11_2``还是为空，但是export其它的环境变量多有值，后来查资料看到一个El Capitan SIP（System Integrity Protection）这个词，google了一个SIP才明白是El Capitan版本的一个安全策略, SIP把DYLD_LIBRARY_PATH保护起来了，所以的把SIP关闭才可以正常设置DYLD_LIBRARY_PATH, 关闭SIP后export DYLD_LIBRARY_PATH变量就成功了。
+这里面有一个重要的信息``DYLD_LIBRARY_PATH is not set``但是我在``~/.bash_profile``文件里面配置了DYLD_LIBRARY_PATH路径，我在终端``env | grep DYLD_LIBRARY_PATH``但是为空，后来我在终端``export DYLD_LIBRARY_PATH=/opt/oracle/instantclient_11_2``还是为空，但是export其它的环境变量都有值，后来查资料看到一个El Capitan SIP（System Integrity Protection）这个词，google了一个SIP才明白是El Capitan版本的一个安全策略, SIP把DYLD_LIBRARY_PATH保护起来了，所以的把SIP关闭才可以正常设置DYLD_LIBRARY_PATH, 关闭SIP后export DYLD_LIBRARY_PATH变量就成功了。
 
 [如果关闭SIP](http://apple.stackexchange.com/questions/208478/how-do-i-disable-system-integrity-protection-sip-aka-rootless-on-os-x-10-11)
