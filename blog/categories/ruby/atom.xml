@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2015-11-08T00:11:17+08:00</updated>
+  <updated>2016-01-01T17:13:10+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[El Capitan ruby-oci8 2.1.4 安装报错]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/01/01/el-capitan-ruby-oci8/"/>
+    <updated>2016-01-01T16:31:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/01/01/el-capitan-ruby-oci8</id>
+    <content type="html"><![CDATA[<p>升级MacOS El Capitan后安装oracle的ruby-oci8 2.1.4版本gem包报错信息如下</p>
+
+<p>```
+  Installing ruby-oci8 2.1.4 with native extensions</p>
+
+<p>  Gem::Ext::BuildError: ERROR: Failed to build gem native extension.</p>
+
+<p>  /Users/huxinghai/.rvm/rubies/ruby-2.0.0-p643/bin/ruby -r ./siteconf20151231-1172-1r9gor0.rb extconf.rb
+  checking for load library path...
+  DYLD_LIBRARY_PATH is not set.
+  checking for cc... ok
+  checking for gcc... yes
+  checking for LP64... yes
+  checking for sys/types.h... yes
+  checking for ruby header... ok
+  Get the version of Oracle from SQL<em>Plus... 1120
+  try  -I/opt/oracle/instantclient_11_2/rdbms/public
+  checking for oci.h... no
+  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo
+  checking for oci.h... no
+  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo -I/opt/oracle/instantclient_11_2/network/public
+  checking for oci.h... no
+  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo -I/opt/oracle/instantclient_11_2/network/public -I/opt/oracle/instantclient_11_2/plsql/public
+  checking for oci.h... no
+  </em><strong> extconf.rb failed </strong>*
+  Could not create Makefile due to some reason, probably lack of necessary
+  libraries and/or headers.
+```</p>
+
+<p>这里面有一个重要的信息<code>DYLD_LIBRARY_PATH is not set</code>但是我在<code>~/.bash_profile</code>文件里面配置了DYLD_LIBRARY_PATH路径，我在终端<code>env | grep DYLD_LIBRARY_PATH</code>但是为空，后来我在终端<code>export DYLD_LIBRARY_PATH=/opt/oracle/instantclient_11_2</code>还是为空，但是export其它的环境变量都有值，后来查资料看到一个El Capitan SIP（System Integrity Protection）这个词，google了一个SIP才明白是El Capitan版本的一个安全策略, SIP把DYLD_LIBRARY_PATH保护起来了，所以的把SIP关闭才可以正常设置DYLD_LIBRARY_PATH, 关闭SIP后export DYLD_LIBRARY_PATH变量就成功了。</p>
+
+<p><a href="http://apple.stackexchange.com/questions/208478/how-do-i-disable-system-integrity-protection-sip-aka-rootless-on-os-x-10-11">如果关闭SIP</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[元编程Ruby2.0 Module#refine]]></title>
@@ -131,57 +171,6 @@ end
 <p>shim:
 ```
 其实与requirejs配置差不多，只是rails会根据requirejs.yml编译</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ruby 设计模式观察者模式]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2012/12/23/observer/"/>
-    <updated>2012-12-23T12:57:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2012/12/23/observer</id>
-    <content type="html"><![CDATA[<p>ruby 自带一个观察者类<code>observer</code>,我们可以用它实现观察者模式<br />
-案例：
-<per></p>
-
-<pre><code>require 'observer'
-
-#被观察者  
-class Beobservable
-    include Observable
-end 
-
-#观察者A
-class Aobserver
-    def update(args)
-        puts "a is observer! #{args}"
-    end
-end
-
-#观察者B
-class Bobserver
-    def update(args)
-        puts "b is observer! #{args}"
-    end
-end
-
-observer_a = Aobserver.new
-observer_b = Bobserver.new
-
-
-b_servable = Beobservable.new
-
-#添加观察者
-b_servable.add_observer(observer_a)
-b_servable.add_observer(observer_b)
-
-#被观察者改变时
-b_servable.changed
-
-#通知观察者
-b_servable.notify_observers("test")
-</code></pre>
-
-<p></per></p>
 ]]></content>
   </entry>
   

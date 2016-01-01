@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2015-11-08T00:11:17+08:00</updated>
+  <updated>2016-01-01T17:13:10+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,71 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[El Capitan ruby-oci8 2.1.4 安装报错]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/01/01/el-capitan-ruby-oci8/"/>
+    <updated>2016-01-01T16:31:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/01/01/el-capitan-ruby-oci8</id>
+    <content type="html"><![CDATA[<p>升级MacOS El Capitan后安装oracle的ruby-oci8 2.1.4版本gem包报错信息如下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  Installing ruby-oci8 2.1.4 with native extensions
+</span><span class='line'>
+</span><span class='line'>  Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
+</span><span class='line'>
+</span><span class='line'>  /Users/huxinghai/.rvm/rubies/ruby-2.0.0-p643/bin/ruby -r ./siteconf20151231-1172-1r9gor0.rb extconf.rb
+</span><span class='line'>  checking for load library path...
+</span><span class='line'>  DYLD_LIBRARY_PATH is not set.
+</span><span class='line'>  checking for cc... ok
+</span><span class='line'>  checking for gcc... yes
+</span><span class='line'>  checking for LP64... yes
+</span><span class='line'>  checking for sys/types.h... yes
+</span><span class='line'>  checking for ruby header... ok
+</span><span class='line'>  Get the version of Oracle from SQL*Plus... 1120
+</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public
+</span><span class='line'>  checking for oci.h... no
+</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo
+</span><span class='line'>  checking for oci.h... no
+</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo -I/opt/oracle/instantclient_11_2/network/public
+</span><span class='line'>  checking for oci.h... no
+</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo -I/opt/oracle/instantclient_11_2/network/public -I/opt/oracle/instantclient_11_2/plsql/public
+</span><span class='line'>  checking for oci.h... no
+</span><span class='line'>  *** extconf.rb failed ***
+</span><span class='line'>  Could not create Makefile due to some reason, probably lack of necessary
+</span><span class='line'>  libraries and/or headers.</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>这里面有一个重要的信息<code>DYLD_LIBRARY_PATH is not set</code>但是我在<code>~/.bash_profile</code>文件里面配置了DYLD_LIBRARY_PATH路径，我在终端<code>env | grep DYLD_LIBRARY_PATH</code>但是为空，后来我在终端<code>export DYLD_LIBRARY_PATH=/opt/oracle/instantclient_11_2</code>还是为空，但是export其它的环境变量都有值，后来查资料看到一个El Capitan SIP（System Integrity Protection）这个词，google了一个SIP才明白是El Capitan版本的一个安全策略, SIP把DYLD_LIBRARY_PATH保护起来了，所以的把SIP关闭才可以正常设置DYLD_LIBRARY_PATH, 关闭SIP后export DYLD_LIBRARY_PATH变量就成功了。</p>
+
+<p><a href="http://apple.stackexchange.com/questions/208478/how-do-i-disable-system-integrity-protection-sip-aka-rootless-on-os-x-10-11">如果关闭SIP</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[元编程Ruby2.0 Module#refine]]></title>
@@ -1074,101 +1139,6 @@ sudo ./rabbitmq-plugins enable rabbitmq_management
 </span><span class='line'>    <span class="c1">//内容</span>
 </span><span class='line'>    <span class="nx">data</span><span class="o">:</span><span class="p">{</span><span class="nx">hello</span><span class="o">:</span><span class="s2">&quot;world&quot;</span><span class="p">}</span>
 </span><span class='line'>  <span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[requirejs 使用]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2013/04/19/requirejs/"/>
-    <updated>2013-04-19T22:59:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2013/04/19/requirejs</id>
-    <content type="html"><![CDATA[<p><a href='http://requirejs.org/'>requirejs</a>是一个管理js模块加载与依赖包，可以不使用script标签来加载js文件<br />
-1.引用requirejs文件<br /></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">data</span><span class="o">-</span><span class="nx">main</span><span class="o">=</span><span class="s2">&quot;scripts/main&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;scripts/require.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2.配置, <a href='http://requirejs.org/docs/api.html#config'>更多配置</a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">requirejs</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">//默认加载模块路径</span>
-</span><span class='line'>    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s2">&quot;js/lib&quot;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">//指定模块的路径</span>
-</span><span class='line'>    <span class="nx">paths</span><span class="o">:</span><span class="p">{</span>
-</span><span class='line'>        <span class="c1">//前面别名， 后面路径</span>
-</span><span class='line'>        <span class="s2">&quot;jquery&quot;</span> <span class="o">:</span> <span class="s2">&quot;js/core/jquery.2.0.js&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;backbone&quot;</span> <span class="o">:</span> <span class="s2">&quot;js/core/backbone0.9.js&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s2">&quot;underscore&quot;</span><span class="o">:</span> <span class="s2">&quot;js/core/underscore.js&quot;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">//设置依赖关系</span>
-</span><span class='line'>    <span class="nx">shim</span><span class="o">:</span><span class="p">{</span>
-</span><span class='line'>        <span class="nx">backbone</span><span class="o">:</span><span class="p">{</span>
-</span><span class='line'>            <span class="nx">deps</span><span class="o">:</span><span class="p">[</span><span class="s2">&quot;underscore&quot;</span><span class="p">,</span> <span class="s2">&quot;jquery&quot;</span><span class="p">],</span>
-</span><span class='line'>            <span class="c1">//可以使用全局别名</span>
-</span><span class='line'>            <span class="nx">exports</span><span class="o">:</span> <span class="s2">&quot;Backbone&quot;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">})</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>3.使用</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// js/dom.js</span>
-</span><span class='line'><span class="nx">define</span><span class="p">([</span><span class="s2">&quot;backbone&quot;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Backbone</span><span class="p">){</span>
-</span><span class='line'>    <span class="nx">LoginView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-</span><span class='line'>        <span class="p">...</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">LoginView</span>
-</span><span class='line'><span class="p">})</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">require</span><span class="p">([</span><span class="s2">&quot;js/dom&quot;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">LoginView</span><span class="p">){</span>
-</span><span class='line'>    <span class="k">new</span> <span class="nx">LoginView</span><span class="p">(</span>
-</span><span class='line'>        <span class="p">...</span>
-</span><span class='line'>    <span class="p">)</span>
-</span><span class='line'><span class="p">})</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>

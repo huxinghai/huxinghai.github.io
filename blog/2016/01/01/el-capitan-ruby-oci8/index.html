@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>postMessage 跨域通讯 - Ka Ka Blog</title>
+	<title>El Capitan ruby-oci8 2.1.4 安装报错 - Ka Ka Blog</title>
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="不相同的域可以相互通讯, 例如iframe与页面进行通讯, postMessage是个封装不错的包 简单实例解释 1
+	<meta name="description" content="升级MacOS El Capitan后安装oracle的ruby-oci8 2.1.4版本gem包报错信息如下 1
 2
 3
 4
@@ -20,7 +20,17 @@
 11
 12
 13
-14 //在iframe 绑定频道 pm.bind(&quot;message1&quot;, function(data &hellip;">
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24 Installing ruby-oci8 2.1.4 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -87,12 +97,10 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post">
-	<h1 class="title">postMessage 跨域通讯</h1>
-	<div class="entry-content"><p>不相同的域可以相互通讯, 例如iframe与页面进行通讯, <a href='https://github.com/daepark/postmessage'>postMessage</a>是个封装不错的包<br /></p>
+	<h1 class="title">El Capitan Ruby-oci8 2.1.4 安装报错</h1>
+	<div class="entry-content"><p>升级MacOS El Capitan后安装oracle的ruby-oci8 2.1.4版本gem包报错信息如下</p>
 
-<p>简单实例解释</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -106,22 +114,47 @@
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'>  <span class="c1">//在iframe 绑定频道</span>
-</span><span class='line'>  <span class="nx">pm</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s2">&quot;message1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
-</span><span class='line'>  <span class="p">});</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  Installing ruby-oci8 2.1.4 with native extensions
 </span><span class='line'>
-</span><span class='line'>  <span class="c1">//发送消息</span>
-</span><span class='line'>  <span class="nx">pm</span><span class="p">({</span>
-</span><span class='line'>    <span class="c1">//给那个iframe</span>
-</span><span class='line'>    <span class="nx">target</span><span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">frames</span><span class="p">[</span><span class="s2">&quot;example1&quot;</span><span class="p">],</span>
-</span><span class='line'>    <span class="c1">//频道</span>
-</span><span class='line'>    <span class="nx">type</span><span class="o">:</span><span class="s2">&quot;message1&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="c1">//内容</span>
-</span><span class='line'>    <span class="nx">data</span><span class="o">:</span><span class="p">{</span><span class="nx">hello</span><span class="o">:</span><span class="s2">&quot;world&quot;</span><span class="p">}</span>
-</span><span class='line'>  <span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
+</span><span class='line'>
+</span><span class='line'>  /Users/huxinghai/.rvm/rubies/ruby-2.0.0-p643/bin/ruby -r ./siteconf20151231-1172-1r9gor0.rb extconf.rb
+</span><span class='line'>  checking for load library path...
+</span><span class='line'>  DYLD_LIBRARY_PATH is not set.
+</span><span class='line'>  checking for cc... ok
+</span><span class='line'>  checking for gcc... yes
+</span><span class='line'>  checking for LP64... yes
+</span><span class='line'>  checking for sys/types.h... yes
+</span><span class='line'>  checking for ruby header... ok
+</span><span class='line'>  Get the version of Oracle from SQL*Plus... 1120
+</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public
+</span><span class='line'>  checking for oci.h... no
+</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo
+</span><span class='line'>  checking for oci.h... no
+</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo -I/opt/oracle/instantclient_11_2/network/public
+</span><span class='line'>  checking for oci.h... no
+</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo -I/opt/oracle/instantclient_11_2/network/public -I/opt/oracle/instantclient_11_2/plsql/public
+</span><span class='line'>  checking for oci.h... no
+</span><span class='line'>  *** extconf.rb failed ***
+</span><span class='line'>  Could not create Makefile due to some reason, probably lack of necessary
+</span><span class='line'>  libraries and/or headers.</span></code></pre></td></tr></table></div></figure>
 
+
+<p></p>
+
+<p>这里面有一个重要的信息<code>DYLD_LIBRARY_PATH is not set</code>但是我在<code>~/.bash_profile</code>文件里面配置了DYLD_LIBRARY_PATH路径，我在终端<code>env | grep DYLD_LIBRARY_PATH</code>但是为空，后来我在终端<code>export DYLD_LIBRARY_PATH=/opt/oracle/instantclient_11_2</code>还是为空，但是export其它的环境变量都有值，后来查资料看到一个El Capitan SIP（System Integrity Protection）这个词，google了一个SIP才明白是El Capitan版本的一个安全策略, SIP把DYLD_LIBRARY_PATH保护起来了，所以的把SIP关闭才可以正常设置DYLD_LIBRARY_PATH, 关闭SIP后export DYLD_LIBRARY_PATH变量就成功了。</p>
+
+<p><a href="http://apple.stackexchange.com/questions/208478/how-do-i-disable-system-integrity-protection-sip-aka-rootless-on-os-x-10-11">如果关闭SIP</a></p>
 </div>
 
 </article>
@@ -164,8 +197,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2013/05/03/post-message/';
-        var disqus_url = 'http://huxinghai1988.github.com/blog/2013/05/03/post-message/';
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2016/01/01/el-capitan-ruby-oci8/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2016/01/01/el-capitan-ruby-oci8/';
         var disqus_script = 'embed.js';
       
     (function () {

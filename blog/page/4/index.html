@@ -7,8 +7,10 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="案例: class FormatAdapter def format puts "build format" end
-end class BuildFormat attr_accessor some_adapter def initialize(some_adapter) @ &hellip;">
+	<meta name="description" content="ruby 自带一个观察者类observer,我们可以用它实现观察者模式
+案例： require 'observer' #被观察者 class Beobservable include Observable
+end #观察者A
+class Aobserver def update(args) &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -32,6 +34,7 @@ end class BuildFormat attr_accessor some_adapter def initialize(some_adapter) @ 
     <canvas id='myavatar' width="160" height="160" class='avatar' data-url="http://cn.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" >
         <img src="http://cn.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" class='avatar' />
     </canvas>
+    <div class='mask_avatar'></div>
   </div>
   <h1><a href="/">Ka Ka Blog</a></h1>
   <nav id="main-nav"><ul class="main">
@@ -74,6 +77,85 @@ end class BuildFormat attr_accessor some_adapter def initialize(some_adapter) @ 
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-23T12:57:00+08:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2012</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2012/12/23/observer//blog/page/4/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2012/12/23/observer/">Ruby 设计模式观察者模式</a></h1>
+	<div class="entry-content">
+		<p>ruby 自带一个观察者类<code>observer</code>,我们可以用它实现观察者模式<br />
+案例：
+<per></p>
+
+<pre><code>require 'observer'
+
+#被观察者  
+class Beobservable
+    include Observable
+end 
+
+#观察者A
+class Aobserver
+    def update(args)
+        puts "a is observer! #{args}"
+    end
+end
+
+#观察者B
+class Bobserver
+    def update(args)
+        puts "b is observer! #{args}"
+    end
+end
+
+observer_a = Aobserver.new
+observer_b = Bobserver.new
+
+
+b_servable = Beobservable.new
+
+#添加观察者
+b_servable.add_observer(observer_a)
+b_servable.add_observer(observer_b)
+
+#被观察者改变时
+b_servable.changed
+
+#通知观察者
+b_servable.notify_observers("test")
+</code></pre>
+
+<p></per></p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -776,70 +858,17 @@ log_mail.sender("to@gmail.com", "subject", "body","attachment_path")
 
 </article>
 
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-15T18:41:00+08:00" pubdate data-updated="true">Nov 15<span>th</span>, 2012</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/部署/'>部署</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2012/11/15/my-first-blog//blog/page/4/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2012/11/15/my-first-blog/">Octopress 添加theme 与 Comments</a></h1>
-	<div class="entry-content">
-		<p>
-    添加theme步骤如下: <br />
-    首先到<a href='https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes'>github</a>选择主题<br />
-    <pre>
-        cd octopress
-        $ git clone GIT_URL .themes/THEME_NAME
-        $ rake install['THEME_NAME']
-        $ rake generate
-    </pre>
-    <br />
-    添加comments步骤如下: <br />
-    到<a href="http://disqus.com/">disqus</a>注册帐户<br />
-    然后打开”_config.yml”，找到了disqus相关的配置项，修改即可<br />
-    <pre>
-        disqus_short_name: your_disqus_short_name
-        disqus_show_comment_count: true
-    </pre>
-</p>
-
-
-		
-		
-	</div>
-
-</article>
-
 <nav id="pagenavi">
     
         <a href="/blog/page/3/" class="prev">Prev</a>
     
     
+        <a href="/blog/page/5/" class="next">Next</a>
+    
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2015
+			<footer id="footer" class="inner">Copyright &copy; 2016
 
     kaka
 
