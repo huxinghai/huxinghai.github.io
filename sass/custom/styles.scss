@@ -12,6 +12,20 @@
 }
 
 .container{
+  @media screen and (max-width: 820px) and (min-width: 699px){
+    .left-col{
+      #myavatar{
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (max-width: 820px) and (min-width: 699px){
+    .left-col #header{
+      padding: 0 !important;
+    }
+  }
+
 
   .left-col{
     background: #3D4349;
