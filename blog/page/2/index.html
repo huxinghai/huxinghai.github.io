@@ -7,7 +7,7 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="visit: 官网 一个不错的统计项目的出错请求,而且支持多种语言，但是不是免费($9/month) Rails 使用方式 在Gemfile配置 gem exceptional 打包 bundle install 生成exceptional的配置文件 #YOUR-API-KEY 你申请的key &hellip;">
+	<meta name="description" content="日志切割 #!/bin/sh log_path="/home/littlefire/var/www/apps/littlefire/current/log" to_day=`date -d "yesterday" +"%Y%m%d"` cp ${log_path}/production.log &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -74,6 +74,73 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-24T22:10:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/linux/'>linux</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2014/07/24/shell-service-dump-and-cut//blog/page/2/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2014/07/24/shell-service-dump-and-cut/">两个常用的shell脚本</a></h1>
+	<div class="entry-content">
+		<ol>
+<li><p>日志切割</p>
+
+<pre><code> #!/bin/sh
+ log_path="/home/littlefire/var/www/apps/littlefire/current/log"
+ to_day=`date -d "yesterday" +"%Y%m%d"`
+ cp ${log_path}/production.log ${log_path}/production_${to_day}.log
+ echo "" &gt; ${log_path}/production.log
+ chown littlefire:littlefire ${log_path}/production.log
+ bzip2 ${log_path}/production_${to_day}.log
+</code></pre></li>
+<li><p>mysql数据库定时备份</p>
+
+<pre><code> #!/bin/sh
+ #
+ #发送Email的话要安装 mutt与msmtp才可以
+
+ today=`date -d "today" +"%Y%m%d"`
+ path=/home/kaka/data_backup/
+ filename=backup_${today}.sql
+ file_path=${path}${filename}
+ tar_name=${path}backup_${today}.tar.gz
+ /usr/bin/mysqldump -uroot -p** database_name &gt; ${file_path}
+
+ tar -zcvf $tar_name -C $path $filename
+ rm $file_path
+ find $path -mtime +6 -type f -name backup_*.tar.gz | xargs rm -rf 
+ #echo "littefire data dump ${today}" | mutt -s "${today} dump data" ***@qq.com -a $tar_name
+</code></pre></li>
+</ol>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -1000,76 +1067,6 @@ sudo ./rabbitmq-plugins enable rabbitmq_management
 </code></pre>
 
 <p>然后浏览地址<code>http://server-name:55672/</code>, 官方说3.0以下版本端口是55672</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-03T23:48:00+08:00" pubdate data-updated="true">May 3<span>rd</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/javascript/'>javascript</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/05/03/post-message//blog/page/2/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2013/05/03/post-message/">postMessage 跨域通讯</a></h1>
-	<div class="entry-content">
-		<p>不相同的域可以相互通讯, 例如iframe与页面进行通讯, <a href='https://github.com/daepark/postmessage'>postMessage</a>是个封装不错的包<br /></p>
-
-<p>简单实例解释</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'>  <span class="c1">//在iframe 绑定频道</span>
-</span><span class='line'>  <span class="nx">pm</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s2">&quot;message1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">//发送消息</span>
-</span><span class='line'>  <span class="nx">pm</span><span class="p">({</span>
-</span><span class='line'>    <span class="c1">//给那个iframe</span>
-</span><span class='line'>    <span class="nx">target</span><span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">frames</span><span class="p">[</span><span class="s2">&quot;example1&quot;</span><span class="p">],</span>
-</span><span class='line'>    <span class="c1">//频道</span>
-</span><span class='line'>    <span class="nx">type</span><span class="o">:</span><span class="s2">&quot;message1&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="c1">//内容</span>
-</span><span class='line'>    <span class="nx">data</span><span class="o">:</span><span class="p">{</span><span class="nx">hello</span><span class="o">:</span><span class="s2">&quot;world&quot;</span><span class="p">}</span>
-</span><span class='line'>  <span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
 
 		
 		

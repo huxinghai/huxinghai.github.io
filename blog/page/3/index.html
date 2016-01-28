@@ -7,9 +7,20 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="requirejs是一个管理js模块加载与依赖包，可以不使用script标签来加载js文件
-1.引用requirejs文件 1
-&lt;script data-main=&quot;scripts/main&quot; src=&quot;scripts/require.js&quot;&gt &hellip;">
+	<meta name="description" content="不相同的域可以相互通讯, 例如iframe与页面进行通讯, postMessage是个封装不错的包 简单实例解释 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14 //在iframe 绑定频道 pm.bind(&quot;message1&quot;, function(data &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +87,76 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-03T23:48:00+08:00" pubdate data-updated="true">May 3<span>rd</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/javascript/'>javascript</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/05/03/post-message//blog/page/3/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2013/05/03/post-message/">postMessage 跨域通讯</a></h1>
+	<div class="entry-content">
+		<p>不相同的域可以相互通讯, 例如iframe与页面进行通讯, <a href='https://github.com/daepark/postmessage'>postMessage</a>是个封装不错的包<br /></p>
+
+<p>简单实例解释</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>  <span class="c1">//在iframe 绑定频道</span>
+</span><span class='line'>  <span class="nx">pm</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="s2">&quot;message1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//发送消息</span>
+</span><span class='line'>  <span class="nx">pm</span><span class="p">({</span>
+</span><span class='line'>    <span class="c1">//给那个iframe</span>
+</span><span class='line'>    <span class="nx">target</span><span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">frames</span><span class="p">[</span><span class="s2">&quot;example1&quot;</span><span class="p">],</span>
+</span><span class='line'>    <span class="c1">//频道</span>
+</span><span class='line'>    <span class="nx">type</span><span class="o">:</span><span class="s2">&quot;message1&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="c1">//内容</span>
+</span><span class='line'>    <span class="nx">data</span><span class="o">:</span><span class="p">{</span><span class="nx">hello</span><span class="o">:</span><span class="s2">&quot;world&quot;</span><span class="p">}</span>
+</span><span class='line'>  <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -826,95 +907,6 @@ $ node --debug-brk your/short/node/script.js
     &lt;a href="/blog/categories/{{ key[0] }}"&gt;{{ key[0] }}&lt;/a&gt;
 {% endfor %}
 </code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-24T18:58:00+08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2012</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/mongodb/'>mongodb</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2012/12/24/map-reduce//blog/page/3/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2012/12/24/map-reduce/">错误的使用mongodb的mapReduce</a></h1>
-	<div class="entry-content">
-		<p>使用mapReduce进行聚合，使用不当遇到的问题，本来一开始我是如下方式：</p>
-
-<p><per></p>
-
-<pre><code>map = function(){
-    emit({
-        product_id : this.product_id,
-        store_id : this.store_id
-    },{
-        quantity : this.quantity,
-        id : this._id
-    })
-}
-
-reduce = function(key, values){
-    var results = { quantity : 0, ids : []}
-    values.forEach(function(val){
-        results.quantity += val.quantity
-        results.ids.push(val.id)
-    })
-}
-
-db.transfers.mapReduce(map, reduce, {out: {inline : 1}})
-</code></pre>
-
-<p></per>
-问题来了，一个key的<code>reduce</code>返回结果ids与实际相差不符合！ 后来经过一翻折腾<br />
-把代码改如下:<br />
-<per></p>
-
-<pre><code>map = function(){
-    emit({
-        product_id : this.product_id,
-        store_id : this.store_id
-    },{
-        quantity : this.quantity,
-        ids : [this._id]
-    })
-}
-
-reduce = function(key, values){
-    var results = { quantity : 0, ids : []}
-    values.forEach(function(val){
-        results.quantity += val.quantity
-        results.ids.concat(val.id)
-    })
-}
-
-db.transfers.mapReduce(map, reduce, {out: {inline : 1}})
-</code></pre>
-
-<p></per>
-原因是<code>mapReduce</code>执行的时候不是一个key一次聚合完，而是分段聚合！</p>
 
 		
 		

@@ -154,7 +154,15 @@
 
 <p>这里面有一个重要的信息<code>DYLD_LIBRARY_PATH is not set</code>但是我在<code>~/.bash_profile</code>文件里面配置了DYLD_LIBRARY_PATH路径，我在终端<code>env | grep DYLD_LIBRARY_PATH</code>但是为空，后来我在终端<code>export DYLD_LIBRARY_PATH=/opt/oracle/instantclient_11_2</code>还是为空，但是export其它的环境变量都有值，后来查资料看到一个El Capitan SIP（System Integrity Protection）这个词，google了一个SIP才明白是El Capitan版本的一个安全策略, SIP把DYLD_LIBRARY_PATH保护起来了，所以的把SIP关闭才可以正常设置DYLD_LIBRARY_PATH, 关闭SIP后export DYLD_LIBRARY_PATH变量就成功了。</p>
 
-<p><a href="http://apple.stackexchange.com/questions/208478/how-do-i-disable-system-integrity-protection-sip-aka-rootless-on-os-x-10-11">如果关闭SIP</a></p>
+<p><a href="http://apple.stackexchange.com/questions/208478/how-do-i-disable-system-integrity-protection-sip-aka-rootless-on-os-x-10-11">关闭SIP步骤</a></p>
+
+<ol>
+<li>重启系统, 在启动时候按<code>Command+R</code>进入恢复模式图形界面</li>
+<li>点击<code>使用工具</code> > <code>Terminal</code></li>
+<li>在终端输入<code>csrutil disable</code>命令按回车，会提示是否成功</li>
+<li>重启系统</li>
+</ol>
+
 </div>
 
 </article>
