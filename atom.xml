@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-01-28T21:54:14+08:00</updated>
+  <updated>2016-02-21T11:57:56+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -14,7 +14,63 @@
 
   
   <entry>
-    <title type="html"><![CDATA[服务器性能问题检测工具]]></title>
+    <title type="html"><![CDATA[检测服务器网络traceroute工具收集]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/02/21/devops/"/>
+    <updated>2016-02-21T00:09:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/02/21/devops</id>
+    <content type="html"><![CDATA[<p>traceroute追踪网络路由工具，可以很详细的看到与服务器之间的每跳路由与访问状态与时间</p>
+
+<h4>网关出现问题</h4>
+
+<pre><code>$ traceroute 10.1.2.5                                               
+traceroute to 10.1.2.5 (10.1.2.5), 64 hops max, 52 byte packets
+ 1  192.168.1.1 (192.168.1.1)  1.265 ms  0.643 ms  0.660 ms
+ 2  10.1.1.1 (10.1.1.1)  1.166 ms  1.250 ms  1.115 ms
+ 3  218.19.177.1 (218.19.177.1)  3.438 ms  5.116 ms  2.960 ms
+ 4  58.62.222.33 (58.62.222.33)  5.073 ms  3.072 ms  3.620 ms
+ 5  * * *
+ 6  * * *
+ 7  * * *
+ 8  * * *
+</code></pre>
+
+<p>追踪当前电脑与10.1.2.5之间的每一跳路由，从上面信息可以看到了第5步时候变成星号说明
+问题出在网关，你需要检查这条路线，排查不能再两个网络中传递数据包的原因。</p>
+
+<h4>连接网关超时</h4>
+
+<pre><code>$ traceroute 10.1.2.5                                               
+traceroute to 10.1.2.5 (10.1.2.5), 64 hops max, 52 byte packets
+ 1  192.168.1.1 (192.168.1.1)  1.265 ms  0.643 ms  0.660 ms
+ 2  10.1.1.1 (10.1.1.1)  3006.47 ms !H  3006.77 ms !H  3007 ms
+</code></pre>
+
+<p>这个例子中连接网关超时，所有主机可能已经宕机</p>
+
+<h4>诊断网路慢</h4>
+
+<pre><code>$ traceroute yohoo.cn
+traceroute to 212.82.102.24 (212.82.102.24), 64 hops max, 52 byte packets
+ 1  192.168.1.1 (192.168.1.1)  2.370 ms  1.435 ms  0.616 ms
+ 2  10.1.1.1 (10.1.1.1)  1.140 ms  3.270 ms  1.317 ms
+ 3  218.19.177.1 (218.19.177.1)  3.620 ms  3.441 ms  5.840 ms
+ 4  183.56.38.189 (183.56.38.189)  17.443 ms  2.369 ms  3.142 ms
+ 5  121.8.223.5 (121.8.223.5)  5.467 ms  8.928 ms
+    61.144.3.10 (61.144.3.10)  4.603 ms
+ 6  * 202.97.35.246 (202.97.35.246)  106.464 ms  113.461 ms
+ 7  202.97.91.234 (202.97.91.234)  107.816 ms
+    202.97.60.42 (202.97.60.42)  109.543 ms
+    202.97.34.90 (202.97.34.90)  105.858 ms
+ 8  202.97.58.38 (202.97.58.38)  613.035 ms  408.620 ms  314.500 ms
+</code></pre>
+
+<p>这是yahoo服务器，我们可以通过看每一跳之间的时间得出假设，当你到达第6跳时从4ms跳跃到113ms这说明已经离开本区域了是从中国
+雅虎服务器到美国雅虎服务器跳跃。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[服务器性能问题检测工具收集]]></title>
     <link href="http://huxinghai1988.github.com/blog/2016/01/28/op-performance/"/>
     <updated>2016-01-28T20:55:00+08:00</updated>
     <id>http://huxinghai1988.github.com/blog/2016/01/28/op-performance</id>
@@ -1201,51 +1257,6 @@ end
 
 
 <p>其实与requirejs配置差不多，只是rails会根据requirejs.yml编译</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ubuntu rabbitmq 服务器安装过程]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2013/05/11/rabbitmq-install/"/>
-    <updated>2013-05-11T12:28:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2013/05/11/rabbitmq-install</id>
-    <content type="html"><![CDATA[<p>rabbitmq是用于消息列队处理的,准备研究一下它来做消息处理
-rabbitmq是用Erlang开发的,所有安装之前要部署Erlang环境</p>
-
-<h4>Erlang部署</h4>
-
-<pre><code>wget https://elearning.erlang-solutions.com/binaries/sources/otp_src_R16B.tar.gz
-tar xvzf otp_src_R16B.tar.gz
-cd otp_src_R16B
-./configure
-make &amp;&amp; make install
-</code></pre>
-
-<h4>Rabbitmq部署</h4>
-
-<p><a href="http://www.rabbitmq.com/install-debian.html">官方安装文档</a></p>
-
-<ol>
-<li><p>添加公共key</p>
-
-<p> wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc</p>
-
-<p> sudo apt-key add rabbitmq-signing-key-public.asc</p></li>
-<li><p>安装</p>
-
-<p> sudo apt-get install rabbitmq-server</p></li>
-</ol>
-
-
-<p><a href="http://www.rabbitmq.com/configure.html">官方配置文档</a>配置文件路径在<code>/etc/rabbitmq/</code></p>
-
-<h4>启动rabbitmq_management管理</h4>
-
-<pre><code>cd /usr/lib/rabbitmq/lib/rabbitmq_server-2.7.1/sbin
-sudo ./rabbitmq-plugins enable rabbitmq_management
-</code></pre>
-
-<p>然后浏览地址<code>http://server-name:55672/</code>, 官方说3.0以下版本端口是55672</p>
 ]]></content>
   </entry>
   

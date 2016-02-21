@@ -7,7 +7,7 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="通过下面这些工具更好的对机器问题进行诊断 uptime $ uptime 21:07:48 up 16 days, 7:04, 1 user, load average: 5.34, 4.70, 4.43 这个命令可以快速查看机器的负载情况， &hellip;">
+	<meta name="description" content="traceroute追踪网络路由工具，可以很详细的看到与服务器之间的每跳路由与访问状态与时间 网关出现问题 $ traceroute 10.1.2.5 traceroute to 10.1.2.5 (10.1.2.5), 64 hops max, 52 byte packets 1 192. &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -90,6 +90,90 @@
   
 
 
+<time datetime="2016-02-21T00:09:00+08:00" pubdate data-updated="true">Feb 21<span>st</span>, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/运维/'>运维</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/02/21/devops//index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2016/02/21/devops/">检测服务器网络traceroute工具收集</a></h1>
+	<div class="entry-content">
+		<p>traceroute追踪网络路由工具，可以很详细的看到与服务器之间的每跳路由与访问状态与时间</p>
+
+<h4>网关出现问题</h4>
+
+<pre><code>$ traceroute 10.1.2.5                                               
+traceroute to 10.1.2.5 (10.1.2.5), 64 hops max, 52 byte packets
+ 1  192.168.1.1 (192.168.1.1)  1.265 ms  0.643 ms  0.660 ms
+ 2  10.1.1.1 (10.1.1.1)  1.166 ms  1.250 ms  1.115 ms
+ 3  218.19.177.1 (218.19.177.1)  3.438 ms  5.116 ms  2.960 ms
+ 4  58.62.222.33 (58.62.222.33)  5.073 ms  3.072 ms  3.620 ms
+ 5  * * *
+ 6  * * *
+ 7  * * *
+ 8  * * *
+</code></pre>
+
+<p>追踪当前电脑与10.1.2.5之间的每一跳路由，从上面信息可以看到了第5步时候变成星号说明
+问题出在网关，你需要检查这条路线，排查不能再两个网络中传递数据包的原因。</p>
+
+<h4>连接网关超时</h4>
+
+<pre><code>$ traceroute 10.1.2.5                                               
+traceroute to 10.1.2.5 (10.1.2.5), 64 hops max, 52 byte packets
+ 1  192.168.1.1 (192.168.1.1)  1.265 ms  0.643 ms  0.660 ms
+ 2  10.1.1.1 (10.1.1.1)  3006.47 ms !H  3006.77 ms !H  3007 ms
+</code></pre>
+
+<p>这个例子中连接网关超时，所有主机可能已经宕机</p>
+
+<h4>诊断网路慢</h4>
+
+<pre><code>$ traceroute yohoo.cn
+traceroute to 212.82.102.24 (212.82.102.24), 64 hops max, 52 byte packets
+ 1  192.168.1.1 (192.168.1.1)  2.370 ms  1.435 ms  0.616 ms
+ 2  10.1.1.1 (10.1.1.1)  1.140 ms  3.270 ms  1.317 ms
+ 3  218.19.177.1 (218.19.177.1)  3.620 ms  3.441 ms  5.840 ms
+ 4  183.56.38.189 (183.56.38.189)  17.443 ms  2.369 ms  3.142 ms
+ 5  121.8.223.5 (121.8.223.5)  5.467 ms  8.928 ms
+    61.144.3.10 (61.144.3.10)  4.603 ms
+ 6  * 202.97.35.246 (202.97.35.246)  106.464 ms  113.461 ms
+ 7  202.97.91.234 (202.97.91.234)  107.816 ms
+    202.97.60.42 (202.97.60.42)  109.543 ms
+    202.97.34.90 (202.97.34.90)  105.858 ms
+ 8  202.97.58.38 (202.97.58.38)  613.035 ms  408.620 ms  314.500 ms
+</code></pre>
+
+<p>这是yahoo服务器，我们可以通过看每一跳之间的时间得出假设，当你到达第6跳时从4ms跳跃到113ms这说明已经离开本区域了是从中国
+雅虎服务器到美国雅虎服务器跳跃。</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2016-01-28T20:55:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2016</time></div>
 		<div class="tags">
 
@@ -102,7 +186,7 @@
 			<span class="comments"><a href="/blog/2016/01/28/op-performance//index.html#disqus_thread">Comments</a></span>
 		
 	</div>
-	<h1 class="title"><a href="/blog/2016/01/28/op-performance/">服务器性能问题检测工具</a></h1>
+	<h1 class="title"><a href="/blog/2016/01/28/op-performance/">服务器性能问题检测工具收集</a></h1>
 	<div class="entry-content">
 		<p>通过下面这些工具更好的对机器问题进行诊断</p>
 
@@ -797,73 +881,6 @@ p cursor[:fathers_age], cursor[:capital_name]
 require 'sequel'
 db = Sequel.connect(:adapter=&gt;'oracle', :host=&gt;'localhost', :database=&gt;'db_name', :user=&gt;'test', :password=&gt;'test')
 db.execute("begin MYPROC(:age, :name, :fathers_age, :capital_name); end;", {:arguments =&gt; [[20, "integer"], ["akshay", "string"], [nil, "integer"], [nil, "string"]]}) { |cursor| [cursor[3], cursor[4]] }
-</code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-28T23:39:00+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/07/28/rails-raise//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/07/28/rails-raise/">Ruby根据不同的异常处理不同事件</a></h1>
-	<div class="entry-content">
-		<p>在一个<em>class</em>里面你想根据不同的异常回调不同事件</p>
-
-<pre><code>class NoMoneyException &lt; StandardError
-end
-
-class ValidNumberException &lt; StandardError
-end
-
-class Sale
-
-    def self.create(options)
-        obj = new(options)
-        obj.validation
-    end
-
-    def validation
-
-        raise NoMoneyException if money &gt; current_user.money
-        raise ValidNumberException if number &gt; warehouse.nventory
-    end
-end
-
-
-begin
-    Sale.create({...})
-rescue NoMoneyException =&gt; e
-    callback ..
-rescue ValidNumberException =&gt; e
-    callback ..
-end
 </code></pre>
 
 		

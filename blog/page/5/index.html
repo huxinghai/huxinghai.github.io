@@ -7,7 +7,7 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="首先是安装，大多数发行版都预装了 我们可以使用crontab来定时执行一些脚本与程序 首先，用户必须隶属于cron组才可以用crontab命令，可以用下面的命令把用户加入到cron组中： gpasswd -a galeki cron crontab命令主要有3个参数： -e ： &hellip;">
+	<meta name="description" content="首先我们需要把登陆的信息通过Rails.logger.info输入到日志文件 我的输出格式是: Trace Order: {:ip => request.remote_ip, :login => ***, :browser => client_browser_name, :login_date &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -74,6 +74,102 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-17T17:03:00+08:00" pubdate data-updated="true">Nov 17<span>th</span>, 2012</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2012/11/17/log-anly//blog/page/5/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2012/11/17/log-anly/">登陆日志导入csv文件</a></h1>
+	<div class="entry-content">
+		<p>
+    首先我们需要把登陆的信息通过Rails.logger.info输入到日志文件<br />
+    我的输出格式是: <br ?>
+    <pre>
+        Trace Order: {:ip => request.remote_ip, :login => ***, :browser => client_browser_name, :login_date =>***** }
+    </pre>
+    然后通过下面代码导入csv<br />
+
+    <pre>
+        require "csv"
+
+        class LogAnalysis
+
+            def initialize(path)
+                @path = path
+            end    
+
+            def match_data(match) 
+                rows = []       
+                File.open(@path, "r:utf-8") do | file |
+                    file.each_line do | line |
+                        rows << instance_eval(line.gsub(match,"")) if line =~ match
+                    end
+                end        
+                rows
+            end
+
+            def file_name
+                "#{Time.now.strftime("%Y%m%d")}.csv"
+            end
+
+            #arguments: 
+            # name: 文件名称
+            # match: 匹配表代式
+            # &block: 代码块
+            # sort_field: 排序字段
+            def export(name, match , sort_field = nil, &block)
+                rows = match_data(match).sort{| x, y | x[sort_field] <=> y[sort_field] } if sort_field
+                if rows.length > 0
+                    columns = yield        
+                    CSV.open("#{name}#{file_name}", "wb:gbk") do | csv |
+                        csv << columns.values                
+                        rows.each{| r | csv << r.values_at(*columns.keys) }
+                    end
+                end
+            end
+        end
+
+        log_user = LogAnalysis.new("production.log-#{Time.now.strftime("%Y%m%d")}")
+        log_user.export("user_login", /Trace User:/, :login) do 
+            {
+                :login => "用户",
+                :ip => "ip", 
+                :browser => "浏览器", 
+                :login_date => "登陆日期"
+            }
+        end
+    </pre>
+</p>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
