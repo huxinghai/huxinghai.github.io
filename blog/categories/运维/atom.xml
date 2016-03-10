@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 运维 | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/运维/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-02-21T11:58:01+08:00</updated>
+  <updated>2016-03-10T23:49:00+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[检测服务器网络traceroute工具收集]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2016/02/21/devops/"/>
+    <link href="http://huxinghai1988.github.com/blog/2016/02/21/devops-traceroute/"/>
     <updated>2016-02-21T00:09:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2016/02/21/devops</id>
+    <id>http://huxinghai1988.github.com/blog/2016/02/21/devops-traceroute</id>
     <content type="html"><![CDATA[<p>traceroute追踪网络路由工具，可以很详细的看到与服务器之间的每跳路由与访问状态与时间</p>
 
 <h4>网关出现问题</h4>

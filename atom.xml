@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-02-21T11:57:56+08:00</updated>
+  <updated>2016-03-10T23:49:00+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -14,10 +14,60 @@
 
   
   <entry>
+    <title type="html"><![CDATA[ember-cli入门指南]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/03/10/ember-cli-guide/"/>
+    <updated>2016-03-10T23:02:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/03/10/ember-cli-guide</id>
+    <content type="html"><![CDATA[<h4>ember-cli是什么？</h4>
+
+<p>  ember-cli是一个ember.js提供的一个快速开发命令行工具，可以通过命令构建、运行、测试、部署，很方便
+前后端分离，而且ember有很丰富的<a href="https://www.emberaddons.com/">addon</a>生态社区，把重用的东西组件化，
+项目开发完成用build命令会输出一个index.html和编译好的js、css文件这个输出就是静态的，我们可以用nginx或node express服务器来展现编译好的静态资源，其实ember-cli的命令行工具设计的跟Rails相似，addon就是ruby的gem包可能
+是因为ember的开发也是Rails核心贡献开发，所以很多设计思想互通。</p>
+
+<h4>命令介绍</h4>
+
+<pre><code>//构建项目
+$ ember new todo
+
+//运行项目
+$ ember s
+
+//生成路由
+$ ember generate route products/new
+
+//运行测试
+$ ember test
+
+//安装addon
+$ ember install &lt;addon-name&gt;
+</code></pre>
+
+<h4>目录结构</h4>
+
+<pre><code>app/    =&gt; 主要包含了models、controller、minxin、routes、template、index.html、application所有项目相关逻辑代码多会在这里面
+dist/   =&gt; 编译输出目录里面index.html和js、css
+public/   =&gt; 存放一些静态文件例如：图片、字体
+tests/    =&gt; 测试逻辑
+bower_components/    =&gt; bower包依赖源文件
+node_modules/     =&gt; npm包依赖源文件
+vendor/   =&gt; 自己扩展依赖
+ember-cli-build.js  =&gt; 指定编译配置文件
+bower.json   =&gt; bower依赖配置
+package.json    =&gt; npm依赖配置
+</code></pre>
+
+<h4>bower与npm区别</h4>
+
+<p>  bower是管理前端库、npm是管理nodo开发使用库，前者是扁平化后者是树形结构。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[检测服务器网络traceroute工具收集]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2016/02/21/devops/"/>
+    <link href="http://huxinghai1988.github.com/blog/2016/02/21/devops-traceroute/"/>
     <updated>2016-02-21T00:09:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2016/02/21/devops</id>
+    <id>http://huxinghai1988.github.com/blog/2016/02/21/devops-traceroute</id>
     <content type="html"><![CDATA[<p>traceroute追踪网络路由工具，可以很详细的看到与服务器之间的每跳路由与访问状态与时间</p>
 
 <h4>网关出现问题</h4>
@@ -1221,42 +1271,6 @@ end
 <li><a href="http://dev.af83.com/2013/02/18/ruby-2-0-keyword-arguments.html">Keyword arguments</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[gem requirejs-rails assets precompile 简介]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2013/06/22/requirejs-rails/"/>
-    <updated>2013-06-22T00:13:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2013/06/22/requirejs-rails</id>
-    <content type="html"><![CDATA[<p>安装<a href="https://github.com/jwhitley/requirejs-rails">requirejs-rails</a>, 然后新建配置文件<code>config/requirejs.yml</code></p>
-
-<p>requirejs.yml</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#配置单个模块，会编译一个单独的模块</span>
-</span><span class='line'><span class="n">modules</span><span class="p">:</span>
-</span><span class='line'>  <span class="o">-</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;mytoplevel&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#路径</span>
-</span><span class='line'><span class="n">paths</span>
-</span><span class='line'>  <span class="n">jquery</span><span class="p">:</span> <span class="s2">&quot;lib/jquery.js&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#设置依赖关系</span>
-</span><span class='line'><span class="n">shim</span><span class="p">:</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其实与requirejs配置差不多，只是rails会根据requirejs.yml编译</p>
 ]]></content>
   </entry>
   

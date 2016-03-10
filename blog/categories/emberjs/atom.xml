@@ -4,7 +4,7 @@
   <title><![CDATA[Category: emberjs | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/emberjs/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-02-21T11:58:01+08:00</updated>
+  <updated>2016-03-10T23:49:00+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ember-cli入门指南]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/03/10/ember-cli-guide/"/>
+    <updated>2016-03-10T23:02:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/03/10/ember-cli-guide</id>
+    <content type="html"><![CDATA[<h4>ember-cli是什么？</h4>
+
+<p>  ember-cli是一个ember.js提供的一个快速开发命令行工具，可以通过命令构建、运行、测试、部署，很方便
+前后端分离，而且ember有很丰富的<a href="https://www.emberaddons.com/">addon</a>生态社区，把重用的东西组件化，
+项目开发完成用build命令会输出一个index.html和编译好的js、css文件这个输出就是静态的，我们可以用nginx或node express服务器来展现编译好的静态资源，其实ember-cli的命令行工具设计的跟Rails相似，addon就是ruby的gem包可能
+是因为ember的开发也是Rails核心贡献开发，所以很多设计思想互通。</p>
+
+<h4>命令介绍</h4>
+
+<pre><code>//构建项目
+$ ember new todo
+
+//运行项目
+$ ember s
+
+//生成路由
+$ ember generate route products/new
+
+//运行测试
+$ ember test
+
+//安装addon
+$ ember install &lt;addon-name&gt;
+</code></pre>
+
+<h4>目录结构</h4>
+
+<pre><code>app/    =&gt; 主要包含了models、controller、minxin、routes、template、index.html、application所有项目相关逻辑代码多会在这里面
+dist/   =&gt; 编译输出目录里面index.html和js、css
+public/   =&gt; 存放一些静态文件例如：图片、字体
+tests/    =&gt; 测试逻辑
+bower_components/    =&gt; bower包依赖源文件
+node_modules/     =&gt; npm包依赖源文件
+vendor/   =&gt; 自己扩展依赖
+ember-cli-build.js  =&gt; 指定编译配置文件
+bower.json   =&gt; bower依赖配置
+package.json    =&gt; npm依赖配置
+</code></pre>
+
+<h4>bower与npm区别</h4>
+
+<p>  bower是管理前端库、npm是管理nodo开发使用库，前者是扁平化后者是树形结构。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[emberjs2 自定义adapter方法与json序列化model]]></title>
