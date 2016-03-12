@@ -4,7 +4,7 @@
   <title><![CDATA[Category: emberjs | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/emberjs/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-03-10T23:49:00+08:00</updated>
+  <updated>2016-03-13T00:23:00+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -55,6 +55,35 @@ vendor/   =&gt; 自己扩展依赖
 ember-cli-build.js  =&gt; 指定编译配置文件
 bower.json   =&gt; bower依赖配置
 package.json    =&gt; npm依赖配置
+</code></pre>
+
+<h4>config/environment.js</h4>
+
+<pre><code>module.exports = function(environment) {
+  var ENV = {
+    modulePrefix: 'todo',
+    environment: environment,
+    baseURL: '/',
+    locationType: 'hash',  
+    contentSecurityPolicy: {
+      'connect-src': "'self' * localhost:3000",
+      'img-src': "'self' * data:",
+      'style-src': "'self' 'unsafe-inline'"
+    }
+  };
+
+  if(environment === 'development') {
+  }
+
+  if (environment === 'test') {
+    ENV.APP.rootElement = '#ember-testing';
+  }
+
+  if (environment === 'production') {
+  }
+
+  return ENV;
+};
 </code></pre>
 
 <h4>bower与npm区别</h4>
