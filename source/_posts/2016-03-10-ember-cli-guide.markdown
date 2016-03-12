@@ -43,5 +43,33 @@ categories: emberjs
     bower.json   => bower依赖配置
     package.json    => npm依赖配置
 
+#### config/environment.js
+
+    module.exports = function(environment) {
+      var ENV = {
+        modulePrefix: 'todo',
+        environment: environment,
+        baseURL: '/',
+        locationType: 'hash',  
+        contentSecurityPolicy: {
+          'connect-src': "'self' * localhost:3000",
+          'img-src': "'self' * data:",
+          'style-src': "'self' 'unsafe-inline'"
+        }
+      };
+
+      if(environment === 'development') {
+      }
+
+      if (environment === 'test') {
+        ENV.APP.rootElement = '#ember-testing';
+      }
+
+      if (environment === 'production') {
+      }
+
+      return ENV;
+    };
+
 #### bower与npm区别
   bower是管理前端库、npm是管理nodo开发使用库，前者是扁平化后者是树形结构。
