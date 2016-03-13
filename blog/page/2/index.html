@@ -7,8 +7,7 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="在项目里我们用的比较多的bundle install当遇到一些gem包环境问题时，在安装gem时需要加一些配置
-比如： gem install pg -v '0.12.0' -- --with-pg-config=/usr/pgsql-9.1/bin/pg_config &hellip;">
+	<meta name="description" content="pomelo强大的可伸缩性和灵活性使得pomelo也可以作为通用的分布式实时应用开发框架，用于一些高实时应用的开发，而且pomelo在很多方面的表现甚至超越了现有的开源实时应用框架 由于pomelo 依赖node-gyp这modules所以有点麻烦,安装之前配置python环境，官方推荐版本2. &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -75,6 +74,57 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-11T23:44:00+08:00" pubdate data-updated="true">Dec 11<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/nodejs/'>nodejs</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2014/12/11/pomelo-deploy//blog/page/2/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2014/12/11/pomelo-deploy/">Pomelo centOs 环境部署</a></h1>
+	<div class="entry-content">
+		<p>pomelo强大的可伸缩性和灵活性使得pomelo也可以作为通用的分布式实时应用开发框架，用于一些高实时应用的开发，而且pomelo在很多方面的表现甚至超越了现有的开源实时应用框架</p>
+
+<p>由于pomelo 依赖node-gyp这modules所以有点麻烦,安装之前配置python环境，官方推荐版本2.7</p>
+
+<pre><code>npm config set python /usr/local/bin/python2.7
+
+npm install -g node-gyp
+
+npm install -g pomelo 
+
+pomelo start -e production --daemon
+
+//host 与 port 是master地址
+pomelo stop --host 172.0.0.1 --port 4005
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -871,217 +921,6 @@ end
 
 </article>
 
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-25T09:18:00+08:00" pubdate data-updated="true">Sep 25<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/elasticsearch/'>elasticsearch</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/09/25/elasticsearch-mutiple-search//blog/page/2/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2013/09/25/elasticsearch-mutiple-search/">Elasticsearch 多个索引查询，根据不同类型条件判定</a></h1>
-	<div class="entry-content">
-		<h3>CURL</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -XGET <span class="s1">&#39;http://localhost:9200/indexA,indexB/_search?pretty=1&#39;</span> -d <span class="s1">&#39;{</span>
-</span><span class='line'><span class="s1">&quot;query&quot; : {</span>
-</span><span class='line'><span class="s1">    &quot;bool&quot;: {</span>
-</span><span class='line'><span class="s1">      &quot;should&quot;: [{</span>
-</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
-</span><span class='line'><span class="s1">          &quot;filter&quot;:{</span>
-</span><span class='line'><span class="s1">            &quot;and&quot;: [</span>
-</span><span class='line'><span class="s1">              {</span>
-</span><span class='line'><span class="s1">                &quot;range&quot;:{</span>
-</span><span class='line'><span class="s1">                  &quot;start_time&quot;:{</span>
-</span><span class='line'><span class="s1">                    &quot;lte&quot;: &quot;2013-09-24T00:00:00+08:00&quot;</span>
-</span><span class='line'><span class="s1">                  }</span>
-</span><span class='line'><span class="s1">                }</span>
-</span><span class='line'><span class="s1">              },{</span>
-</span><span class='line'><span class="s1">                &quot;range&quot;: {</span>
-</span><span class='line'><span class="s1">                  &quot;end_time&quot;: {</span>
-</span><span class='line'><span class="s1">                    &quot;gt&quot;: &quot;2013-09-24T00:00:00+08:00&quot;</span>
-</span><span class='line'><span class="s1">                  }</span>
-</span><span class='line'><span class="s1">                }</span>
-</span><span class='line'><span class="s1">              },</span>
-</span><span class='line'><span class="s1">              {</span>
-</span><span class='line'><span class="s1">                &quot;term&quot;: {</span>
-</span><span class='line'><span class="s1">                  &quot;_type&quot;: &quot;TypeA&quot;</span>
-</span><span class='line'><span class="s1">                }</span>
-</span><span class='line'><span class="s1">              }]</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        }</span>
-</span><span class='line'><span class="s1">      },{</span>
-</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
-</span><span class='line'><span class="s1">          &quot;filter&quot;: {</span>
-</span><span class='line'><span class="s1">            &quot;term&quot;: {</span>
-</span><span class='line'><span class="s1">              &quot;_type&quot;: &quot;TypeB&quot;</span>
-</span><span class='line'><span class="s1">            }</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        }</span>
-</span><span class='line'><span class="s1">      }]</span>
-</span><span class='line'><span class="s1">    }</span>
-</span><span class='line'><span class="s1">  },</span>
-</span><span class='line'><span class="s1">  &quot;sort&quot;: [</span>
-</span><span class='line'><span class="s1">    {</span>
-</span><span class='line'><span class="s1">      &quot;_script&quot;: {</span>
-</span><span class='line'><span class="s1">        &quot;script&quot;: &quot;doc[\u0027score\u0027].value/((time()-doc[\u0027start_time_ms\u0027].value) / 3600)&quot;,</span>
-</span><span class='line'><span class="s1">        &quot;type&quot;: &quot;number&quot;,</span>
-</span><span class='line'><span class="s1">        &quot;order&quot;: &quot;desc&quot;</span>
-</span><span class='line'><span class="s1">      },</span>
-</span><span class='line'><span class="s1">      &quot;_score&quot;: {</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">      }</span>
-</span><span class='line'><span class="s1">    }</span>
-</span><span class='line'><span class="s1">  ]</span>
-</span><span class='line'><span class="s1">}&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>indexA 与 indexB 索引的 TypeA与TypeB</p>
-
-<h4>ruby gem  Tire</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Tire</span><span class="o">.</span><span class="n">search</span> <span class="o">[</span><span class="s1">&#39;indexA&#39;</span><span class="p">,</span> <span class="s1">&#39;indexB&#39;</span><span class="o">]</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">from</span> <span class="n">_from</span>
-</span><span class='line'>  <span class="n">size</span> <span class="n">_size</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">query</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">boolean</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">should</span> <span class="k">do</span>
-</span><span class='line'>        <span class="n">filtered</span> <span class="k">do</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:range</span><span class="p">,</span> <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="n">gt</span><span class="p">:</span> <span class="n">toDay</span><span class="p">}</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:range</span><span class="p">,</span> <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="n">lte</span><span class="p">:</span> <span class="n">toDay</span><span class="p">}</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:term</span><span class="p">,</span> <span class="ss">:_type</span> <span class="o">=&gt;</span> <span class="s2">&quot;TypeA&quot;</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:term</span><span class="p">,</span> <span class="ss">:status</span> <span class="o">=&gt;</span> <span class="mi">1</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:terms</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;category.id&quot;</span> <span class="o">=&gt;</span> <span class="n">category_ids</span><span class="p">}</span> <span class="k">if</span> <span class="n">q</span><span class="o">[</span><span class="ss">:catalog_id</span><span class="o">].</span><span class="n">present?</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>      <span class="n">should</span> <span class="k">do</span>
-</span><span class='line'>        <span class="n">filtered</span> <span class="k">do</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:term</span><span class="p">,</span> <span class="p">{</span><span class="ss">:_type</span> <span class="o">=&gt;</span> <span class="s2">&quot;TypeB&quot;</span><span class="p">}</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">sort</span><span class="p">(</span><span class="s2">&quot;_script&quot;</span> <span class="o">=&gt;</span> <span class="p">{</span>
-</span><span class='line'>    <span class="ss">:script</span> <span class="o">=&gt;</span> <span class="s2">&quot;doc[&#39;score&#39;].value/((time()-doc[&#39;start_time_ms&#39;].value) / 3600)&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">:type</span>   <span class="o">=&gt;</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">:order</span>  <span class="o">=&gt;</span> <span class="s2">&quot;desc&quot;</span>
-</span><span class='line'>  <span class="p">},</span> <span class="s2">&quot;_score&quot;</span> <span class="o">=&gt;</span> <span class="p">{})</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
 <nav id="pagenavi">
     
         <a href="/" class="prev">Prev</a>
@@ -1095,7 +934,6 @@ end
 			<footer id="footer" class="inner">Copyright &copy; 2016
 
     kaka
-
 </footer>
 			<script src="/javascripts/slash.js"></script>
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -1120,6 +958,18 @@ end
 </script>
 
 
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-75046798-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
 
 
 

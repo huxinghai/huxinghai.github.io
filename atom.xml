@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-03-13T00:23:00+08:00</updated>
+  <updated>2016-03-13T22:32:51+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[当你的Sublime打开项目卡顿的时候修改配置]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/03/13/sublime-folder-exclude-patterns/"/>
+    <updated>2016-03-13T22:28:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/03/13/sublime-folder-exclude-patterns</id>
+    <content type="html"><![CDATA[<p>菜单路径<code>Preferences -&gt; Settings-User</code></p>
+
+<pre><code>"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", "node_modules", "bower_components", "tmp"]
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[devise warden报错401]]></title>
@@ -1129,189 +1141,6 @@ end
 
 <p>单机做测试，js与native排序性能方面有差距同样的5W数据,比较一下查询速度：
   js：70ms, native: 20ms</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[elasticsearch 多个索引查询，根据不同类型条件判定]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2013/09/25/elasticsearch-mutiple-search/"/>
-    <updated>2013-09-25T09:18:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2013/09/25/elasticsearch-mutiple-search</id>
-    <content type="html"><![CDATA[<h3>CURL</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -XGET <span class="s1">&#39;http://localhost:9200/indexA,indexB/_search?pretty=1&#39;</span> -d <span class="s1">&#39;{</span>
-</span><span class='line'><span class="s1">&quot;query&quot; : {</span>
-</span><span class='line'><span class="s1">    &quot;bool&quot;: {</span>
-</span><span class='line'><span class="s1">      &quot;should&quot;: [{</span>
-</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
-</span><span class='line'><span class="s1">          &quot;filter&quot;:{</span>
-</span><span class='line'><span class="s1">            &quot;and&quot;: [</span>
-</span><span class='line'><span class="s1">              {</span>
-</span><span class='line'><span class="s1">                &quot;range&quot;:{</span>
-</span><span class='line'><span class="s1">                  &quot;start_time&quot;:{</span>
-</span><span class='line'><span class="s1">                    &quot;lte&quot;: &quot;2013-09-24T00:00:00+08:00&quot;</span>
-</span><span class='line'><span class="s1">                  }</span>
-</span><span class='line'><span class="s1">                }</span>
-</span><span class='line'><span class="s1">              },{</span>
-</span><span class='line'><span class="s1">                &quot;range&quot;: {</span>
-</span><span class='line'><span class="s1">                  &quot;end_time&quot;: {</span>
-</span><span class='line'><span class="s1">                    &quot;gt&quot;: &quot;2013-09-24T00:00:00+08:00&quot;</span>
-</span><span class='line'><span class="s1">                  }</span>
-</span><span class='line'><span class="s1">                }</span>
-</span><span class='line'><span class="s1">              },</span>
-</span><span class='line'><span class="s1">              {</span>
-</span><span class='line'><span class="s1">                &quot;term&quot;: {</span>
-</span><span class='line'><span class="s1">                  &quot;_type&quot;: &quot;TypeA&quot;</span>
-</span><span class='line'><span class="s1">                }</span>
-</span><span class='line'><span class="s1">              }]</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        }</span>
-</span><span class='line'><span class="s1">      },{</span>
-</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
-</span><span class='line'><span class="s1">          &quot;filter&quot;: {</span>
-</span><span class='line'><span class="s1">            &quot;term&quot;: {</span>
-</span><span class='line'><span class="s1">              &quot;_type&quot;: &quot;TypeB&quot;</span>
-</span><span class='line'><span class="s1">            }</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        }</span>
-</span><span class='line'><span class="s1">      }]</span>
-</span><span class='line'><span class="s1">    }</span>
-</span><span class='line'><span class="s1">  },</span>
-</span><span class='line'><span class="s1">  &quot;sort&quot;: [</span>
-</span><span class='line'><span class="s1">    {</span>
-</span><span class='line'><span class="s1">      &quot;_script&quot;: {</span>
-</span><span class='line'><span class="s1">        &quot;script&quot;: &quot;doc[\u0027score\u0027].value/((time()-doc[\u0027start_time_ms\u0027].value) / 3600)&quot;,</span>
-</span><span class='line'><span class="s1">        &quot;type&quot;: &quot;number&quot;,</span>
-</span><span class='line'><span class="s1">        &quot;order&quot;: &quot;desc&quot;</span>
-</span><span class='line'><span class="s1">      },</span>
-</span><span class='line'><span class="s1">      &quot;_score&quot;: {</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">      }</span>
-</span><span class='line'><span class="s1">    }</span>
-</span><span class='line'><span class="s1">  ]</span>
-</span><span class='line'><span class="s1">}&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>indexA 与 indexB 索引的 TypeA与TypeB</p>
-
-<h4>ruby gem  Tire</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Tire</span><span class="o">.</span><span class="n">search</span> <span class="o">[</span><span class="s1">&#39;indexA&#39;</span><span class="p">,</span> <span class="s1">&#39;indexB&#39;</span><span class="o">]</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">from</span> <span class="n">_from</span>
-</span><span class='line'>  <span class="n">size</span> <span class="n">_size</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">query</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">boolean</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">should</span> <span class="k">do</span>
-</span><span class='line'>        <span class="n">filtered</span> <span class="k">do</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:range</span><span class="p">,</span> <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="n">gt</span><span class="p">:</span> <span class="n">toDay</span><span class="p">}</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:range</span><span class="p">,</span> <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="n">lte</span><span class="p">:</span> <span class="n">toDay</span><span class="p">}</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:term</span><span class="p">,</span> <span class="ss">:_type</span> <span class="o">=&gt;</span> <span class="s2">&quot;TypeA&quot;</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:term</span><span class="p">,</span> <span class="ss">:status</span> <span class="o">=&gt;</span> <span class="mi">1</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:terms</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;category.id&quot;</span> <span class="o">=&gt;</span> <span class="n">category_ids</span><span class="p">}</span> <span class="k">if</span> <span class="n">q</span><span class="o">[</span><span class="ss">:catalog_id</span><span class="o">].</span><span class="n">present?</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>      <span class="n">should</span> <span class="k">do</span>
-</span><span class='line'>        <span class="n">filtered</span> <span class="k">do</span>
-</span><span class='line'>          <span class="n">filter</span> <span class="ss">:term</span><span class="p">,</span> <span class="p">{</span><span class="ss">:_type</span> <span class="o">=&gt;</span> <span class="s2">&quot;TypeB&quot;</span><span class="p">}</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">sort</span><span class="p">(</span><span class="s2">&quot;_script&quot;</span> <span class="o">=&gt;</span> <span class="p">{</span>
-</span><span class='line'>    <span class="ss">:script</span> <span class="o">=&gt;</span> <span class="s2">&quot;doc[&#39;score&#39;].value/((time()-doc[&#39;start_time_ms&#39;].value) / 3600)&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">:type</span>   <span class="o">=&gt;</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="ss">:order</span>  <span class="o">=&gt;</span> <span class="s2">&quot;desc&quot;</span>
-</span><span class='line'>  <span class="p">},</span> <span class="s2">&quot;_score&quot;</span> <span class="o">=&gt;</span> <span class="p">{})</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

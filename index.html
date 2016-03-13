@@ -7,8 +7,7 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="今天遇到一个特别的问题在项目里面使用devise应用到User与Admin, 因为User是可以用手机号码和Email登录的,
-而Admin只能邮件登录，结果User可以正常登录，但是Admin应该也可以正常登录，但是就是报401密码错误，经过翻看源码发现一个很好的工具，找到出现问题的原因 ( &hellip;">
+	<meta name="description" content=" 菜单路径Preferences -&gt; Settings-User "folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", "node_modules", "bower_components", "tmp"] ">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -75,6 +74,42 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-13T22:28:00+08:00" pubdate data-updated="true">Mar 13<span>th</span>, 2016</time></div>
+		<div class="tags">
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/03/13/sublime-folder-exclude-patterns//index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2016/03/13/sublime-folder-exclude-patterns/">当你的Sublime打开项目卡顿的时候修改配置</a></h1>
+	<div class="entry-content">
+		<p>菜单路径<code>Preferences -&gt; Settings-User</code></p>
+
+<pre><code>"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", "node_modules", "bower_components", "tmp"]
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -877,57 +912,6 @@ adapter.createRelation({status: 1}).then(function(){
 
 </article>
 
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-11T23:44:00+08:00" pubdate data-updated="true">Dec 11<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/nodejs/'>nodejs</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/12/11/pomelo-deploy//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/12/11/pomelo-deploy/">Pomelo centOs 环境部署</a></h1>
-	<div class="entry-content">
-		<p>pomelo强大的可伸缩性和灵活性使得pomelo也可以作为通用的分布式实时应用开发框架，用于一些高实时应用的开发，而且pomelo在很多方面的表现甚至超越了现有的开源实时应用框架</p>
-
-<p>由于pomelo 依赖node-gyp这modules所以有点麻烦,安装之前配置python环境，官方推荐版本2.7</p>
-
-<pre><code>npm config set python /usr/local/bin/python2.7
-
-npm install -g node-gyp
-
-npm install -g pomelo 
-
-pomelo start -e production --daemon
-
-//host 与 port 是master地址
-pomelo stop --host 172.0.0.1 --port 4005
-</code></pre>
-
-		
-		
-	</div>
-
-</article>
-
 <nav id="pagenavi">
     
     
@@ -939,7 +923,6 @@ pomelo stop --host 172.0.0.1 --port 4005
 			<footer id="footer" class="inner">Copyright &copy; 2016
 
     kaka
-
 </footer>
 			<script src="/javascripts/slash.js"></script>
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -964,6 +947,18 @@ pomelo stop --host 172.0.0.1 --port 4005
 </script>
 
 
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-75046798-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
 
 
 

@@ -7,7 +7,7 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="贴代码： require 'oauth2' module Login class Github def initialize(config) @config = config end #登陆第三方认证 def authorize_url @client = OAuth2::Client.new &hellip;">
+	<meta name="description" content="使用以下的gem包: gem 'carrierwave' gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid' gem 'mini_magick' gem 'rack-raw-upload' 然后前端js， &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -74,6 +74,60 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-08T14:43:00+08:00" pubdate data-updated="true">Dec 8<span>th</span>, 2012</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rails/'>rails</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2012/12/08/ajax-upload-avatar//blog/page/5/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2012/12/08/ajax-upload-avatar/">Mongoid 使用ajax 无刷新上传</a></h1>
+	<div class="entry-content">
+		<p>使用以下的gem包:</p>
+
+<pre>
+    gem 'carrierwave'
+    gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
+    gem 'mini_magick'
+    gem 'rack-raw-upload'
+</pre>
+
+
+
+
+<p>
+然后前端js，本来使用<a href='http://fineuploader.com'>fineuploader</a>，但是在ie8下面有问题,原因是ajax send 的时候头部<br />
+信息类型<code>Content-Type: multipart/form-data</code>,而其它浏览头部类型正常，但是官方说支持ie 7以上，但是弄了很久，还是不行<br />
+决定使用<a href='https://github.com/Valums-File-Uploader/file-uploader.git'>file-uploader</a>前端，这使用方式很雷同，使用file-uploader在ie 8下面，但当服务器返回状态不等于200时，会出现错误，错误信息说iframe.contentDocument 没有权限！通过其它状态处理错误信息!
+</p>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -536,7 +590,6 @@ log_mail.sender("to@gmail.com", "subject", "body","attachment_path")
 			<footer id="footer" class="inner">Copyright &copy; 2016
 
     kaka
-
 </footer>
 			<script src="/javascripts/slash.js"></script>
 <script src="/javascripts/jquery.fancybox.pack.js"></script>
@@ -561,6 +614,18 @@ log_mail.sender("to@gmail.com", "subject", "body","attachment_path")
 </script>
 
 
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-75046798-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
 
 
 
