@@ -7,57 +7,8 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="CURL 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51 &hellip;">
+	<meta name="description" content="由于自己要自定义score, 所以才会使用script来写复杂的sort javascript script 排序 安装 elasticsearch-lang-javascript 1
+bin/plugin -install elasticsearch/elasticsearch-lang- &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -124,6 +75,201 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-05T09:37:00+08:00" pubdate data-updated="true">Nov 5<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/elasticsearch/'>elasticsearch</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/11/05/elasticsearch-script-sort//blog/page/3/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2013/11/05/elasticsearch-script-sort/">Elasticsearch脚本排序</a></h1>
+	<div class="entry-content">
+		<p>由于自己要自定义score, 所以才会使用script来写复杂的sort</p>
+
+<h4>javascript script 排序</h4>
+
+<ul>
+<li>安装 <a href="https://github.com/elasticsearch/elasticsearch-lang-javascript">elasticsearch-lang-javascript</a></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bin/plugin -install elasticsearch/elasticsearch-lang-javascript/1.4.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>写js脚本</li>
+</ul>
+
+
+<p>在你的配置目录下新建文件scripts/products/sort.js, 我的配置目录是<em>/etc/elasticsearch</em>,简单实例:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">doc</span><span class="p">.</span><span class="nx">_score</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">likes</span><span class="p">.</span><span class="nx">value</span>
+</span><span class='line'><span class="p">})()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查询</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -XGET <span class="s1">&#39;http://localhost:9200/products/_search?pretty&#39;</span> -d <span class="s1">&#39;{</span>
+</span><span class='line'><span class="s1">  &quot;query&quot;: {</span>
+</span><span class='line'><span class="s1">    &quot;custom_score&quot;: {</span>
+</span><span class='line'><span class="s1">      &quot;script&quot;: &quot;global_product&quot;,</span>
+</span><span class='line'><span class="s1">      &quot;query&quot;: {</span>
+</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
+</span><span class='line'><span class="s1">          &quot;filter&quot;: {</span>
+</span><span class='line'><span class="s1">            &quot;and&quot;: [</span>
+</span><span class='line'><span class="s1">              {</span>
+</span><span class='line'><span class="s1">                &quot;term&quot;: {</span>
+</span><span class='line'><span class="s1">                  &quot;_type&quot;: &quot;product&quot;</span>
+</span><span class='line'><span class="s1">                }</span>
+</span><span class='line'><span class="s1">              }</span>
+</span><span class='line'><span class="s1">            ]</span>
+</span><span class='line'><span class="s1">          }</span>
+</span><span class='line'><span class="s1">        }</span>
+</span><span class='line'><span class="s1">      }</span>
+</span><span class='line'><span class="s1">    }</span>
+</span><span class='line'><span class="s1">  },</span>
+</span><span class='line'><span class="s1">  &quot;sort&quot;: [</span>
+</span><span class='line'><span class="s1">    {</span>
+</span><span class='line'><span class="s1">      &quot;_score&quot;: &quot;desc&quot;</span>
+</span><span class='line'><span class="s1">    }</span>
+</span><span class='line'><span class="s1">  ]</span>
+</span><span class='line'><span class="s1">}&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>products_sort: products是目录sort脚本文件名</p>
+
+<h4>native script 排序</h4>
+
+<ul>
+<li><p>案例</p>
+
+<p><a href="https://github.com/imotov/elasticsearch-native-script-example">官方example</a></p>
+
+<p><a href="https://github.com/huxinghai1988/sort-score-script">自己写了个简单的排序</a></p></li>
+<li><p>查询</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -X GET <span class="s1">&#39;http://localhost:9200/products/_search?pretty&#39;</span> -d <span class="s1">&#39;{</span>
+</span><span class='line'><span class="s1">  &quot;query&quot;: {</span>
+</span><span class='line'><span class="s1">    &quot;custom_score&quot;: {</span>
+</span><span class='line'><span class="s1">      &quot;script&quot;: &quot;productSort&quot;,</span>
+</span><span class='line'><span class="s1">      &quot;lang&quot;: &quot;native&quot;,</span>
+</span><span class='line'><span class="s1">      &quot;query&quot;: {</span>
+</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
+</span><span class='line'><span class="s1">          &quot;filter&quot;: {</span>
+</span><span class='line'><span class="s1">            &quot;and&quot;: [</span>
+</span><span class='line'><span class="s1">              {</span>
+</span><span class='line'><span class="s1">                &quot;term&quot;: {</span>
+</span><span class='line'><span class="s1">                  &quot;_type&quot;: &quot;product&quot;</span>
+</span><span class='line'><span class="s1">                }</span>
+</span><span class='line'><span class="s1">              }</span>
+</span><span class='line'><span class="s1">            ]</span>
+</span><span class='line'><span class="s1">          }</span>
+</span><span class='line'><span class="s1">        }</span>
+</span><span class='line'><span class="s1">      }</span>
+</span><span class='line'><span class="s1">    }</span>
+</span><span class='line'><span class="s1">  },</span>
+</span><span class='line'><span class="s1">  &quot;sort&quot;: [</span>
+</span><span class='line'><span class="s1">    {</span>
+</span><span class='line'><span class="s1">      &quot;_score&quot;: &quot;desc&quot;</span>
+</span><span class='line'><span class="s1">    }</span>
+</span><span class='line'><span class="s1">  ]</span>
+</span><span class='line'><span class="s1">}&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>单机做测试，js与native排序性能方面有差距同样的5W数据,比较一下查询速度：
+  js：70ms, native: 20ms</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -1079,43 +1225,6 @@ http {
     /opt/nginx/sbin/nginx   #启动nginx
 </pre>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-19T18:11:00+08:00" pubdate data-updated="true">Jan 19<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/gem/'>gem</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/01/19/gem-include-js//blog/page/3/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2013/01/19/gem-include-js/">Gem包含js文件</a></h1>
-	<div class="entry-content">
-		<p><a href="http://prioritized.net/blog/gemify-assets-for-rails/">RT</a></p>
 
 		
 		

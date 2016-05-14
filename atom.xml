@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-03-13T22:32:51+08:00</updated>
+  <updated>2016-05-14T17:52:37+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Reverse Vowels of a String]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/05/14/leet-code-reverse-vowels/"/>
+    <updated>2016-05-14T17:51:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/05/14/leet-code-reverse-vowels</id>
+    <content type="html"><![CDATA[<p>Write a function that takes a string as input and reverse only the vowels of a string.</p>
+
+<p>Example 1:
+Given s = &#8220;hello&#8221;, return &#8220;holle&#8221;.</p>
+
+<p>Example 2:
+Given s = &#8220;leetcode&#8221;, return &#8220;leotcede&#8221;.</p>
+
+<pre><code># @param {String} s
+# @return {String}
+def reverse_vowels(a)
+  tmp = a.length.times.inject([]) do |s, i| 
+    /(a|e|i|o|u)/i =~ a[i] ? s &lt;&lt; i : s
+  end
+  tmp.length.fdiv(2).ceil.times.each do |i| 
+    v, b = tmp[i], tmp[tmp.length-1-i]
+    a[v], a[b] = a[b], a[v] if v &amp;&amp; b
+  end
+  a
+end
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[当你的Sublime打开项目卡顿的时候修改配置]]></title>
@@ -974,173 +1003,6 @@ end
 </span><span class='line'>  curl -XGET <span class="s1">&#39;localhost:9200/products/product/_mapping?pretty&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[elasticsearch脚本排序]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2013/11/05/elasticsearch-script-sort/"/>
-    <updated>2013-11-05T09:37:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2013/11/05/elasticsearch-script-sort</id>
-    <content type="html"><![CDATA[<p>由于自己要自定义score, 所以才会使用script来写复杂的sort</p>
-
-<h4>javascript script 排序</h4>
-
-<ul>
-<li>安装 <a href="https://github.com/elasticsearch/elasticsearch-lang-javascript">elasticsearch-lang-javascript</a></li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>bin/plugin -install elasticsearch/elasticsearch-lang-javascript/1.4.0
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>写js脚本</li>
-</ul>
-
-
-<p>在你的配置目录下新建文件scripts/products/sort.js, 我的配置目录是<em>/etc/elasticsearch</em>,简单实例:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>  <span class="nx">doc</span><span class="p">.</span><span class="nx">_score</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">likes</span><span class="p">.</span><span class="nx">value</span>
-</span><span class='line'><span class="p">})()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>查询</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -XGET <span class="s1">&#39;http://localhost:9200/products/_search?pretty&#39;</span> -d <span class="s1">&#39;{</span>
-</span><span class='line'><span class="s1">  &quot;query&quot;: {</span>
-</span><span class='line'><span class="s1">    &quot;custom_score&quot;: {</span>
-</span><span class='line'><span class="s1">      &quot;script&quot;: &quot;global_product&quot;,</span>
-</span><span class='line'><span class="s1">      &quot;query&quot;: {</span>
-</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
-</span><span class='line'><span class="s1">          &quot;filter&quot;: {</span>
-</span><span class='line'><span class="s1">            &quot;and&quot;: [</span>
-</span><span class='line'><span class="s1">              {</span>
-</span><span class='line'><span class="s1">                &quot;term&quot;: {</span>
-</span><span class='line'><span class="s1">                  &quot;_type&quot;: &quot;product&quot;</span>
-</span><span class='line'><span class="s1">                }</span>
-</span><span class='line'><span class="s1">              }</span>
-</span><span class='line'><span class="s1">            ]</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        }</span>
-</span><span class='line'><span class="s1">      }</span>
-</span><span class='line'><span class="s1">    }</span>
-</span><span class='line'><span class="s1">  },</span>
-</span><span class='line'><span class="s1">  &quot;sort&quot;: [</span>
-</span><span class='line'><span class="s1">    {</span>
-</span><span class='line'><span class="s1">      &quot;_score&quot;: &quot;desc&quot;</span>
-</span><span class='line'><span class="s1">    }</span>
-</span><span class='line'><span class="s1">  ]</span>
-</span><span class='line'><span class="s1">}&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>products_sort: products是目录sort脚本文件名</p>
-
-<h4>native script 排序</h4>
-
-<ul>
-<li><p>案例</p>
-
-<p><a href="https://github.com/imotov/elasticsearch-native-script-example">官方example</a></p>
-
-<p><a href="https://github.com/huxinghai1988/sort-score-script">自己写了个简单的排序</a></p></li>
-<li><p>查询</p></li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl -X GET <span class="s1">&#39;http://localhost:9200/products/_search?pretty&#39;</span> -d <span class="s1">&#39;{</span>
-</span><span class='line'><span class="s1">  &quot;query&quot;: {</span>
-</span><span class='line'><span class="s1">    &quot;custom_score&quot;: {</span>
-</span><span class='line'><span class="s1">      &quot;script&quot;: &quot;productSort&quot;,</span>
-</span><span class='line'><span class="s1">      &quot;lang&quot;: &quot;native&quot;,</span>
-</span><span class='line'><span class="s1">      &quot;query&quot;: {</span>
-</span><span class='line'><span class="s1">        &quot;filtered&quot;: {</span>
-</span><span class='line'><span class="s1">          &quot;filter&quot;: {</span>
-</span><span class='line'><span class="s1">            &quot;and&quot;: [</span>
-</span><span class='line'><span class="s1">              {</span>
-</span><span class='line'><span class="s1">                &quot;term&quot;: {</span>
-</span><span class='line'><span class="s1">                  &quot;_type&quot;: &quot;product&quot;</span>
-</span><span class='line'><span class="s1">                }</span>
-</span><span class='line'><span class="s1">              }</span>
-</span><span class='line'><span class="s1">            ]</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        }</span>
-</span><span class='line'><span class="s1">      }</span>
-</span><span class='line'><span class="s1">    }</span>
-</span><span class='line'><span class="s1">  },</span>
-</span><span class='line'><span class="s1">  &quot;sort&quot;: [</span>
-</span><span class='line'><span class="s1">    {</span>
-</span><span class='line'><span class="s1">      &quot;_score&quot;: &quot;desc&quot;</span>
-</span><span class='line'><span class="s1">    }</span>
-</span><span class='line'><span class="s1">  ]</span>
-</span><span class='line'><span class="s1">}&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>单机做测试，js与native排序性能方面有差距同样的5W数据,比较一下查询速度：
-  js：70ms, native: 20ms</p>
 ]]></content>
   </entry>
   

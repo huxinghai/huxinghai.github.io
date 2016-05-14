@@ -7,7 +7,8 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content=" 菜单路径Preferences -&gt; Settings-User "folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", "node_modules", "bower_components", "tmp"] ">
+	<meta name="description" content="Write a function that takes a string as input and reverse only the vowels of a string. Example 1:
+Given s = &#8220;hello&#8221;, return &#8220;holle &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -74,6 +75,63 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-14T17:51:00+08:00" pubdate data-updated="true">May 14<span>th</span>, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/leetcode/'>LeetCode</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/05/14/leet-code-reverse-vowels//index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2016/05/14/leet-code-reverse-vowels/">Reverse Vowels of a String</a></h1>
+	<div class="entry-content">
+		<p>Write a function that takes a string as input and reverse only the vowels of a string.</p>
+
+<p>Example 1:
+Given s = &#8220;hello&#8221;, return &#8220;holle&#8221;.</p>
+
+<p>Example 2:
+Given s = &#8220;leetcode&#8221;, return &#8220;leotcede&#8221;.</p>
+
+<pre><code># @param {String} s
+# @return {String}
+def reverse_vowels(a)
+  tmp = a.length.times.inject([]) do |s, i| 
+    /(a|e|i|o|u)/i =~ a[i] ? s &lt;&lt; i : s
+  end
+  tmp.length.fdiv(2).ceil.times.each do |i| 
+    v, b = tmp[i], tmp[tmp.length-1-i]
+    a[v], a[b] = a[b], a[v] if v &amp;&amp; b
+  end
+  a
+end
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -824,87 +882,6 @@ adapter.createRelation({status: 1}).then(function(){
 
 
 <p>tag 当我不管成功与失败template 多会加载这数据，我想在save失败不加载到template所以要加一个<strong>rolledBack</strong>和<strong>unloadRecord</strong>失败的时候就不加载了。</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-11T10:10:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/nodejs/'>nodejs</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2015/01/11/pomelo-gate-http//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2015/01/11/pomelo-gate-http/">使用pomelo做聊天服务器分配connector服务使用http分配</a></h1>
-	<div class="entry-content">
-		<p>如果使用pomelo默认的gate分配很慢, 因为socket去连接服务，然后disconnect再连接connector
-服务器这过程就会拖慢用户连接时间，使用http方便而且快。</p>
-
-<p>pomelo 本身支持Plugin扩展，已经有人用express写了<a href="https://github.com/pipi32167/pomelo-http-plugin">pomelo-http</a>插件了, 插件存在一个问题定义post请求拿不到参数, <em>body-parser</em>使用可以解决这个问题。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">dispatcher</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../../../util/dispatcher&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">,</span> <span class="nx">http</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;/system/dispatcher&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">c_type</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">c_type</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">uid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">uuid</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nx">c_type</span> <span class="o">=</span> <span class="p">(</span><span class="nx">c_type</span> <span class="o">&amp;&amp;</span> <span class="nx">c_type</span><span class="o">===</span><span class="s1">&#39;mqtt&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s1">&#39;mqtt-connector&#39;</span> <span class="o">:</span> <span class="s1">&#39;sio-connector&#39;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">connectors</span> <span class="o">=</span> <span class="nx">app</span><span class="p">.</span><span class="nx">getServersByType</span><span class="p">(</span><span class="nx">c_type</span><span class="p">);</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="nx">uid</span><span class="p">,</span> <span class="nx">connectors</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">s</span><span class="p">){</span>
-</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">403</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span><span class="nx">error</span><span class="o">:</span> <span class="s2">&quot;not invalid server connectors!!!&quot;</span><span class="p">})</span>
-</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span><span class="nx">host</span><span class="o">:</span> <span class="nx">s</span><span class="p">.</span><span class="nx">host</span><span class="p">,</span> <span class="nx">port</span><span class="o">:</span> <span class="nx">s</span><span class="p">.</span><span class="nx">clientPort</span><span class="p">});</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">})</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
 
 		
 		
