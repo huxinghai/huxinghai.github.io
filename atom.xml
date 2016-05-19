@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-05-19T22:08:33+08:00</updated>
+  <updated>2016-05-19T22:59:54+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ember容器注入对象]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/05/19/ember-inject-container/"/>
+    <updated>2016-05-19T22:31:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/05/19/ember-inject-container</id>
+    <content type="html"><![CDATA[<blockquote><p>Ember注入是用来将一个对象注入到一个容器里面去，让容器可以访问对象，容器是指<code>route</code>、<code>controller</code>、<code>helper</code>。</p></blockquote>
+
+<p>使用用例：</p>
+
+<pre><code>// app/services/session.js
+export default Ember.Service.extend({
+  isAuthenticated: false
+});
+
+// app/initializes/inject-session.js
+export function initialize(application) {
+  application.inject('route', 'service:session');
+}
+
+export default {
+  name: 'session',
+  initialize: initialize
+}
+
+
+// app/routes/products.js
+export default Ember.Route.extend({
+
+  model(){
+    this.session
+  },
+  setupController(controller, model){
+    this.session
+    ...
+  }
+});
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[intersection-of-two-arrays]]></title>
@@ -889,30 +929,6 @@ end
 </code></pre></li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[git 错误 object is empy / corrupt]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2014/04/10/git-error/"/>
-    <updated>2014-04-10T14:12:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2014/04/10/git-error</id>
-    <content type="html"><![CDATA[<h4>问题</h4>
-
-<p>早上上班开始工作是准备git push到远程服务器时，出现下面错误！我估计是之前的merge导致的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  error: object file .git/objects/xx/xxx is empty
-</span><span class='line'>  fatal: loose object xxx (stored in .git/objects/xx/xxx is corrupt</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>解决方案</h4>
-
-<p>参考<a href="http://vincesalvino.blogspot.jp/2013/08/git-empty-files-corrupt-objects-and.html">链接</a>, 其实我就是删除空的commit就可以了</p>
-
-<pre><code>find .git/objects/ -size 0 -exec rm -f {} \; 
-</code></pre>
 ]]></content>
   </entry>
   

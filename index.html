@@ -7,9 +7,8 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="Given two arrays, write a function to compute their intersection. Example:
-Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2]. Note:
-Each &hellip;">
+	<meta name="description" content="Ember注入是用来将一个对象注入到一个容器里面去，让容器可以访问对象，容器是指route、controller、helper。 使用用例： // app/services/session.js
+export default Ember.Service.extend({ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +75,74 @@ Each &hellip;">
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-19T22:31:00+08:00" pubdate data-updated="true">May 19<span>th</span>, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ember/'>ember</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/05/19/ember-inject-container//index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2016/05/19/ember-inject-container/">Ember容器注入对象</a></h1>
+	<div class="entry-content">
+		<blockquote><p>Ember注入是用来将一个对象注入到一个容器里面去，让容器可以访问对象，容器是指<code>route</code>、<code>controller</code>、<code>helper</code>。</p></blockquote>
+
+<p>使用用例：</p>
+
+<pre><code>// app/services/session.js
+export default Ember.Service.extend({
+  isAuthenticated: false
+});
+
+// app/initializes/inject-session.js
+export function initialize(application) {
+  application.inject('route', 'service:session');
+}
+
+export default {
+  name: 'session',
+  initialize: initialize
+}
+
+
+// app/routes/products.js
+export default Ember.Route.extend({
+
+  model(){
+    this.session
+  },
+  setupController(controller, model){
+    this.session
+    ...
+  }
+});
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -789,72 +856,6 @@ String.new.say
 </code></pre>
 
 <p>String.new.say调用会报错， 因为say只在Bar类里面生效。</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-09-22T21:50:00+08:00" pubdate data-updated="true">Sep 22<span>nd</span>, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/emberjs/'>emberjs</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2015/09/22/emberjsguide//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2015/09/22/emberjsguide/">Emberjs2 自定义adapter方法与json序列化model</a></h1>
-	<div class="entry-content">
-		<ol>
-<li><p>自定义adapter请求服务器</p>
-
-<p> 有时候model CURD 满足不了我们的需求，需要自己定义方法请求服务器，我们可以把这种方法定义adapter
-代码如下：</p>
-
-<pre><code>App.UserAdapter = App.ApplicationAdapter.extend({
-  createRelation: function(opts){
-    var url = [this.urlPrefix(), "users", "/pass"].join("/")
-    return this.ajax(url, "POST", {data: opts})  
-  }
-})
-</code></pre>
-
-<p>controller调用</p>
-
-<pre><code>var adapter = this.store.adapterFor("user");
-adapter.createRelation({status: 1}).then(function(){
-  // success
-}, function(){
-  // catch
-})
-</code></pre></li>
-<li><p>json序列化model</p></li>
-</ol>
-
-
-<p>  <code>
-  this.store.push(this.store.normalize("user", {id: 1, name: 'xxxxxxxxx'}))
- </code></p>
 
 		
 		

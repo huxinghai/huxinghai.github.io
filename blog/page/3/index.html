@@ -7,56 +7,8 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="代码示例: 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50 &hellip;">
+	<meta name="description" content="问题 早上上班开始工作是准备git push到远程服务器时，出现下面错误！我估计是之前的merge导致的 1
+2 error: object file .git/objects/xx/xxx is empty fatal: loose object xxx (stored in .git/ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -123,6 +75,58 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-10T14:12:00+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/git/'>git</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2014/04/10/git-error//blog/page/3/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2014/04/10/git-error/">Git 错误 Object Is Empy / Corrupt</a></h1>
+	<div class="entry-content">
+		<h4>问题</h4>
+
+<p>早上上班开始工作是准备git push到远程服务器时，出现下面错误！我估计是之前的merge导致的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  error: object file .git/objects/xx/xxx is empty
+</span><span class='line'>  fatal: loose object xxx (stored in .git/objects/xx/xxx is corrupt</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>解决方案</h4>
+
+<p>参考<a href="http://vincesalvino.blogspot.jp/2013/08/git-empty-files-corrupt-objects-and.html">链接</a>, 其实我就是删除空的commit就可以了</p>
+
+<pre><code>find .git/objects/ -size 0 -exec rm -f {} \; 
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -1113,73 +1117,6 @@ sudo ./rabbitmq-plugins enable rabbitmq_management
 
 <p><code>app_view.remove()</code>删除之后，todo模型还是会有这个绑定的事件<br />
 当然也可以用off来处理，但是现在有listenTo就不用做特别的处理了。</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-20T22:58:00+08:00" pubdate data-updated="true">Mar 20<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/php/'>php</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/03/20/captcha-generate//blog/page/3/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2013/03/20/captcha-generate/">使用php的Codeigniter框架 生图片验证码遇到的问题</a></h1>
-	<div class="entry-content">
-		<p>根据官方网站介绍，可以使用<code>captcha</code>实现,实现方式如下<br /></p>
-
-<pre>    
-
-  /*
-  * 控制加载
-  */
-  $this->load->helper('captcha');  
-  ...
-
-  /*
-  * 方法
-  */
-  $vals = array(        
-    'img_path' => './captcha/',
-    'img_url' => 'http://localhost/finance/captcha/',
-    'font_path' => "./system/fonts/texb.ttf"
-  );
-
-  $data["img_code"] = create_captcha($vals);
-  ...
-</pre>
-
-
-<p>结果没有反应，然后进入<code>create_captcha</code>方法调试，发现在<code> extension_loaded('gd')</code><br/>
-过滤了，经过google 搜索是没有加载gd库，然后在网上查加载gd库,配置一下php.ini文件如下:</p>
-
-<p><code>
-  extension=php_gd2.dll
-</code>
-由于我是安装wamp服务管理软件在里面选择一下，然后重启apache服务就ok了</p>
 
 		
 		
