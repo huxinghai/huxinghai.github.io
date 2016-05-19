@@ -7,8 +7,16 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="如果使用pomelo默认的gate分配很慢, 因为socket去连接服务，然后disconnect再连接connector
-服务器这过程就会拖慢用户连接时间，使用http方便而且快。 pomelo 本身支持Plugin扩展，已经有人用express写了pomelo-http插件了, &hellip;">
+	<meta name="description" content="最近项目使用emberjs 2.0版本，本身用2.0是比较纠结的事，由于之前就是只闻其术，不见其码，而且emberjs 1.x版本到2.0 做了一次无痛升级，之前用backbone框架感觉有些概念还是一样的，先说说用的emberjs 第一个坑贴代码。 1
+2
+3
+4
+5
+6
+7
+8
+9
+10 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -75,6 +83,86 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-12T11:52:00+08:00" pubdate data-updated="true">Sep 12<span>th</span>, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/emberjs/'>emberjs</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/09/12/emberjs-pit//blog/page/2/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2015/09/12/emberjs-pit/">Emberjs 2.0 遇到一个坑</a></h1>
+	<div class="entry-content">
+		<p>最近项目使用emberjs 2.0版本，本身用2.0是比较纠结的事，由于之前就是只闻其术，不见其码，而且emberjs 1.x版本到2.0 做了一次无痛升级，之前用backbone框架感觉有些概念还是一样的，先说说用的emberjs 第一个坑贴代码。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>  <span class="c1">//controller js 文件</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">actions</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">save</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">tag</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">store</span><span class="p">.</span><span class="nx">createRecord</span><span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;newName&quot;</span><span class="p">)})</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">tag</span><span class="p">.</span><span class="nx">save</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">that</span><span class="p">){</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>          <span class="nx">that</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;newName&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}(</span><span class="k">this</span><span class="p">),</span> <span class="kd">function</span><span class="p">(</span><span class="nx">that</span><span class="p">){</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">r</span><span class="p">){</span>
+</span><span class='line'>          <span class="nx">tag</span><span class="p">.</span><span class="nx">rolledBack</span><span class="p">()</span>
+</span><span class='line'>          <span class="nx">tag</span><span class="p">.</span><span class="nx">unloadRecord</span><span class="p">()</span>
+</span><span class='line'>          <span class="nx">that</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;errors&quot;</span><span class="p">,</span> <span class="nx">r</span><span class="p">.</span><span class="nx">errors</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}(</span><span class="k">this</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>tag 当我不管成功与失败template 多会加载这数据，我想在save失败不加载到template所以要加一个<strong>rolledBack</strong>和<strong>unloadRecord</strong>失败的时候就不加载了。</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -659,148 +747,6 @@ end
 
 <pre><code>find .git/objects/ -size 0 -exec rm -f {} \; 
 </code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-25T15:13:00+08:00" pubdate data-updated="true">Jan 25<span>th</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/elasticsearch/'>elasticsearch</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2014/01/25/elasticsearch-dynamic-template//blog/page/2/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2014/01/25/elasticsearch-dynamic-template/">Elasticsearch 动态加载属性的mapping</a></h1>
-	<div class="entry-content">
-		<p>代码示例:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>  curl -XPUT <span class="s1">&#39;localhost:9200/products&#39;</span> -d <span class="s1">&#39;{</span>
-</span><span class='line'><span class="s1">    &quot;settings&quot;: {</span>
-</span><span class='line'><span class="s1">      &quot;analysis&quot;: {</span>
-</span><span class='line'><span class="s1">        &quot;analyzer&quot;: {</span>
-</span><span class='line'><span class="s1">          &quot;pinyin_analyzer&quot;: {</span>
-</span><span class='line'><span class="s1">            &quot;tokenizer&quot;: &quot;my_pinyin&quot;,</span>
-</span><span class='line'><span class="s1">            &quot;filter&quot;: [&quot;standard&quot;, &quot;nGram&quot;]</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        },</span>
-</span><span class='line'><span class="s1">        &quot;tokenizer&quot;: {</span>
-</span><span class='line'><span class="s1">          &quot;my_pinyin&quot;: {</span>
-</span><span class='line'><span class="s1">            &quot;type&quot;: &quot;pinyin&quot;,</span>
-</span><span class='line'><span class="s1">            &quot;first_letter&quot;: &quot;prefix&quot;,</span>
-</span><span class='line'><span class="s1">            &quot;padding_char&quot;: &quot;&quot;</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        }</span>
-</span><span class='line'><span class="s1">      }</span>
-</span><span class='line'><span class="s1">    },</span>
-</span><span class='line'><span class="s1">    &quot;mappings&quot;: {</span>
-</span><span class='line'><span class="s1">      &quot;product&quot;: {</span>
-</span><span class='line'><span class="s1">        &quot;dynamic_templates&quot;: [</span>
-</span><span class='line'><span class="s1">          {</span>
-</span><span class='line'><span class="s1">            &quot;property_template&quot;: {</span>
-</span><span class='line'><span class="s1">              &quot;path_match&quot;: &quot;properties.*&quot;,</span>
-</span><span class='line'><span class="s1">              &quot;mapping&quot;: {</span>
-</span><span class='line'><span class="s1">                &quot;type&quot;: &quot;multi_field&quot;,</span>
-</span><span class='line'><span class="s1">                &quot;fields&quot;: {</span>
-</span><span class='line'><span class="s1">                  &quot;{name}&quot;: {</span>
-</span><span class='line'><span class="s1">                    &quot;type&quot;: &quot;string&quot;,</span>
-</span><span class='line'><span class="s1">                    &quot;analyzer&quot; : &quot;pinyin_analyzer&quot;,</span>
-</span><span class='line'><span class="s1">                    &quot;boost&quot;: 10,</span>
-</span><span class='line'><span class="s1">                    &quot;store&quot;: &quot;no&quot;,</span>
-</span><span class='line'><span class="s1">                    &quot;term_vector&quot;: &quot;with_positions_offsets&quot;</span>
-</span><span class='line'><span class="s1">                  },</span>
-</span><span class='line'><span class="s1">                  &quot;{name}_untouched&quot;: {</span>
-</span><span class='line'><span class="s1">                    &quot;type&quot;: &quot;string&quot;,</span>
-</span><span class='line'><span class="s1">                    &quot;index&quot;: &quot;not_analyzed&quot;</span>
-</span><span class='line'><span class="s1">                  }</span>
-</span><span class='line'><span class="s1">                }</span>
-</span><span class='line'><span class="s1">              }</span>
-</span><span class='line'><span class="s1">            }</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        ]</span>
-</span><span class='line'><span class="s1">      }</span>
-</span><span class='line'><span class="s1">    }</span>
-</span><span class='line'><span class="s1">  }&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  curl -XPOST <span class="s1">&#39;localhost:9200/products/product&#39;</span> -d <span class="s1">&#39;{name: &quot;加多宝&quot;, properties: {ping: 1} }&#39;</span>
-</span><span class='line'>  curl -XPOST <span class="s1">&#39;localhost:9200/products/product&#39;</span> -d <span class="s1">&#39;{name: &quot;水杯&quot;, properties: {ge: 1} }&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  curl -XGET <span class="s1">&#39;localhost:9200/products/product/_mapping?pretty&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
 
 		
 		

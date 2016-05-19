@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-05-14T17:52:37+08:00</updated>
+  <updated>2016-05-19T22:08:33+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[intersection-of-two-arrays]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/05/19/intersection-of-two-arrays/"/>
+    <updated>2016-05-19T22:07:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/05/19/intersection-of-two-arrays</id>
+    <content type="html"><![CDATA[<p>Given two arrays, write a function to compute their intersection.</p>
+
+<p>Example:
+Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2].</p>
+
+<p>Note:
+Each element in the result must be unique.
+The result can be in any order.</p>
+
+<pre><code># @param {Integer[]} nums1
+# @param {Integer[]} nums2
+# @return {Integer[]}
+def intersection(nums1, nums2)
+  nums1 &amp; nums2
+end
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Reverse Vowels of a String]]></title>
@@ -889,120 +913,6 @@ end
 
 <pre><code>find .git/objects/ -size 0 -exec rm -f {} \; 
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[elasticsearch 动态加载属性的mapping]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2014/01/25/elasticsearch-dynamic-template/"/>
-    <updated>2014-01-25T15:13:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2014/01/25/elasticsearch-dynamic-template</id>
-    <content type="html"><![CDATA[<p>代码示例:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>  curl -XPUT <span class="s1">&#39;localhost:9200/products&#39;</span> -d <span class="s1">&#39;{</span>
-</span><span class='line'><span class="s1">    &quot;settings&quot;: {</span>
-</span><span class='line'><span class="s1">      &quot;analysis&quot;: {</span>
-</span><span class='line'><span class="s1">        &quot;analyzer&quot;: {</span>
-</span><span class='line'><span class="s1">          &quot;pinyin_analyzer&quot;: {</span>
-</span><span class='line'><span class="s1">            &quot;tokenizer&quot;: &quot;my_pinyin&quot;,</span>
-</span><span class='line'><span class="s1">            &quot;filter&quot;: [&quot;standard&quot;, &quot;nGram&quot;]</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        },</span>
-</span><span class='line'><span class="s1">        &quot;tokenizer&quot;: {</span>
-</span><span class='line'><span class="s1">          &quot;my_pinyin&quot;: {</span>
-</span><span class='line'><span class="s1">            &quot;type&quot;: &quot;pinyin&quot;,</span>
-</span><span class='line'><span class="s1">            &quot;first_letter&quot;: &quot;prefix&quot;,</span>
-</span><span class='line'><span class="s1">            &quot;padding_char&quot;: &quot;&quot;</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        }</span>
-</span><span class='line'><span class="s1">      }</span>
-</span><span class='line'><span class="s1">    },</span>
-</span><span class='line'><span class="s1">    &quot;mappings&quot;: {</span>
-</span><span class='line'><span class="s1">      &quot;product&quot;: {</span>
-</span><span class='line'><span class="s1">        &quot;dynamic_templates&quot;: [</span>
-</span><span class='line'><span class="s1">          {</span>
-</span><span class='line'><span class="s1">            &quot;property_template&quot;: {</span>
-</span><span class='line'><span class="s1">              &quot;path_match&quot;: &quot;properties.*&quot;,</span>
-</span><span class='line'><span class="s1">              &quot;mapping&quot;: {</span>
-</span><span class='line'><span class="s1">                &quot;type&quot;: &quot;multi_field&quot;,</span>
-</span><span class='line'><span class="s1">                &quot;fields&quot;: {</span>
-</span><span class='line'><span class="s1">                  &quot;{name}&quot;: {</span>
-</span><span class='line'><span class="s1">                    &quot;type&quot;: &quot;string&quot;,</span>
-</span><span class='line'><span class="s1">                    &quot;analyzer&quot; : &quot;pinyin_analyzer&quot;,</span>
-</span><span class='line'><span class="s1">                    &quot;boost&quot;: 10,</span>
-</span><span class='line'><span class="s1">                    &quot;store&quot;: &quot;no&quot;,</span>
-</span><span class='line'><span class="s1">                    &quot;term_vector&quot;: &quot;with_positions_offsets&quot;</span>
-</span><span class='line'><span class="s1">                  },</span>
-</span><span class='line'><span class="s1">                  &quot;{name}_untouched&quot;: {</span>
-</span><span class='line'><span class="s1">                    &quot;type&quot;: &quot;string&quot;,</span>
-</span><span class='line'><span class="s1">                    &quot;index&quot;: &quot;not_analyzed&quot;</span>
-</span><span class='line'><span class="s1">                  }</span>
-</span><span class='line'><span class="s1">                }</span>
-</span><span class='line'><span class="s1">              }</span>
-</span><span class='line'><span class="s1">            }</span>
-</span><span class='line'><span class="s1">          }</span>
-</span><span class='line'><span class="s1">        ]</span>
-</span><span class='line'><span class="s1">      }</span>
-</span><span class='line'><span class="s1">    }</span>
-</span><span class='line'><span class="s1">  }&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  curl -XPOST <span class="s1">&#39;localhost:9200/products/product&#39;</span> -d <span class="s1">&#39;{name: &quot;加多宝&quot;, properties: {ping: 1} }&#39;</span>
-</span><span class='line'>  curl -XPOST <span class="s1">&#39;localhost:9200/products/product&#39;</span> -d <span class="s1">&#39;{name: &quot;水杯&quot;, properties: {ge: 1} }&#39;</span>
-</span><span class='line'>
-</span><span class='line'>  curl -XGET <span class="s1">&#39;localhost:9200/products/product/_mapping?pretty&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

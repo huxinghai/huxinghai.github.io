@@ -3,11 +3,13 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Blog categories - Ka Ka Blog</title>
+	<title>intersection-of-two-arrays - Ka Ka Blog</title>
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content=" 所有分类 部署 linux ruby rails gem mongodb jekyll faye nodejs rack php backbone javascript rabbitmq elasticsearch git 工具 emberjs 运维 LeetCode leetcode ">
+	<meta name="description" content="Given two arrays, write a function to compute their intersection. Example:
+Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2]. Note:
+Each element &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,96 +75,46 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner"><div class='clearfix categories'>
-  <h1 class='title'>所有分类</h1>
-  <ul>  
-    
-    <li>
-    <a href="/blog/categories/部署">部署</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/linux">linux</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/ruby">ruby</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/rails">rails</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/gem">gem</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/mongodb">mongodb</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/jekyll">jekyll</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/faye">faye</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/nodejs">nodejs</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/rack">rack</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/php">php</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/backbone">backbone</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/javascript">javascript</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/rabbitmq">rabbitmq</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/elasticsearch">elasticsearch</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/git">git</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/工具">工具</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/emberjs">emberjs</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/运维">运维</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/LeetCode">LeetCode</a>
-    </li>
-    
-    <li>
-    <a href="/blog/categories/leetcode">leetcode</a>
-    </li>
-      
-  </ul>
-</div></div>
+				<div id="content" class="inner"><article class="post">
+	<h1 class="title">Intersection-of-two-arrays</h1>
+	<div class="entry-content"><p>Given two arrays, write a function to compute their intersection.</p>
+
+<p>Example:
+Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2].</p>
+
+<p>Note:
+Each element in the result must be unique.
+The result can be in any order.</p>
+
+<pre><code># @param {Integer[]} nums1
+# @param {Integer[]} nums2
+# @return {Integer[]}
+def intersection(nums1, nums2)
+  nums1 &amp; nums2
+end
+</code></pre>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
 			</div>
 			<footer id="footer" class="inner">Copyright &copy; 2016
 
@@ -181,7 +133,10 @@
       var disqus_shortname = 'mbkk';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2016/05/19/intersection-of-two-arrays/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2016/05/19/intersection-of-two-arrays/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

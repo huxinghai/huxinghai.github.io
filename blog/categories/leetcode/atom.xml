@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: LeetCode | Ka Ka Blog]]></title>
+  <title><![CDATA[Category: leetcode | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/leetcode/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-05-14T17:52:37+08:00</updated>
+  <updated>2016-05-19T22:08:33+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -14,29 +14,24 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Reverse Vowels of a String]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2016/05/14/leet-code-reverse-vowels/"/>
-    <updated>2016-05-14T17:51:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2016/05/14/leet-code-reverse-vowels</id>
-    <content type="html"><![CDATA[<p>Write a function that takes a string as input and reverse only the vowels of a string.</p>
+    <title type="html"><![CDATA[intersection-of-two-arrays]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/05/19/intersection-of-two-arrays/"/>
+    <updated>2016-05-19T22:07:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/05/19/intersection-of-two-arrays</id>
+    <content type="html"><![CDATA[<p>Given two arrays, write a function to compute their intersection.</p>
 
-<p>Example 1:
-Given s = "hello", return "holle".</p>
+<p>Example:
+Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2].</p>
 
-<p>Example 2:
-Given s = "leetcode", return "leotcede".</p>
+<p>Note:
+Each element in the result must be unique.
+The result can be in any order.</p>
 
-<pre><code># @param {String} s
-# @return {String}
-def reverse_vowels(a)
-  tmp = a.length.times.inject([]) do |s, i| 
-    /(a|e|i|o|u)/i =~ a[i] ? s &lt;&lt; i : s
-  end
-  tmp.length.fdiv(2).ceil.times.each do |i| 
-    v, b = tmp[i], tmp[tmp.length-1-i]
-    a[v], a[b] = a[b], a[v] if v &amp;&amp; b
-  end
-  a
+<pre><code># @param {Integer[]} nums1
+# @param {Integer[]} nums2
+# @return {Integer[]}
+def intersection(nums1, nums2)
+  nums1 &amp; nums2
 end
 </code></pre>
 ]]></content>

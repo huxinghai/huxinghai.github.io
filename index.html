@@ -7,8 +7,9 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="Write a function that takes a string as input and reverse only the vowels of a string. Example 1:
-Given s = &#8220;hello&#8221;, return &#8220;holle &hellip;">
+	<meta name="description" content="Given two arrays, write a function to compute their intersection. Example:
+Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2]. Note:
+Each &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -75,6 +76,58 @@ Given s = &#8220;hello&#8221;, return &#8220;holle &hellip;">
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-19T22:07:00+08:00" pubdate data-updated="true">May 19<span>th</span>, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/leetcode/'>leetcode</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/05/19/intersection-of-two-arrays//index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2016/05/19/intersection-of-two-arrays/">Intersection-of-two-arrays</a></h1>
+	<div class="entry-content">
+		<p>Given two arrays, write a function to compute their intersection.</p>
+
+<p>Example:
+Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2].</p>
+
+<p>Note:
+Each element in the result must be unique.
+The result can be in any order.</p>
+
+<pre><code># @param {Integer[]} nums1
+# @param {Integer[]} nums2
+# @return {Integer[]}
+def intersection(nums1, nums2)
+  nums1 &amp; nums2
+end
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -802,86 +855,6 @@ adapter.createRelation({status: 1}).then(function(){
 <p>  <code>
   this.store.push(this.store.normalize("user", {id: 1, name: 'xxxxxxxxx'}))
  </code></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-09-12T11:52:00+08:00" pubdate data-updated="true">Sep 12<span>th</span>, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/emberjs/'>emberjs</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2015/09/12/emberjs-pit//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2015/09/12/emberjs-pit/">Emberjs 2.0 遇到一个坑</a></h1>
-	<div class="entry-content">
-		<p>最近项目使用emberjs 2.0版本，本身用2.0是比较纠结的事，由于之前就是只闻其术，不见其码，而且emberjs 1.x版本到2.0 做了一次无痛升级，之前用backbone框架感觉有些概念还是一样的，先说说用的emberjs 第一个坑贴代码。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'>  <span class="c1">//controller js 文件</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nx">actions</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">save</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">tag</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">store</span><span class="p">.</span><span class="nx">createRecord</span><span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;newName&quot;</span><span class="p">)})</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nx">tag</span><span class="p">.</span><span class="nx">save</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">that</span><span class="p">){</span>
-</span><span class='line'>        <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>          <span class="nx">that</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;newName&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>      <span class="p">}(</span><span class="k">this</span><span class="p">),</span> <span class="kd">function</span><span class="p">(</span><span class="nx">that</span><span class="p">){</span>
-</span><span class='line'>        <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">r</span><span class="p">){</span>
-</span><span class='line'>          <span class="nx">tag</span><span class="p">.</span><span class="nx">rolledBack</span><span class="p">()</span>
-</span><span class='line'>          <span class="nx">tag</span><span class="p">.</span><span class="nx">unloadRecord</span><span class="p">()</span>
-</span><span class='line'>          <span class="nx">that</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;errors&quot;</span><span class="p">,</span> <span class="nx">r</span><span class="p">.</span><span class="nx">errors</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>      <span class="p">}(</span><span class="k">this</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>tag 当我不管成功与失败template 多会加载这数据，我想在save失败不加载到template所以要加一个<strong>rolledBack</strong>和<strong>unloadRecord</strong>失败的时候就不加载了。</p>
 
 		
 		
