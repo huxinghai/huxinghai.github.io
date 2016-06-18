@@ -3,7 +3,7 @@ layout: post
 title: "intersection-of-two-arrays"
 date: 2016-05-19 22:07
 comments: true
-categories: leetcode
+categories: LeetCode
 ---
 
 Given two arrays, write a function to compute their intersection.

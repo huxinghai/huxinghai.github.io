@@ -3,7 +3,7 @@ layout: post
 title: "ember容器注入对象"
 date: 2016-05-19 22:31
 comments: true
-categories: ember
+categories: emberjs
 ---
 > Ember注入是用来将一个对象注入到一个容器里面去，让容器可以访问对象，容器是指``route``、``controller``、``helper``。
 
