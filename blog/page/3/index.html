@@ -7,8 +7,7 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="问题 早上上班开始工作是准备git push到远程服务器时，出现下面错误！我估计是之前的merge导致的 1
-2 error: object file .git/objects/xx/xxx is empty fatal: loose object xxx (stored in .git/ &hellip;">
+	<meta name="description" content="ngrok是个款不错的工具，在我们开发中经常要用到。 visit: 官网 使用方式 简单的运行 // 代理你电脑3001端口， 运行后通过http://127.0.0.1:4040查看请求状态 ngrok 3001 验证运行 // authtoken你在官方注册，就会生成一个, &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -75,6 +74,101 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-26T14:24:00+08:00" pubdate data-updated="true">Jun 26<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/工具/'>工具</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2014/06/26/ngrok//blog/page/3/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2014/06/26/ngrok/">Ngrok反向代理工具</a></h1>
+	<div class="entry-content">
+		<p>ngrok是个款不错的工具，在我们开发中经常要用到。</p>
+
+<p>visit: <a href="https://ngrok.com/">官网</a></p>
+
+<h3>使用方式</h3>
+
+<ol>
+<li><p>简单的运行</p>
+
+<pre><code> // 代理你电脑3001端口， 运行后通过http://127.0.0.1:4040查看请求状态    
+ ngrok 3001
+</code></pre></li>
+<li><p>验证运行</p>
+
+<pre><code> // authtoken你在官方注册，就会生成一个, authtoken只要在电脑上运行一次就可以了会
+ // 记录的, 如果你验证了的话ngrok 生成的前缀域名不会被占用和变化
+ ngrok -authtoken U54UzZiDLFQxyZ-Ow*** 3001
+</code></pre></li>
+<li><p>需要别人验证才可以浏览</p>
+
+<pre><code> // helmet用户名, 12345密码
+ ngrok -httpauth="helmet:12345" 3001
+</code></pre></li>
+<li><p>设置前缀域名</p>
+
+<pre><code> ngrok -subdomain=example 3001
+</code></pre></li>
+<li><p>tcp代理</p>
+
+<pre><code> ngrok -proto=tcp 22
+</code></pre></li>
+<li><p>指定其它服务器代理</p>
+
+<pre><code> //为192.168.1.16服务器的3001端口代理
+ ngrok 192.168.1.16:3001
+</code></pre></li>
+<li><p>运行多个类型服务</p>
+
+<pre><code> // ngrok.yml配置类型如下
+
+ tunnels:
+   client:
+     proto:
+       https: "3000"
+     auth: user:password
+   c99bba1.ngrok.com:
+     proto:
+       http: "3000"
+   ssh:
+     proto:
+       tcp: "22"
+
+
+ // config: 配置文件路径
+ // start: 运行哪几种类型服务(client, ssh c99bba1.ngrok.com)
+ ngrok -log=stdout -authtoken=U54UzZiDLFQxyZ-Ow*** -config=ngrok.yml start client ssh c99bba1.ngrok.com
+</code></pre></li>
+</ol>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -1041,82 +1135,6 @@ sudo ./rabbitmq-plugins enable rabbitmq_management
 </span><span class='line'><span class="p">})</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-12T23:35:00+08:00" pubdate data-updated="true">Apr 12<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/backbone/'>backbone</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/04/12/backbone-updated//blog/page/3/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2013/04/12/backbone-updated/">backbone升级0.9.9版本，添加两个方法listenTo与stopListening</a></h1>
-	<div class="entry-content">
-		<p>listenTo用于绑定事件，stopListening关闭绑定事件了<br />
-它们与on有什么不同的呢！这里做个例子<br /></p>
-
-<pre>
-  var Todo = Backbone.Model.extend({
-    ...
-  })
-   
-  var todo = new Todo()
-  var appView = Backbone.View.extend({
-    initialize: function(){
-      this.listenTo(todo, "change:name", this.edit_attr)
-    },
-    edit_attr: function(){
-      this.$(".name").html(this.model.get('name'))
-    }
-  })
-
-  var app_view = new appView()
-  app_view.remove()  
-</pre>
-
-
-<p>当我们<code>app_view.remove()</code>删除之后会自动执行<code>stopListening</code>方法关注绑定事件<br />
-<code>todo</code>模型就不会有这个视图绑的事件了，如果<br /></p>
-
-<pre>
-  this.listenTo(todo, "change:name", this.edit_attr)
-</pre>
-
-
-<p>改用这种绑定方式</p>
-
-<pre>
-  todo.on("change:name", this.edit_attr, this)
-</pre>
-
-
-<p><code>app_view.remove()</code>删除之后，todo模型还是会有这个绑定的事件<br />
-当然也可以用off来处理，但是现在有listenTo就不用做特别的处理了。</p>
 
 		
 		

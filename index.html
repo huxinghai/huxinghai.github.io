@@ -7,8 +7,7 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="Ember注入是用来将一个对象注入到一个容器里面去，让容器可以访问对象，容器是指route、controller、helper。 使用用例： // app/services/session.js
-export default Ember.Service.extend({ &hellip;">
+	<meta name="description" content="使用Ember CLI的ember generate server命令创建server,模块会生成server/index.js文件，该服务是基于Express框架 ember generate server server/index.js默认内容 module.exports = &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -91,11 +90,94 @@ export default Ember.Service.extend({ &hellip;">
   
 
 
+<time datetime="2016-06-18T15:00:00+08:00" pubdate data-updated="true">Jun 18<span>th</span>, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/emberjs/'>emberjs</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/06/18/ember-nodejs-express-backend-api//index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2016/06/18/ember-nodejs-express-backend-api/">ember使用express做后台API服务</a></h1>
+	<div class="entry-content">
+		<p>使用Ember CLI的<code>ember generate server</code>命令创建server,模块会生成<code>server/index.js</code>文件，该服务是基于Express框架</p>
+
+<pre><code>ember generate server
+</code></pre>
+
+<p>server/index.js默认内容</p>
+
+<pre><code>module.exports = function(app) {
+  var globSync   = require('glob').sync;
+  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
+  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
+
+  // Log proxy requests
+  var morgan  = require('morgan');
+  app.use(morgan('dev'));
+
+  mocks.forEach(function(route) { route(app); });
+  proxies.forEach(function(route) { route(app); });
+
+};
+</code></pre>
+
+<p>从内容分析可以看出，其实这个服务可以让前端更好的mock API的数据做测试，这样在工作配合上前端不需要等后端API调式
+可以使用server模拟数据；</p>
+
+<p>也可以自定义API数据接口</p>
+
+<pre><code>// server/index.js
+var bodyParser = require('body-parser');
+
+module.exports = function(app) {
+
+  app.use(bodyParser.json({ type: "application/json" }));
+
+  app.get('/api/items/:item', function(req, res) {
+    const item = localdb.find('item', req.params.item);
+    res.send({ item: item });
+  });
+}
+</code></pre>
+
+<p>运行服务</p>
+
+<pre><code>ember server
+</code></pre>
+
+<p>我们就可以通过<code>http://localhost:4200/api/items/1</code>API获取数据</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2016-05-19T22:31:00+08:00" pubdate data-updated="true">May 19<span>th</span>, 2016</time></div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/ember/'>ember</a>
+	<a class='category' href='/blog/categories/emberjs/'>emberjs</a>
 
 
 </div>
@@ -163,7 +245,7 @@ export default Ember.Route.extend({
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/leetcode/'>leetcode</a>
+	<a class='category' href='/blog/categories/leetcode/'>LeetCode</a>
 
 
 </div>
@@ -791,71 +873,6 @@ Linux 3.2.0-24-generic   01/28/2016  _x86_64_  (4 CPU)
 <li>重启系统</li>
 </ol>
 
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-11-08T00:00:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2015/11/08/module-refine//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2015/11/08/module-refine/">元编程Ruby2.0 Module#refine</a></h1>
-	<div class="entry-content">
-		<p>没有看元编程第二版之前还不知道Module有<strong><em>refine</em></strong>特效，可以将一个class重新打开定义方法
-然后使用using生效，这样不会影响原有class，下面我们看看这个案例：</p>
-
-<pre><code>module FooBar
-  refine String do
-    def hello
-      puts "#{self} says : Hello, world"
-    end
-  end
-end
-
-class Bar
-  using FooBar
-  attr_reader :user
-
-  def initialize(user)
-    @user = user
-  end
-
-  def say
-    user.hello
-  end
-end
-
-Bar.new('ruby').say
-String.new.say
-</code></pre>
-
-<p>String.new.say调用会报错， 因为say只在Bar类里面生效。</p>
 
 		
 		

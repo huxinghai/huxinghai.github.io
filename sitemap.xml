@@ -192,26 +192,32 @@
     </url>
     <url>
         <loc>http://huxinghai1988.github.com/blog/2016/05/19/intersection-of-two-arrays/</loc>
-        <lastmod>2016-05-19T22:08:25+08:00</lastmod>
+        <lastmod>2016-06-18T14:58:34+08:00</lastmod>
     </url>
     <url>
         <loc>http://huxinghai1988.github.com/blog/2016/05/19/ember-inject-container/</loc>
-        <lastmod>2016-05-19T22:59:54+08:00</lastmod>
+        <lastmod>2016-06-18T15:00:51+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://huxinghai1988.github.com/blog/2016/06/18/ember-nodejs-express-backend-api/
+        </loc>
+        <lastmod>2016-06-18T15:19:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://huxinghai1988.github.com/blog/about/</loc>
-        <lastmod>2016-05-19T22:59:54+08:00</lastmod>
+        <lastmod>2016-06-18T15:19:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://huxinghai1988.github.com/blog/archives/</loc>
-        <lastmod>2016-05-19T22:59:54+08:00</lastmod>
+        <lastmod>2016-06-18T15:19:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://huxinghai1988.github.com/blog/categories/</loc>
-        <lastmod>2016-05-19T22:59:54+08:00</lastmod>
+        <lastmod>2016-06-18T15:19:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://huxinghai1988.github.com/</loc>
-        <lastmod>2016-05-19T22:59:54+08:00</lastmod>
+        <lastmod>2016-06-18T15:19:55+08:00</lastmod>
     </url>
 </urlset>

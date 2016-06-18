@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Category: ember - Ka Ka Blog</title>
+	<title>ember使用express做后台API服务 - Ka Ka Blog</title>
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="Category: ember">
+	<meta name="description" content="使用Ember CLI的ember generate server命令创建server,模块会生成server/index.js文件，该服务是基于Express框架 ember generate server server/index.js默认内容 module.exports = &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,32 +73,76 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner">
-    
+				<div id="content" class="inner"><article class="post">
+	<h1 class="title">ember使用express做后台API服务</h1>
+	<div class="entry-content"><p>使用Ember CLI的<code>ember generate server</code>命令创建server,模块会生成<code>server/index.js</code>文件，该服务是基于Express框架</p>
 
+<pre><code>ember generate server
+</code></pre>
 
-	
-	
-	<section class="archives"><h1 class="year">2016</h1>
+<p>server/index.js默认内容</p>
 
-<article>
-	<div class="meta">
-		<span class="date">May 19</span>
-		<br>
-		<span class="tags">
+<pre><code>module.exports = function(app) {
+  var globSync   = require('glob').sync;
+  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
+  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
 
+  // Log proxy requests
+  var morgan  = require('morgan');
+  app.use(morgan('dev'));
 
-	<a class='category' href='/blog/categories/ember/'>ember</a>
+  mocks.forEach(function(route) { route(app); });
+  proxies.forEach(function(route) { route(app); });
 
+};
+</code></pre>
 
-</span>
-	    
-	    <span class="comments"><a href="/blog/2016/05/19/ember-inject-container/#disqus_thread">Comments</a></span>
-	    
-	</div>
-	<h1 class="title"><a href="/blog/2016/05/19/ember-inject-container/">ember容器注入对象</a></h1>
+<p>从内容分析可以看出，其实这个服务可以让前端更好的mock API的数据做测试，这样在工作配合上前端不需要等后端API调式
+可以使用server模拟数据；</p>
+
+<p>也可以自定义API数据接口</p>
+
+<pre><code>// server/index.js
+var bodyParser = require('body-parser');
+
+module.exports = function(app) {
+
+  app.use(bodyParser.json({ type: "application/json" }));
+
+  app.get('/api/items/:item', function(req, res) {
+    const item = localdb.find('item', req.params.item);
+    res.send({ item: item });
+  });
+}
+</code></pre>
+
+<p>运行服务</p>
+
+<pre><code>ember server
+</code></pre>
+
+<p>我们就可以通过<code>http://localhost:4200/api/items/1</code>API获取数据</p>
+</div>
+
 </article>
 
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
 </div>
 			</div>
 			<footer id="footer" class="inner">Copyright &copy; 2016
@@ -118,7 +162,10 @@
       var disqus_shortname = 'mbkk';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2016/06/18/ember-nodejs-express-backend-api/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2016/06/18/ember-nodejs-express-backend-api/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

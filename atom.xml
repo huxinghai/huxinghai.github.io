@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-05-19T22:59:54+08:00</updated>
+  <updated>2016-06-18T15:19:51+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,61 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ember使用express做后台API服务]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/06/18/ember-nodejs-express-backend-api/"/>
+    <updated>2016-06-18T15:00:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/06/18/ember-nodejs-express-backend-api</id>
+    <content type="html"><![CDATA[<p>使用Ember CLI的<code>ember generate server</code>命令创建server,模块会生成<code>server/index.js</code>文件，该服务是基于Express框架</p>
+
+<pre><code>ember generate server
+</code></pre>
+
+<p>server/index.js默认内容</p>
+
+<pre><code>module.exports = function(app) {
+  var globSync   = require('glob').sync;
+  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
+  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
+
+  // Log proxy requests
+  var morgan  = require('morgan');
+  app.use(morgan('dev'));
+
+  mocks.forEach(function(route) { route(app); });
+  proxies.forEach(function(route) { route(app); });
+
+};
+</code></pre>
+
+<p>从内容分析可以看出，其实这个服务可以让前端更好的mock API的数据做测试，这样在工作配合上前端不需要等后端API调式
+可以使用server模拟数据；</p>
+
+<p>也可以自定义API数据接口</p>
+
+<pre><code>// server/index.js
+var bodyParser = require('body-parser');
+
+module.exports = function(app) {
+
+  app.use(bodyParser.json({ type: "application/json" }));
+
+  app.get('/api/items/:item', function(req, res) {
+    const item = localdb.find('item', req.params.item);
+    res.send({ item: item });
+  });
+}
+</code></pre>
+
+<p>运行服务</p>
+
+<pre><code>ember server
+</code></pre>
+
+<p>我们就可以通过<code>http://localhost:4200/api/items/1</code>API获取数据</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ember容器注入对象]]></title>
@@ -859,73 +914,6 @@ end
 
 <pre><code> #YOUR-API-KEY 你申请的key
  bundle exec exceptional install YOUR-API-KEY
-</code></pre></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ngrok反向代理工具]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2014/06/26/ngrok/"/>
-    <updated>2014-06-26T14:24:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2014/06/26/ngrok</id>
-    <content type="html"><![CDATA[<p>ngrok是个款不错的工具，在我们开发中经常要用到。</p>
-
-<p>visit: <a href="https://ngrok.com/">官网</a></p>
-
-<h3>使用方式</h3>
-
-<ol>
-<li><p>简单的运行</p>
-
-<pre><code> // 代理你电脑3001端口， 运行后通过http://127.0.0.1:4040查看请求状态    
- ngrok 3001
-</code></pre></li>
-<li><p>验证运行</p>
-
-<pre><code> // authtoken你在官方注册，就会生成一个, authtoken只要在电脑上运行一次就可以了会
- // 记录的, 如果你验证了的话ngrok 生成的前缀域名不会被占用和变化
- ngrok -authtoken U54UzZiDLFQxyZ-Ow*** 3001
-</code></pre></li>
-<li><p>需要别人验证才可以浏览</p>
-
-<pre><code> // helmet用户名, 12345密码
- ngrok -httpauth="helmet:12345" 3001
-</code></pre></li>
-<li><p>设置前缀域名</p>
-
-<pre><code> ngrok -subdomain=example 3001
-</code></pre></li>
-<li><p>tcp代理</p>
-
-<pre><code> ngrok -proto=tcp 22
-</code></pre></li>
-<li><p>指定其它服务器代理</p>
-
-<pre><code> //为192.168.1.16服务器的3001端口代理
- ngrok 192.168.1.16:3001
-</code></pre></li>
-<li><p>运行多个类型服务</p>
-
-<pre><code> // ngrok.yml配置类型如下
-
- tunnels:
-   client:
-     proto:
-       https: "3000"
-     auth: user:password
-   c99bba1.ngrok.com:
-     proto:
-       http: "3000"
-   ssh:
-     proto:
-       tcp: "22"
-
-
- // config: 配置文件路径
- // start: 运行哪几种类型服务(client, ssh c99bba1.ngrok.com)
- ngrok -log=stdout -authtoken=U54UzZiDLFQxyZ-Ow*** -config=ngrok.yml start client ssh c99bba1.ngrok.com
 </code></pre></li>
 </ol>
 

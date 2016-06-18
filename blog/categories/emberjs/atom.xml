@@ -4,7 +4,7 @@
   <title><![CDATA[Category: emberjs | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/emberjs/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-05-19T22:59:54+08:00</updated>
+  <updated>2016-06-18T15:19:56+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,101 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ember使用express做后台API服务]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/06/18/ember-nodejs-express-backend-api/"/>
+    <updated>2016-06-18T15:00:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/06/18/ember-nodejs-express-backend-api</id>
+    <content type="html"><![CDATA[<p>使用Ember CLI的<code>ember generate server</code>命令创建server,模块会生成<code>server/index.js</code>文件，该服务是基于Express框架</p>
+
+<pre><code>ember generate server
+</code></pre>
+
+<p>server/index.js默认内容</p>
+
+<pre><code>module.exports = function(app) {
+  var globSync   = require('glob').sync;
+  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
+  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
+
+  // Log proxy requests
+  var morgan  = require('morgan');
+  app.use(morgan('dev'));
+
+  mocks.forEach(function(route) { route(app); });
+  proxies.forEach(function(route) { route(app); });
+
+};
+</code></pre>
+
+<p>从内容分析可以看出，其实这个服务可以让前端更好的mock API的数据做测试，这样在工作配合上前端不需要等后端API调式
+可以使用server模拟数据；</p>
+
+<p>也可以自定义API数据接口</p>
+
+<pre><code>// server/index.js
+var bodyParser = require('body-parser');
+
+module.exports = function(app) {
+
+  app.use(bodyParser.json({ type: "application/json" }));
+
+  app.get('/api/items/:item', function(req, res) {
+    const item = localdb.find('item', req.params.item);
+    res.send({ item: item });
+  });
+}
+</code></pre>
+
+<p>运行服务</p>
+
+<pre><code>ember server
+</code></pre>
+
+<p>我们就可以通过<code>http://localhost:4200/api/items/1</code>API获取数据</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ember容器注入对象]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/05/19/ember-inject-container/"/>
+    <updated>2016-05-19T22:31:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/05/19/ember-inject-container</id>
+    <content type="html"><![CDATA[<blockquote><p>Ember注入是用来将一个对象注入到一个容器里面去，让容器可以访问对象，容器是指<code>route</code>、<code>controller</code>、<code>helper</code>。</p></blockquote>
+
+<p>使用用例：</p>
+
+<pre><code>// app/services/session.js
+export default Ember.Service.extend({
+  isAuthenticated: false
+});
+
+// app/initializes/inject-session.js
+export function initialize(application) {
+  application.inject('route', 'service:session');
+}
+
+export default {
+  name: 'session',
+  initialize: initialize
+}
+
+
+// app/routes/products.js
+export default Ember.Route.extend({
+
+  model(){
+    this.session
+  },
+  setupController(controller, model){
+    this.session
+    ...
+  }
+});
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ember-cli入门指南]]></title>
