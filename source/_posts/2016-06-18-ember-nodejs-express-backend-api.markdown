@@ -13,6 +13,7 @@ categories: emberjs
 
 server/index.js默认内容
 
+```js
     module.exports = function(app) {
       var globSync   = require('glob').sync;
       var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
@@ -26,12 +27,14 @@ server/index.js默认内容
       proxies.forEach(function(route) { route(app); });
 
     };
+```
 
 从内容分析可以看出，其实这个服务可以让前端更好的mock API的数据做测试，这样在工作配合上前端不需要等后端API调式
 可以使用server模拟数据；
 
 也可以自定义API数据接口
 
+```js
     // server/index.js
     var bodyParser = require('body-parser');
 
@@ -44,7 +47,7 @@ server/index.js默认内容
         res.send({ item: item });
       });
     }
-
+```
 
 运行服务
     

@@ -9,6 +9,7 @@ categories: emberjs
 
 使用用例：
 
+```js
     // app/services/session.js
     export default Ember.Service.extend({
       isAuthenticated: false
@@ -36,7 +37,7 @@ categories: emberjs
         ...
       }
     });
-
+```
 
 
 

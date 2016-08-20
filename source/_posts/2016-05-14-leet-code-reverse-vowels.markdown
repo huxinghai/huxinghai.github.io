@@ -14,7 +14,7 @@ Given s = "hello", return "holle".
 Example 2:
 Given s = "leetcode", return "leotcede".
 
-
+```ruby
     # @param {String} s
     # @return {String}
     def reverse_vowels(a)
@@ -27,3 +27,4 @@ Given s = "leetcode", return "leotcede".
       end
       a
     end
+```    
