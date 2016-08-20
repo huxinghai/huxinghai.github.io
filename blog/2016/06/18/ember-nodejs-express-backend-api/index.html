@@ -7,7 +7,17 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="使用Ember CLI的ember generate server命令创建server,模块会生成server/index.js文件，该服务是基于Express框架 ember generate server server/index.js默认内容 module.exports = &hellip;">
+	<meta name="description" content="使用Ember CLI的ember generate server命令创建server,模块会生成server/index.js文件，该服务是基于Express框架 ember generate server server/index.js默认内容 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -82,39 +92,66 @@
 
 <p>server/index.js默认内容</p>
 
-<pre><code>module.exports = function(app) {
-  var globSync   = require('glob').sync;
-  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
-  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">globSync</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;glob&#39;</span><span class="p">).</span><span class="nx">sync</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">mocks</span>      <span class="o">=</span> <span class="nx">globSync</span><span class="p">(</span><span class="s1">&#39;./mocks/**/*.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cwd</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="nx">require</span><span class="p">);</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">proxies</span>    <span class="o">=</span> <span class="nx">globSync</span><span class="p">(</span><span class="s1">&#39;./proxies/**/*.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cwd</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="nx">require</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Log proxy requests</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">morgan</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;morgan&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">morgan</span><span class="p">(</span><span class="s1">&#39;dev&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">mocks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">)</span> <span class="p">{</span> <span class="nx">route</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span> <span class="p">});</span>
+</span><span class='line'>  <span class="nx">proxies</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">)</span> <span class="p">{</span> <span class="nx">route</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span> <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
 
-  // Log proxy requests
-  var morgan  = require('morgan');
-  app.use(morgan('dev'));
-
-  mocks.forEach(function(route) { route(app); });
-  proxies.forEach(function(route) { route(app); });
-
-};
-</code></pre>
 
 <p>从内容分析可以看出，其实这个服务可以让前端更好的mock API的数据做测试，这样在工作配合上前端不需要等后端API调式
 可以使用server模拟数据；</p>
 
 <p>也可以自定义API数据接口</p>
 
-<pre><code>// server/index.js
-var bodyParser = require('body-parser');
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// server/index.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">bodyParser</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;body-parser&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">bodyParser</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span> <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;application/json&quot;</span> <span class="p">}));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/api/items/:item&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kr">const</span> <span class="nx">item</span> <span class="o">=</span> <span class="nx">localdb</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">item</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="nx">item</span><span class="o">:</span> <span class="nx">item</span> <span class="p">});</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-module.exports = function(app) {
-
-  app.use(bodyParser.json({ type: "application/json" }));
-
-  app.get('/api/items/:item', function(req, res) {
-    const item = localdb.find('item', req.params.item);
-    res.send({ item: item });
-  });
-}
-</code></pre>
 
 <p>运行服务</p>
 

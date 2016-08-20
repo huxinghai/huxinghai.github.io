@@ -4,7 +4,7 @@
   <title><![CDATA[Category: emberjs | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/emberjs/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-06-18T15:19:56+08:00</updated>
+  <updated>2016-08-20T22:02:33+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -25,6 +25,8 @@
 
 <p>server/index.js默认内容</p>
 
+<p>```js</p>
+
 <pre><code>module.exports = function(app) {
   var globSync   = require('glob').sync;
   var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
@@ -40,10 +42,14 @@
 };
 </code></pre>
 
+<p>```</p>
+
 <p>从内容分析可以看出，其实这个服务可以让前端更好的mock API的数据做测试，这样在工作配合上前端不需要等后端API调式
 可以使用server模拟数据；</p>
 
 <p>也可以自定义API数据接口</p>
+
+<p>```js</p>
 
 <pre><code>// server/index.js
 var bodyParser = require('body-parser');
@@ -58,6 +64,8 @@ module.exports = function(app) {
   });
 }
 </code></pre>
+
+<p>```</p>
 
 <p>运行服务</p>
 
@@ -76,6 +84,8 @@ module.exports = function(app) {
     <content type="html"><![CDATA[<blockquote><p>Ember注入是用来将一个对象注入到一个容器里面去，让容器可以访问对象，容器是指<code>route</code>、<code>controller</code>、<code>helper</code>。</p></blockquote>
 
 <p>使用用例：</p>
+
+<p>```js</p>
 
 <pre><code>// app/services/session.js
 export default Ember.Service.extend({
@@ -105,6 +115,8 @@ export default Ember.Route.extend({
   }
 });
 </code></pre>
+
+<p>```</p>
 ]]></content>
   </entry>
   

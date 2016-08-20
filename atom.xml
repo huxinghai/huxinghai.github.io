@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-06-18T15:19:51+08:00</updated>
+  <updated>2016-08-20T22:02:27+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用Ruby MonitorMixin注意的坑]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/08/20/ruby-monitor-mixin/"/>
+    <updated>2016-08-20T21:40:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/08/20/ruby-monitor-mixin</id>
+    <content type="html"><![CDATA[<p>初次使用MonitorMixin控制同步执行的时候一不小心就踩坑了，当你include的时候如果你的class定义了initialize方法
+请调用<code>super</code>否则会报<code>undefined method `lock' for nil:NilClass</code>错。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Number</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:n</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">MonitorMixin</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@n</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">super</span><span class="p">()</span> <span class="c1"># 调用MonitorMixin#initialize</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">increase</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">synchronize</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@n</span> <span class="o">=</span> <span class="vi">@n</span> <span class="o">+</span> <span class="n">x</span>
+</span><span class='line'>      <span class="nb">puts</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@n</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ember使用express做后台API服务]]></title>
@@ -25,39 +72,66 @@
 
 <p>server/index.js默认内容</p>
 
-<pre><code>module.exports = function(app) {
-  var globSync   = require('glob').sync;
-  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
-  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">globSync</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;glob&#39;</span><span class="p">).</span><span class="nx">sync</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">mocks</span>      <span class="o">=</span> <span class="nx">globSync</span><span class="p">(</span><span class="s1">&#39;./mocks/**/*.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cwd</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="nx">require</span><span class="p">);</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">proxies</span>    <span class="o">=</span> <span class="nx">globSync</span><span class="p">(</span><span class="s1">&#39;./proxies/**/*.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cwd</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="nx">require</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Log proxy requests</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">morgan</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;morgan&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">morgan</span><span class="p">(</span><span class="s1">&#39;dev&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">mocks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">)</span> <span class="p">{</span> <span class="nx">route</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span> <span class="p">});</span>
+</span><span class='line'>  <span class="nx">proxies</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">)</span> <span class="p">{</span> <span class="nx">route</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span> <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
 
-  // Log proxy requests
-  var morgan  = require('morgan');
-  app.use(morgan('dev'));
-
-  mocks.forEach(function(route) { route(app); });
-  proxies.forEach(function(route) { route(app); });
-
-};
-</code></pre>
 
 <p>从内容分析可以看出，其实这个服务可以让前端更好的mock API的数据做测试，这样在工作配合上前端不需要等后端API调式
 可以使用server模拟数据；</p>
 
 <p>也可以自定义API数据接口</p>
 
-<pre><code>// server/index.js
-var bodyParser = require('body-parser');
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// server/index.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">bodyParser</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;body-parser&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">bodyParser</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span> <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;application/json&quot;</span> <span class="p">}));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/api/items/:item&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kr">const</span> <span class="nx">item</span> <span class="o">=</span> <span class="nx">localdb</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">item</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="nx">item</span><span class="o">:</span> <span class="nx">item</span> <span class="p">});</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-module.exports = function(app) {
-
-  app.use(bodyParser.json({ type: "application/json" }));
-
-  app.get('/api/items/:item', function(req, res) {
-    const item = localdb.find('item', req.params.item);
-    res.send({ item: item });
-  });
-}
-</code></pre>
 
 <p>运行服务</p>
 
@@ -77,34 +151,64 @@ module.exports = function(app) {
 
 <p>使用用例：</p>
 
-<pre><code>// app/services/session.js
-export default Ember.Service.extend({
-  isAuthenticated: false
-});
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// app/services/session.js</span>
+</span><span class='line'><span class="kr">export</span> <span class="k">default</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Service</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>  <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// app/initializes/inject-session.js</span>
+</span><span class='line'><span class="kr">export</span> <span class="kd">function</span> <span class="nx">initialize</span><span class="p">(</span><span class="nx">application</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">application</span><span class="p">.</span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;route&#39;</span><span class="p">,</span> <span class="s1">&#39;service:session&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;session&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">initialize</span><span class="o">:</span> <span class="nx">initialize</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// app/routes/products.js</span>
+</span><span class='line'><span class="kr">export</span> <span class="k">default</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">model</span><span class="p">(){</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">session</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="nx">setupController</span><span class="p">(</span><span class="nx">controller</span><span class="p">,</span> <span class="nx">model</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">session</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
-// app/initializes/inject-session.js
-export function initialize(application) {
-  application.inject('route', 'service:session');
-}
-
-export default {
-  name: 'session',
-  initialize: initialize
-}
 
 
-// app/routes/products.js
-export default Ember.Route.extend({
-
-  model(){
-    this.session
-  },
-  setupController(controller, model){
-    this.session
-    ...
-  }
-});
-</code></pre>
 ]]></content>
   </entry>
   
@@ -145,19 +249,34 @@ Given s = &#8220;hello&#8221;, return &#8220;holle&#8221;.</p>
 <p>Example 2:
 Given s = &#8220;leetcode&#8221;, return &#8220;leotcede&#8221;.</p>
 
-<pre><code># @param {String} s
-# @return {String}
-def reverse_vowels(a)
-  tmp = a.length.times.inject([]) do |s, i| 
-    /(a|e|i|o|u)/i =~ a[i] ? s &lt;&lt; i : s
-  end
-  tmp.length.fdiv(2).ceil.times.each do |i| 
-    v, b = tmp[i], tmp[tmp.length-1-i]
-    a[v], a[b] = a[b], a[v] if v &amp;&amp; b
-  end
-  a
-end
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># @param {String} s</span>
+</span><span class='line'><span class="c1"># @return {String}</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">reverse_vowels</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="o">[]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="sr">/(a|e|i|o|u)/i</span> <span class="o">=~</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="p">?</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="p">:</span> <span class="n">s</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">tmp</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">fdiv</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">v</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="n">tmp</span><span class="o">[</span><span class="n">tmp</span><span class="o">.</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">i</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">a</span><span class="o">[</span><span class="n">v</span><span class="o">]</span><span class="p">,</span> <span class="n">a</span><span class="o">[</span><span class="n">b</span><span class="o">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">b</span><span class="o">]</span><span class="p">,</span> <span class="n">a</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&amp;&amp;</span> <span class="n">b</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">a</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
 ]]></content>
   </entry>
   
@@ -554,30 +673,54 @@ Linux 3.2.0-24-generic   01/28/2016  _x86_64_  (4 CPU)
     <content type="html"><![CDATA[<p>没有看元编程第二版之前还不知道Module有<strong><em>refine</em></strong>特效，可以将一个class重新打开定义方法
 然后使用using生效，这样不会影响原有class，下面我们看看这个案例：</p>
 
-<pre><code>module FooBar
-  refine String do
-    def hello
-      puts "#{self} says : Hello, world"
-    end
-  end
-end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">FooBar</span>
+</span><span class='line'>  <span class="n">refine</span> <span class="nb">String</span> <span class="k">do</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="si">}</span><span class="s2"> says : Hello, world&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Bar</span>
+</span><span class='line'>  <span class="n">using</span> <span class="no">FooBar</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:user</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="n">user</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">say</span>
+</span><span class='line'>    <span class="n">user</span><span class="o">.</span><span class="n">hello</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Bar</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;ruby&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">say</span>
+</span><span class='line'><span class="nb">String</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">say</span>
+</span></code></pre></td></tr></table></div></figure>
 
-class Bar
-  using FooBar
-  attr_reader :user
-
-  def initialize(user)
-    @user = user
-  end
-
-  def say
-    user.hello
-  end
-end
-
-Bar.new('ruby').say
-String.new.say
-</code></pre>
 
 <p>String.new.say调用会报错， 因为say只在Bar类里面生效。</p>
 ]]></content>
@@ -884,36 +1027,6 @@ end
  rm $file_path
  find $path -mtime +6 -type f -name backup_*.tar.gz | xargs rm -rf 
  #echo "littefire data dump ${today}" | mutt -s "${today} dump data" ***@qq.com -a $tar_name
-</code></pre></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[异常平台 exceptional]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2014/07/08/exceptional/"/>
-    <updated>2014-07-08T22:21:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2014/07/08/exceptional</id>
-    <content type="html"><![CDATA[<p>visit: <a href="https://www.exceptional.io">官网</a></p>
-
-<p>一个不错的统计项目的出错请求,而且支持多种语言，但是不是免费($9/month)</p>
-
-<h3>Rails 使用方式</h3>
-
-<ol>
-<li><p>在Gemfile配置</p>
-
-<pre><code> gem exceptional
-</code></pre></li>
-<li><p>打包</p>
-
-<pre><code> bundle install
-</code></pre></li>
-<li><p>生成exceptional的配置文件</p>
-
-<pre><code> #YOUR-API-KEY 你申请的key
- bundle exec exceptional install YOUR-API-KEY
 </code></pre></li>
 </ol>
 

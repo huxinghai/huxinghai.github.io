@@ -7,8 +7,34 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="Ember注入是用来将一个对象注入到一个容器里面去，让容器可以访问对象，容器是指route、controller、helper。 使用用例： // app/services/session.js
-export default Ember.Service.extend({ &hellip;">
+	<meta name="description" content="Ember注入是用来将一个对象注入到一个容器里面去，让容器可以访问对象，容器是指route、controller、helper。 使用用例： 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+// app &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,34 +106,64 @@ export default Ember.Service.extend({ &hellip;">
 
 <p>使用用例：</p>
 
-<pre><code>// app/services/session.js
-export default Ember.Service.extend({
-  isAuthenticated: false
-});
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// app/services/session.js</span>
+</span><span class='line'><span class="kr">export</span> <span class="k">default</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Service</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>  <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// app/initializes/inject-session.js</span>
+</span><span class='line'><span class="kr">export</span> <span class="kd">function</span> <span class="nx">initialize</span><span class="p">(</span><span class="nx">application</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">application</span><span class="p">.</span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;route&#39;</span><span class="p">,</span> <span class="s1">&#39;service:session&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;session&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">initialize</span><span class="o">:</span> <span class="nx">initialize</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// app/routes/products.js</span>
+</span><span class='line'><span class="kr">export</span> <span class="k">default</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">model</span><span class="p">(){</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">session</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="nx">setupController</span><span class="p">(</span><span class="nx">controller</span><span class="p">,</span> <span class="nx">model</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">session</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
-// app/initializes/inject-session.js
-export function initialize(application) {
-  application.inject('route', 'service:session');
-}
-
-export default {
-  name: 'session',
-  initialize: initialize
-}
 
 
-// app/routes/products.js
-export default Ember.Route.extend({
-
-  model(){
-    this.session
-  },
-  setupController(controller, model){
-    this.session
-    ...
-  }
-});
-</code></pre>
 </div>
 
 </article>

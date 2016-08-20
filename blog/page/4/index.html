@@ -7,8 +7,9 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="listenTo用于绑定事件，stopListening关闭绑定事件了
-它们与on有什么不同的呢！这里做个例子 var Todo = Backbone.Model.extend({ ... }) var todo = new Todo() var appView = Backbone.View. &hellip;">
+	<meta name="description" content="requirejs是一个管理js模块加载与依赖包，可以不使用script标签来加载js文件
+1.引用requirejs文件 1
+&lt;script data-main=&quot;scripts/main&quot; src=&quot;scripts/require.js&quot;&gt &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -75,6 +76,129 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-19T22:59:00+08:00" pubdate data-updated="true">Apr 19<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/javascript/'>javascript</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/04/19/requirejs//blog/page/4/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2013/04/19/requirejs/">Requirejs 使用</a></h1>
+	<div class="entry-content">
+		<p><a href='http://requirejs.org/'>requirejs</a>是一个管理js模块加载与依赖包，可以不使用script标签来加载js文件<br />
+1.引用requirejs文件<br /></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">data</span><span class="o">-</span><span class="nx">main</span><span class="o">=</span><span class="s2">&quot;scripts/main&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;scripts/require.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.配置, <a href='http://requirejs.org/docs/api.html#config'>更多配置</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">requirejs</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//默认加载模块路径</span>
+</span><span class='line'>    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s2">&quot;js/lib&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//指定模块的路径</span>
+</span><span class='line'>    <span class="nx">paths</span><span class="o">:</span><span class="p">{</span>
+</span><span class='line'>        <span class="c1">//前面别名， 后面路径</span>
+</span><span class='line'>        <span class="s2">&quot;jquery&quot;</span> <span class="o">:</span> <span class="s2">&quot;js/core/jquery.2.0.js&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;backbone&quot;</span> <span class="o">:</span> <span class="s2">&quot;js/core/backbone0.9.js&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;underscore&quot;</span><span class="o">:</span> <span class="s2">&quot;js/core/underscore.js&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//设置依赖关系</span>
+</span><span class='line'>    <span class="nx">shim</span><span class="o">:</span><span class="p">{</span>
+</span><span class='line'>        <span class="nx">backbone</span><span class="o">:</span><span class="p">{</span>
+</span><span class='line'>            <span class="nx">deps</span><span class="o">:</span><span class="p">[</span><span class="s2">&quot;underscore&quot;</span><span class="p">,</span> <span class="s2">&quot;jquery&quot;</span><span class="p">],</span>
+</span><span class='line'>            <span class="c1">//可以使用全局别名</span>
+</span><span class='line'>            <span class="nx">exports</span><span class="o">:</span> <span class="s2">&quot;Backbone&quot;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.使用</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// js/dom.js</span>
+</span><span class='line'><span class="nx">define</span><span class="p">([</span><span class="s2">&quot;backbone&quot;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Backbone</span><span class="p">){</span>
+</span><span class='line'>    <span class="nx">LoginView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">LoginView</span>
+</span><span class='line'><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">require</span><span class="p">([</span><span class="s2">&quot;js/dom&quot;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">LoginView</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">new</span> <span class="nx">LoginView</span><span class="p">(</span>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">)</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -791,85 +915,6 @@ db.transfers.mapReduce(map, reduce, {out: {inline : 1}})
 
 <p></per>
 原因是<code>mapReduce</code>执行的时候不是一个key一次聚合完，而是分段聚合！</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-23T12:57:00+08:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2012</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2012/12/23/observer//blog/page/4/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2012/12/23/observer/">Ruby 设计模式观察者模式</a></h1>
-	<div class="entry-content">
-		<p>ruby 自带一个观察者类<code>observer</code>,我们可以用它实现观察者模式<br />
-案例：
-<per></p>
-
-<pre><code>require 'observer'
-
-#被观察者  
-class Beobservable
-    include Observable
-end 
-
-#观察者A
-class Aobserver
-    def update(args)
-        puts "a is observer! #{args}"
-    end
-end
-
-#观察者B
-class Bobserver
-    def update(args)
-        puts "b is observer! #{args}"
-    end
-end
-
-observer_a = Aobserver.new
-observer_b = Bobserver.new
-
-
-b_servable = Beobservable.new
-
-#添加观察者
-b_servable.add_observer(observer_a)
-b_servable.add_observer(observer_b)
-
-#被观察者改变时
-b_servable.changed
-
-#通知观察者
-b_servable.notify_observers("test")
-</code></pre>
-
-<p></per></p>
 
 		
 		

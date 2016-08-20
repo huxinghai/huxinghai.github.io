@@ -7,7 +7,17 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="使用Ember CLI的ember generate server命令创建server,模块会生成server/index.js文件，该服务是基于Express框架 ember generate server server/index.js默认内容 module.exports = &hellip;">
+	<meta name="description" content="初次使用MonitorMixin控制同步执行的时候一不小心就踩坑了，当你include的时候如果你的class定义了initialize方法
+请调用super否则会报undefined method `lock' for nil:NilClass错。 1
+2
+3
+4
+5
+6
+7
+8
+9
+10 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -90,6 +100,81 @@
   
 
 
+<time datetime="2016-08-20T21:40:00+08:00" pubdate data-updated="true">Aug 20<span>th</span>, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/08/20/ruby-monitor-mixin//index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2016/08/20/ruby-monitor-mixin/">使用Ruby MonitorMixin注意的坑</a></h1>
+	<div class="entry-content">
+		<p>初次使用MonitorMixin控制同步执行的时候一不小心就踩坑了，当你include的时候如果你的class定义了initialize方法
+请调用<code>super</code>否则会报<code>undefined method `lock' for nil:NilClass</code>错。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Number</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:n</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">MonitorMixin</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@n</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">super</span><span class="p">()</span> <span class="c1"># 调用MonitorMixin#initialize</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">increase</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">synchronize</span> <span class="k">do</span>
+</span><span class='line'>      <span class="vi">@n</span> <span class="o">=</span> <span class="vi">@n</span> <span class="o">+</span> <span class="n">x</span>
+</span><span class='line'>      <span class="nb">puts</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@n</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2016-06-18T15:00:00+08:00" pubdate data-updated="true">Jun 18<span>th</span>, 2016</time></div>
 		<div class="tags">
 
@@ -111,39 +196,66 @@
 
 <p>server/index.js默认内容</p>
 
-<pre><code>module.exports = function(app) {
-  var globSync   = require('glob').sync;
-  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
-  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">globSync</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;glob&#39;</span><span class="p">).</span><span class="nx">sync</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">mocks</span>      <span class="o">=</span> <span class="nx">globSync</span><span class="p">(</span><span class="s1">&#39;./mocks/**/*.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cwd</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="nx">require</span><span class="p">);</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">proxies</span>    <span class="o">=</span> <span class="nx">globSync</span><span class="p">(</span><span class="s1">&#39;./proxies/**/*.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cwd</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="nx">require</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Log proxy requests</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">morgan</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;morgan&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">morgan</span><span class="p">(</span><span class="s1">&#39;dev&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">mocks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">)</span> <span class="p">{</span> <span class="nx">route</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span> <span class="p">});</span>
+</span><span class='line'>  <span class="nx">proxies</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">)</span> <span class="p">{</span> <span class="nx">route</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span> <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
 
-  // Log proxy requests
-  var morgan  = require('morgan');
-  app.use(morgan('dev'));
-
-  mocks.forEach(function(route) { route(app); });
-  proxies.forEach(function(route) { route(app); });
-
-};
-</code></pre>
 
 <p>从内容分析可以看出，其实这个服务可以让前端更好的mock API的数据做测试，这样在工作配合上前端不需要等后端API调式
 可以使用server模拟数据；</p>
 
 <p>也可以自定义API数据接口</p>
 
-<pre><code>// server/index.js
-var bodyParser = require('body-parser');
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// server/index.js</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">bodyParser</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;body-parser&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">bodyParser</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span> <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;application/json&quot;</span> <span class="p">}));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/api/items/:item&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kr">const</span> <span class="nx">item</span> <span class="o">=</span> <span class="nx">localdb</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">item</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="nx">item</span><span class="o">:</span> <span class="nx">item</span> <span class="p">});</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-module.exports = function(app) {
-
-  app.use(bodyParser.json({ type: "application/json" }));
-
-  app.get('/api/items/:item', function(req, res) {
-    const item = localdb.find('item', req.params.item);
-    res.send({ item: item });
-  });
-}
-</code></pre>
 
 <p>运行服务</p>
 
@@ -191,34 +303,64 @@ module.exports = function(app) {
 
 <p>使用用例：</p>
 
-<pre><code>// app/services/session.js
-export default Ember.Service.extend({
-  isAuthenticated: false
-});
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// app/services/session.js</span>
+</span><span class='line'><span class="kr">export</span> <span class="k">default</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Service</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>  <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">false</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// app/initializes/inject-session.js</span>
+</span><span class='line'><span class="kr">export</span> <span class="kd">function</span> <span class="nx">initialize</span><span class="p">(</span><span class="nx">application</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">application</span><span class="p">.</span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;route&#39;</span><span class="p">,</span> <span class="s1">&#39;service:session&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;session&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">initialize</span><span class="o">:</span> <span class="nx">initialize</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// app/routes/products.js</span>
+</span><span class='line'><span class="kr">export</span> <span class="k">default</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Route</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">model</span><span class="p">(){</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">session</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="nx">setupController</span><span class="p">(</span><span class="nx">controller</span><span class="p">,</span> <span class="nx">model</span><span class="p">){</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">session</span>
+</span><span class='line'>    <span class="p">...</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
-// app/initializes/inject-session.js
-export function initialize(application) {
-  application.inject('route', 'service:session');
-}
-
-export default {
-  name: 'session',
-  initialize: initialize
-}
 
 
-// app/routes/products.js
-export default Ember.Route.extend({
-
-  model(){
-    this.session
-  },
-  setupController(controller, model){
-    this.session
-    ...
-  }
-});
-</code></pre>
 
 		
 		
@@ -315,19 +457,34 @@ Given s = &#8220;hello&#8221;, return &#8220;holle&#8221;.</p>
 <p>Example 2:
 Given s = &#8220;leetcode&#8221;, return &#8220;leotcede&#8221;.</p>
 
-<pre><code># @param {String} s
-# @return {String}
-def reverse_vowels(a)
-  tmp = a.length.times.inject([]) do |s, i| 
-    /(a|e|i|o|u)/i =~ a[i] ? s &lt;&lt; i : s
-  end
-  tmp.length.fdiv(2).ceil.times.each do |i| 
-    v, b = tmp[i], tmp[tmp.length-1-i]
-    a[v], a[b] = a[b], a[v] if v &amp;&amp; b
-  end
-  a
-end
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># @param {String} s</span>
+</span><span class='line'><span class="c1"># @return {String}</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">reverse_vowels</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="o">[]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="sr">/(a|e|i|o|u)/i</span> <span class="o">=~</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="p">?</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="p">:</span> <span class="n">s</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">tmp</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">fdiv</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">v</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="n">tmp</span><span class="o">[</span><span class="n">tmp</span><span class="o">.</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">i</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">a</span><span class="o">[</span><span class="n">v</span><span class="o">]</span><span class="p">,</span> <span class="n">a</span><span class="o">[</span><span class="n">b</span><span class="o">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">b</span><span class="o">]</span><span class="p">,</span> <span class="n">a</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&amp;&amp;</span> <span class="n">b</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">a</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
 
 		
 		
@@ -772,107 +929,6 @@ Linux 3.2.0-24-generic   01/28/2016  _x86_64_  (4 CPU)
 09:39:13 PM      eth1      0.00      0.00      0.00      0.00      0.00      0.00      0.00
 09:39:13 PM      eth0     26.00     36.00      3.23      3.01      0.00      0.00      1.00
 </code></pre>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-01-01T16:31:00+08:00" pubdate data-updated="true">Jan 1<span>st</span>, 2016</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/gem/'>gem</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2016/01/01/el-capitan-ruby-oci8//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2016/01/01/el-capitan-ruby-oci8/">El Capitan Ruby-oci8 2.1.4 安装报错</a></h1>
-	<div class="entry-content">
-		<p>升级MacOS El Capitan后安装oracle的ruby-oci8 2.1.4版本gem包报错信息如下</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  Installing ruby-oci8 2.1.4 with native extensions
-</span><span class='line'>
-</span><span class='line'>  Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
-</span><span class='line'>
-</span><span class='line'>  /Users/huxinghai/.rvm/rubies/ruby-2.0.0-p643/bin/ruby -r ./siteconf20151231-1172-1r9gor0.rb extconf.rb
-</span><span class='line'>  checking for load library path...
-</span><span class='line'>  DYLD_LIBRARY_PATH is not set.
-</span><span class='line'>  checking for cc... ok
-</span><span class='line'>  checking for gcc... yes
-</span><span class='line'>  checking for LP64... yes
-</span><span class='line'>  checking for sys/types.h... yes
-</span><span class='line'>  checking for ruby header... ok
-</span><span class='line'>  Get the version of Oracle from SQL*Plus... 1120
-</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public
-</span><span class='line'>  checking for oci.h... no
-</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo
-</span><span class='line'>  checking for oci.h... no
-</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo -I/opt/oracle/instantclient_11_2/network/public
-</span><span class='line'>  checking for oci.h... no
-</span><span class='line'>  try  -I/opt/oracle/instantclient_11_2/rdbms/public -I/opt/oracle/instantclient_11_2/rdbms/demo -I/opt/oracle/instantclient_11_2/network/public -I/opt/oracle/instantclient_11_2/plsql/public
-</span><span class='line'>  checking for oci.h... no
-</span><span class='line'>  *** extconf.rb failed ***
-</span><span class='line'>  Could not create Makefile due to some reason, probably lack of necessary
-</span><span class='line'>  libraries and/or headers.</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>这里面有一个重要的信息<code>DYLD_LIBRARY_PATH is not set</code>但是我在<code>~/.bash_profile</code>文件里面配置了DYLD_LIBRARY_PATH路径，我在终端<code>env | grep DYLD_LIBRARY_PATH</code>但是为空，后来我在终端<code>export DYLD_LIBRARY_PATH=/opt/oracle/instantclient_11_2</code>还是为空，但是export其它的环境变量都有值，后来查资料看到一个El Capitan SIP（System Integrity Protection）这个词，google了一个SIP才明白是El Capitan版本的一个安全策略, SIP把DYLD_LIBRARY_PATH保护起来了，所以的把SIP关闭才可以正常设置DYLD_LIBRARY_PATH, 关闭SIP后export DYLD_LIBRARY_PATH变量就成功了。</p>
-
-<p><a href="http://apple.stackexchange.com/questions/208478/how-do-i-disable-system-integrity-protection-sip-aka-rootless-on-os-x-10-11">关闭SIP步骤</a></p>
-
-<ol>
-<li>重启系统, 在启动时候按<code>Command+R</code>进入恢复模式图形界面</li>
-<li>点击<code>使用工具</code> > <code>Terminal</code></li>
-<li>在终端输入<code>csrutil disable</code>命令按回车，会提示是否成功</li>
-<li>重启系统</li>
-</ol>
-
 
 		
 		

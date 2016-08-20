@@ -84,19 +84,34 @@ Given s = &#8220;hello&#8221;, return &#8220;holle&#8221;.</p>
 <p>Example 2:
 Given s = &#8220;leetcode&#8221;, return &#8220;leotcede&#8221;.</p>
 
-<pre><code># @param {String} s
-# @return {String}
-def reverse_vowels(a)
-  tmp = a.length.times.inject([]) do |s, i| 
-    /(a|e|i|o|u)/i =~ a[i] ? s &lt;&lt; i : s
-  end
-  tmp.length.fdiv(2).ceil.times.each do |i| 
-    v, b = tmp[i], tmp[tmp.length-1-i]
-    a[v], a[b] = a[b], a[v] if v &amp;&amp; b
-  end
-  a
-end
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># @param {String} s</span>
+</span><span class='line'><span class="c1"># @return {String}</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">reverse_vowels</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="o">[]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="sr">/(a|e|i|o|u)/i</span> <span class="o">=~</span> <span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="p">?</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="p">:</span> <span class="n">s</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">tmp</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">fdiv</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">v</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="n">tmp</span><span class="o">[</span><span class="n">tmp</span><span class="o">.</span><span class="n">length</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">i</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">a</span><span class="o">[</span><span class="n">v</span><span class="o">]</span><span class="p">,</span> <span class="n">a</span><span class="o">[</span><span class="n">b</span><span class="o">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="n">b</span><span class="o">]</span><span class="p">,</span> <span class="n">a</span><span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&amp;&amp;</span> <span class="n">b</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">a</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
 </div>
 
 </article>

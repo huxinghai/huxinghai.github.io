@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-06-18T15:19:56+08:00</updated>
+  <updated>2016-08-20T22:02:33+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用Ruby MonitorMixin注意的坑]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/08/20/ruby-monitor-mixin/"/>
+    <updated>2016-08-20T21:40:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/08/20/ruby-monitor-mixin</id>
+    <content type="html"><![CDATA[<p>初次使用MonitorMixin控制同步执行的时候一不小心就踩坑了，当你include的时候如果你的class定义了initialize方法
+请调用<code>super</code>否则会报<code>undefined method `lock' for nil:NilClass</code>错。</p>
+
+<p>```ruby</p>
+
+<pre><code>class Number
+  attr_accessor :n
+
+  include MonitorMixin
+
+  def initialize(*args)
+    @n = 0
+    super() # 调用MonitorMixin#initialize
+  end
+
+  def increase(x)
+    synchronize do 
+      @n = @n + x
+      puts("#{@n}, #{x}")
+    end
+  end
+end
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[El Capitan ruby-oci8 2.1.4 安装报错]]></title>
@@ -69,6 +102,8 @@
     <content type="html"><![CDATA[<p>没有看元编程第二版之前还不知道Module有<strong><em>refine</em></strong>特效，可以将一个class重新打开定义方法
 然后使用using生效，这样不会影响原有class，下面我们看看这个案例：</p>
 
+<p>```ruby</p>
+
 <pre><code>module FooBar
   refine String do
     def hello
@@ -93,6 +128,8 @@ end
 Bar.new('ruby').say
 String.new.say
 </code></pre>
+
+<p>```</p>
 
 <p>String.new.say调用会报错， 因为say只在Bar类里面生效。</p>
 ]]></content>
@@ -148,37 +185,6 @@ end
 <li><a href="http://dev.af83.com/2013/02/18/ruby-2-0-keyword-arguments.html">Keyword arguments</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[gem requirejs-rails assets precompile 简介]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2013/06/22/requirejs-rails/"/>
-    <updated>2013-06-22T00:13:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2013/06/22/requirejs-rails</id>
-    <content type="html"><![CDATA[<p>安装<a href="https://github.com/jwhitley/requirejs-rails">requirejs-rails</a>, 然后新建配置文件<code>config/requirejs.yml</code></p>
-
-<p>requirejs.yml</p>
-
-<p>```ruby</p>
-
-<h1>配置单个模块，会编译一个单独的模块</h1>
-
-<p>modules:
-  - name: 'mytoplevel'</p>
-
-<h1>路径</h1>
-
-<p>paths</p>
-
-<pre><code>jquery: "lib/jquery.js"
-</code></pre>
-
-<h1>设置依赖关系</h1>
-
-<p>shim:
-```
-其实与requirejs配置差不多，只是rails会根据requirejs.yml编译</p>
 ]]></content>
   </entry>
   
