@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-08-20T22:02:27+08:00</updated>
+  <updated>2016-09-07T21:53:53+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,128 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用MySQL存储emoji表情符号]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/09/05/mysql-store-emoji-in-rails-app/"/>
+    <updated>2016-09-05T22:40:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/09/05/mysql-store-emoji-in-rails-app</id>
+    <content type="html"><![CDATA[<p>一个emoji是4bytes的存储空间, 如果你的MySQL使用的是utf8编码格式那emoji符号存储将会截断字符因为utf8一个字符只是
+3bytes的存储空间</p>
+
+<p>例子：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SET NAMES utf8;
+</span><span class='line'>Query OK, 0 rows affected (0,00 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt; INSERT INTO messages (message) VALUES ('What a nice emoji😀!');
+</span><span class='line'>Query OK, 1 row affected, 1 warning (0,00 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt; SHOW WARNINGS;
+</span><span class='line'>+---------+------+---------------------------------------------------------------------------+
+</span><span class='line'>| Level   | Code | Message                                                                   |
+</span><span class='line'>+---------+------+---------------------------------------------------------------------------+
+</span><span class='line'>| Warning | 1366 | Incorrect string value: '\xF0\x9F\x98\x80!' for column 'message' at row 1 |
+</span><span class='line'>+---------+------+---------------------------------------------------------------------------+
+</span><span class='line'>1 row in set (0,00 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt; SELECT message FROM messages;
+</span><span class='line'>+-------------------+
+</span><span class='line'>| message           |
+</span><span class='line'>+-------------------+
+</span><span class='line'>| What a nice emoji |
+</span><span class='line'>+-------------------+
+</span><span class='line'>1 row in set (0,00 sec)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用utf8mb4格式可以存储emoji字符，但是<a href="https://dev.mysql.com/doc/relnotes/mysql/5.5/en/news-5-5-3.html">MySQL 5.5.3</a>版本才引进utf8mb4编码格式，所以数据库要更新到这个版本或者更高的, 用utf8mb4之后我们经常会遇到<code>Mysql2::Error: Specified key was too long; max key length is 767 bytes</code>错误，这是因为Innodb的索引长度限制767bytes, (varchar(255) * 4bytes)这个是会超过767bytes</p>
+
+<p>如果你的字段类型长度不能减少，那只能是指定行的格式来解决，在创建表时指定<a href="http://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html#sysvar_innodb_large_prefix">ROW_FORMAT=DYNAMIC</a>参数可以从767bytes限制提升到3072bytes, 这样就是会牺牲一点空间</p>
+
+<p>例如:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">bookmarks</span><span class="o">`</span> <span class="p">(</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">url</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">title</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">user_id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">created_at</span><span class="o">`</span> <span class="n">datetime</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">updated_at</span><span class="o">`</span> <span class="n">datetime</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">site_info_id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span>
+</span><span class='line'><span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="n">AUTO_INCREMENT</span><span class="o">=</span><span class="mi">25</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span> <span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8mb4_bin</span> <span class="n">ROW_FORMAT</span><span class="o">=</span><span class="k">DYNAMIC</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果使用的是Rails的migration的话就如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">CreateArticles</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="o">[</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">change</span>
+</span><span class='line'>    <span class="n">create_table</span> <span class="ss">:articles</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="s1">&#39;ROW_FORMAT=DYNAMIC&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:title</span><span class="p">,</span> <span class="n">null</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="mi">300</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="ss">:published</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:author</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="ss">:description</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="ss">:content</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">timestamps</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">add_index</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:unique</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用Ruby MonitorMixin注意的坑]]></title>
@@ -327,7 +449,7 @@ Given s = &#8220;leetcode&#8221;, return &#8220;leotcede&#8221;.</p>
 
 <p>  ember-cli是一个ember.js提供的一个快速开发命令行工具，可以通过命令构建、运行、测试、部署，很方便
 前后端分离，而且ember有很丰富的<a href="https://www.emberaddons.com/">addon</a>生态社区，把重用的东西组件化，
-项目开发完成用build命令会输出一个index.html和编译好的js、css文件这个输出就是静态的，我们可以用nginx或node express服务器来展现编译好的静态资源，其实ember-cli的命令行工具设计的跟Rails相似，addon就是ruby的gem包可能
+项目开发完成用build命令会输出一个index.html和编译好的js、css文件这个输出就是静态的，我们可以用nginx或node express服务器来展现编译好的静态资源，其实ember-cli的命令行工具设计的跟Rails Command相似，addon就是ruby的gem包可能
 是因为ember的开发也是Rails核心贡献开发，所以很多设计思想互通。</p>
 
 <h4>命令介绍</h4>
@@ -991,45 +1113,6 @@ rescue ValidNumberException =&gt; e
     callback ..
 end
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[两个常用的shell脚本]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2014/07/24/shell-service-dump-and-cut/"/>
-    <updated>2014-07-24T22:10:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2014/07/24/shell-service-dump-and-cut</id>
-    <content type="html"><![CDATA[<ol>
-<li><p>日志切割</p>
-
-<pre><code> #!/bin/sh
- log_path="/home/littlefire/var/www/apps/littlefire/current/log"
- to_day=`date -d "yesterday" +"%Y%m%d"`
- cp ${log_path}/production.log ${log_path}/production_${to_day}.log
- echo "" &gt; ${log_path}/production.log
- chown littlefire:littlefire ${log_path}/production.log
- bzip2 ${log_path}/production_${to_day}.log
-</code></pre></li>
-<li><p>mysql数据库定时备份</p>
-
-<pre><code> #!/bin/sh
- #
- #发送Email的话要安装 mutt与msmtp才可以
-
- today=`date -d "today" +"%Y%m%d"`
- path=/home/kaka/data_backup/
- filename=backup_${today}.sql
- file_path=${path}${filename}
- tar_name=${path}backup_${today}.tar.gz
- /usr/bin/mysqldump -uroot -p** database_name &gt; ${file_path}
-
- tar -zcvf $tar_name -C $path $filename
- rm $file_path
- find $path -mtime +6 -type f -name backup_*.tar.gz | xargs rm -rf 
- #echo "littefire data dump ${today}" | mutt -s "${today} dump data" ***@qq.com -a $tar_name
-</code></pre></li>
-</ol>
-
 ]]></content>
   </entry>
   

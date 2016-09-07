@@ -1,0 +1,285 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>使用MySQL存储emoji表情符号 - Ka Ka Blog</title>
+	<meta name="author" content="kaka">
+
+	
+	<meta name="description" content="一个emoji是4bytes的存储空间, 如果你的MySQL使用的是utf8编码格式那emoji符号存储将会截断字符因为utf8一个字符只是
+3bytes的存储空间 例子： 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+mysql&gt &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Ka Ka Blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	
+	<script src="/javascripts/jquery-1.8.3.js"></script>
+<script src="/javascripts/application.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="stylesheets/bootstrap-responsive.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<header id="header" class="inner"><div class='wrap'>
+  <div class="profilepic">  
+    <canvas id='myavatar' width="160" height="160" class='avatar' data-url="http://cn.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" >
+        <img src="http://cn.gravatar.com/avatar/c4d5adba4d840f43f89b4f2ec1724e40?size=160" class='avatar' />
+    </canvas>
+    <div class='mask_avatar'></div>
+  </div>
+  <h1><a href="/">Ka Ka Blog</a></h1>
+  <nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/categories">Categories</a></li>
+  <li><a href="/blog/about">About</a></li>
+</ul>
+</nav>
+  <br/>
+  <p>
+    优秀的判断能力来自经验，但经验来自于错误的判断！
+  </p>
+  <h3 class="alignleft"></h3>
+  <nav id="sub-nav" class="alignright">
+    <div class="social">
+      
+      
+      <a class="google" href="https://plus.google.com/112941774242932854035?rel=author" title="Google+">Google+</a>
+      
+      
+      
+      <a class="github" href="https://github.com/huxinghai1988" title="GitHub">GitHub</a>
+      
+      
+      
+      
+      
+      <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+      
+    </div>
+  </nav>
+</div>
+
+</header>
+		</div>		
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post">
+	<h1 class="title">使用MySQL存储emoji表情符号</h1>
+	<div class="entry-content"><p>一个emoji是4bytes的存储空间, 如果你的MySQL使用的是utf8编码格式那emoji符号存储将会截断字符因为utf8一个字符只是
+3bytes的存储空间</p>
+
+<p>例子：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mysql&gt; SET NAMES utf8;
+</span><span class='line'>Query OK, 0 rows affected (0,00 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt; INSERT INTO messages (message) VALUES ('What a nice emoji😀!');
+</span><span class='line'>Query OK, 1 row affected, 1 warning (0,00 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt; SHOW WARNINGS;
+</span><span class='line'>+---------+------+---------------------------------------------------------------------------+
+</span><span class='line'>| Level   | Code | Message                                                                   |
+</span><span class='line'>+---------+------+---------------------------------------------------------------------------+
+</span><span class='line'>| Warning | 1366 | Incorrect string value: '\xF0\x9F\x98\x80!' for column 'message' at row 1 |
+</span><span class='line'>+---------+------+---------------------------------------------------------------------------+
+</span><span class='line'>1 row in set (0,00 sec)
+</span><span class='line'>
+</span><span class='line'>mysql&gt; SELECT message FROM messages;
+</span><span class='line'>+-------------------+
+</span><span class='line'>| message           |
+</span><span class='line'>+-------------------+
+</span><span class='line'>| What a nice emoji |
+</span><span class='line'>+-------------------+
+</span><span class='line'>1 row in set (0,00 sec)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用utf8mb4格式可以存储emoji字符，但是<a href="https://dev.mysql.com/doc/relnotes/mysql/5.5/en/news-5-5-3.html">MySQL 5.5.3</a>版本才引进utf8mb4编码格式，所以数据库要更新到这个版本或者更高的, 用utf8mb4之后我们经常会遇到<code>Mysql2::Error: Specified key was too long; max key length is 767 bytes</code>错误，这是因为Innodb的索引长度限制767bytes, (varchar(255) * 4bytes)这个是会超过767bytes</p>
+
+<p>如果你的字段类型长度不能减少，那只能是指定行的格式来解决，在创建表时指定<a href="http://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html#sysvar_innodb_large_prefix">ROW_FORMAT=DYNAMIC</a>参数可以从767bytes限制提升到3072bytes, 这样就是会牺牲一点空间</p>
+
+<p>例如:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">bookmarks</span><span class="o">`</span> <span class="p">(</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">url</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">title</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8mb4_bin</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">user_id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">created_at</span><span class="o">`</span> <span class="n">datetime</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">updated_at</span><span class="o">`</span> <span class="n">datetime</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="o">`</span><span class="n">site_info_id</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+</span><span class='line'>  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span>
+</span><span class='line'><span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="n">AUTO_INCREMENT</span><span class="o">=</span><span class="mi">25</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span> <span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8mb4_bin</span> <span class="n">ROW_FORMAT</span><span class="o">=</span><span class="k">DYNAMIC</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果使用的是Rails的migration的话就如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">CreateArticles</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="o">[</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">change</span>
+</span><span class='line'>    <span class="n">create_table</span> <span class="ss">:articles</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="s1">&#39;ROW_FORMAT=DYNAMIC&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:title</span><span class="p">,</span> <span class="n">null</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="mi">300</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="ss">:published</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:author</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="ss">:description</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="ss">:content</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">timestamps</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">add_index</span> <span class="ss">:articles</span><span class="p">,</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:unique</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2016
+
+    kaka
+</footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'mbkk';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://huxinghai1988.github.com/blog/2016/09/05/mysql-store-emoji-in-rails-app/';
+        var disqus_url = 'http://huxinghai1988.github.com/blog/2016/09/05/mysql-store-emoji-in-rails-app/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-75046798-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+		</div>
+	</div>
+</body>
+</html>
