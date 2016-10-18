@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-09-07T21:53:53+08:00</updated>
+  <updated>2016-10-18T23:15:56+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ruby链式调用安全符号(&.)]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/10/18/operator-in-ruby/"/>
+    <updated>2016-10-18T22:21:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/10/18/operator-in-ruby</id>
+    <content type="html"><![CDATA[<blockquote><p>Ruby-2.3.0版本添加安全操作符<code>&amp;</code>, 其实我们之前可能是用<code>try</code>处理这种安全调用，但毕竟try是依赖Rails的ActiveSupport Module，&amp;与try之间还是有些区别的;</p></blockquote>
+
+<h4>使用场景</h4>
+
+<p>在代码中我们防止nil对象调用报错，我们一般会使用下面这样的逻辑判断来避免错误</p>
+
+<p><code>ruby
+if account &amp;&amp; account.owner &amp;&amp; account.owner.address
+...
+end
+</code></p>
+
+<p>如果我们includes ActiveSupport我们会这样调用</p>
+
+<p><code>ruby
+if account.try(:owner).try(:address)
+...
+end
+</code></p>
+
+<p>使用&amp;符号</p>
+
+<pre><code>account&amp;.owner&amp;.address
+</code></pre>
+
+<p>其实&amp;与try区别在于&amp;前面方法返回nil就会终止链式调用, try则是检测最后的方法是否存在如果不存在就返回nil</p>
+
+<p>```ruby
+account = Account.new(owner: Object.new)
+account.owner.address</p>
+
+<h1>=> NoMethodError: undefined method `address' for #&lt;Object:0x00559996b5bde8></h1>
+
+<p>account &amp;&amp; account.owner &amp;&amp; account.owner.address</p>
+
+<h1>=> NoMethodError: undefined method <code>address' for #&lt;Object:0x00559996b5bde8&gt;</code></h1>
+
+<p>account.try(:owner).try(:address)</p>
+
+<h1>=> nil</h1>
+
+<p>account&amp;.owner&amp;.address</p>
+
+<h1>=> NoMethodError: undefined method <code>address' for #&lt;Object:0x00559996b5bde8&gt;</code></h1>
+
+<p>```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用Ruby MonitorMixin注意的坑]]></title>
@@ -171,20 +225,6 @@ rescue ValidNumberException =&gt; e
     callback ..
 end
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ruby 2.0三个重要特性实例收藏]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2013/06/22/ruby2-0/"/>
-    <updated>2013-06-22T00:36:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2013/06/22/ruby2-0</id>
-    <content type="html"><![CDATA[<ul>
-<li><a href="http://dev.af83.com/2012/10/19/ruby-2-0-module-prepend.html">Module#prepend</a></li>
-<li><a href="http://dev.af83.com/2012/10/19/ruby-2-0-module-prepend.html">Module#refine</a></li>
-<li><a href="http://dev.af83.com/2013/02/18/ruby-2-0-keyword-arguments.html">Keyword arguments</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

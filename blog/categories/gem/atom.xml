@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gem | Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/blog/categories/gem/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-09-07T21:53:53+08:00</updated>
+  <updated>2016-10-18T23:15:56+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[devise warden报错401]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/03/12/devise-authenticate-401/"/>
+    <updated>2016-03-12T23:41:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/03/12/devise-authenticate-401</id>
+    <content type="html"><![CDATA[<p>今天遇到一个特别的问题在项目里面使用devise应用到User与Admin, 因为User是可以用手机号码和Email登录的,
+而Admin只能邮件登录，结果User可以正常登录，但是Admin应该也可以正常登录，但是就是报401密码错误，经过翻看源码发现一个很好的工具，找到出现问题的原因</p>
+
+<pre><code>(byebug) Devise::Models.check_fields!(Admin)
+*** Devise::Models::MissingAttribute Exception: The following attribute(s) is (are) missing on your model: phone
+</code></pre>
+
+<p>因为我在devise.rb配置了</p>
+
+<pre><code>config.authentication_keys = [:email, :phone]
+</code></pre>
+
+<p>所以我要在Admin模型里面指定authentication_keys</p>
+
+<pre><code>devise :database_authenticatable, :registerable,
+     :recoverable, :rememberable, :trackable, :validatable,
+     :authentication_keys =&gt; [:email]
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[El Capitan ruby-oci8 2.1.4 安装报错]]></title>

@@ -4,7 +4,7 @@
   <title><![CDATA[Ka Ka Blog]]></title>
   <link href="http://huxinghai1988.github.com/atom.xml" rel="self"/>
   <link href="http://huxinghai1988.github.com/"/>
-  <updated>2016-09-07T21:53:53+08:00</updated>
+  <updated>2016-10-18T23:15:37+08:00</updated>
   <id>http://huxinghai1988.github.com/</id>
   <author>
     <name><![CDATA[kaka]]></name>
@@ -12,6 +12,73 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ruby链式调用安全符号(&.)]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/10/18/operator-in-ruby/"/>
+    <updated>2016-10-18T22:21:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/10/18/operator-in-ruby</id>
+    <content type="html"><![CDATA[<blockquote><p>Ruby-2.3.0版本添加安全操作符<code>&amp;</code>, 其实我们之前可能是用<code>try</code>处理这种安全调用，但毕竟try是依赖Rails的ActiveSupport Module，&amp;与try之间还是有些区别的;</p></blockquote>
+
+<h4>使用场景</h4>
+
+<p>在代码中我们防止nil对象调用报错，我们一般会使用下面这样的逻辑判断来避免错误</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">account</span> <span class="o">&amp;&amp;</span> <span class="n">account</span><span class="o">.</span><span class="n">owner</span> <span class="o">&amp;&amp;</span> <span class="n">account</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">address</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果我们includes ActiveSupport我们会这样调用</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:owner</span><span class="p">)</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:address</span><span class="p">)</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用&amp;符号</p>
+
+<pre><code>account&amp;.owner&amp;.address
+</code></pre>
+
+<p>其实&amp;与try区别在于&amp;前面方法返回nil就会终止链式调用, try则是检测最后的方法是否存在如果不存在就返回nil</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">account</span> <span class="o">=</span> <span class="no">Account</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">owner</span><span class="p">:</span> <span class="no">Object</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</span><span class='line'><span class="n">account</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">address</span>
+</span><span class='line'><span class="c1"># =&gt; NoMethodError: undefined method `address&#39; for #&lt;Object:0x00559996b5bde8&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">account</span> <span class="o">&amp;&amp;</span> <span class="n">account</span><span class="o">.</span><span class="n">owner</span> <span class="o">&amp;&amp;</span> <span class="n">account</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">address</span>
+</span><span class='line'><span class="c1"># =&gt; NoMethodError: undefined method `address&#39; for #&lt;Object:0x00559996b5bde8&gt;`</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">account</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:owner</span><span class="p">)</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:address</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># =&gt; nil</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">account</span><span class="o">&amp;.</span><span class="n">owner</span><span class="o">&amp;.</span><span class="n">address</span>
+</span><span class='line'><span class="c1"># =&gt; NoMethodError: undefined method `address&#39; for #&lt;Object:0x00559996b5bde8&gt;`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用MySQL存储emoji表情符号]]></title>
@@ -1073,45 +1140,6 @@ p cursor[:fathers_age], cursor[:capital_name]
 require 'sequel'
 db = Sequel.connect(:adapter=&gt;'oracle', :host=&gt;'localhost', :database=&gt;'db_name', :user=&gt;'test', :password=&gt;'test')
 db.execute("begin MYPROC(:age, :name, :fathers_age, :capital_name); end;", {:arguments =&gt; [[20, "integer"], ["akshay", "string"], [nil, "integer"], [nil, "string"]]}) { |cursor| [cursor[3], cursor[4]] }
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ruby根据不同的异常处理不同事件]]></title>
-    <link href="http://huxinghai1988.github.com/blog/2014/07/28/rails-raise/"/>
-    <updated>2014-07-28T23:39:00+08:00</updated>
-    <id>http://huxinghai1988.github.com/blog/2014/07/28/rails-raise</id>
-    <content type="html"><![CDATA[<p>在一个<em>class</em>里面你想根据不同的异常回调不同事件</p>
-
-<pre><code>class NoMoneyException &lt; StandardError
-end
-
-class ValidNumberException &lt; StandardError
-end
-
-class Sale
-
-    def self.create(options)
-        obj = new(options)
-        obj.validation
-    end
-
-    def validation
-
-        raise NoMoneyException if money &gt; current_user.money
-        raise ValidNumberException if number &gt; warehouse.nventory
-    end
-end
-
-
-begin
-    Sale.create({...})
-rescue NoMoneyException =&gt; e
-    callback ..
-rescue ValidNumberException =&gt; e
-    callback ..
-end
 </code></pre>
 ]]></content>
   </entry>

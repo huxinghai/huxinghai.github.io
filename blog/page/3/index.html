@@ -7,7 +7,9 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="日志切割 #!/bin/sh log_path="/home/littlefire/var/www/apps/littlefire/current/log" to_day=`date -d "yesterday" +"%Y%m%d"` cp ${log_path}/production.log &hellip;">
+	<meta name="description" content="在一个class里面你想根据不同的异常回调不同事件 class NoMoneyException &lt; StandardError
+end class ValidNumberException &lt; StandardError
+end class Sale def self.create &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -74,6 +76,73 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T23:39:00+08:00" pubdate data-updated="true">Jul 28<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2014/07/28/rails-raise//blog/page/3/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2014/07/28/rails-raise/">Ruby根据不同的异常处理不同事件</a></h1>
+	<div class="entry-content">
+		<p>在一个<em>class</em>里面你想根据不同的异常回调不同事件</p>
+
+<pre><code>class NoMoneyException &lt; StandardError
+end
+
+class ValidNumberException &lt; StandardError
+end
+
+class Sale
+
+    def self.create(options)
+        obj = new(options)
+        obj.validation
+    end
+
+    def validation
+
+        raise NoMoneyException if money &gt; current_user.money
+        raise ValidNumberException if number &gt; warehouse.nventory
+    end
+end
+
+
+begin
+    Sale.create({...})
+rescue NoMoneyException =&gt; e
+    callback ..
+rescue ValidNumberException =&gt; e
+    callback ..
+end
+</code></pre>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -994,79 +1063,6 @@
 
 
 <p>其实与requirejs配置差不多，只是rails会根据requirejs.yml编译</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-11T12:28:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/rabbitmq/'>rabbitmq</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/05/11/rabbitmq-install//blog/page/3/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2013/05/11/rabbitmq-install/">Ubuntu Rabbitmq 服务器安装过程</a></h1>
-	<div class="entry-content">
-		<p>rabbitmq是用于消息列队处理的,准备研究一下它来做消息处理
-rabbitmq是用Erlang开发的,所有安装之前要部署Erlang环境</p>
-
-<h4>Erlang部署</h4>
-
-<pre><code>wget https://elearning.erlang-solutions.com/binaries/sources/otp_src_R16B.tar.gz
-tar xvzf otp_src_R16B.tar.gz
-cd otp_src_R16B
-./configure
-make &amp;&amp; make install
-</code></pre>
-
-<h4>Rabbitmq部署</h4>
-
-<p><a href="http://www.rabbitmq.com/install-debian.html">官方安装文档</a></p>
-
-<ol>
-<li><p>添加公共key</p>
-
-<p> wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc</p>
-
-<p> sudo apt-key add rabbitmq-signing-key-public.asc</p></li>
-<li><p>安装</p>
-
-<p> sudo apt-get install rabbitmq-server</p></li>
-</ol>
-
-
-<p><a href="http://www.rabbitmq.com/configure.html">官方配置文档</a>配置文件路径在<code>/etc/rabbitmq/</code></p>
-
-<h4>启动rabbitmq_management管理</h4>
-
-<pre><code>cd /usr/lib/rabbitmq/lib/rabbitmq_server-2.7.1/sbin
-sudo ./rabbitmq-plugins enable rabbitmq_management
-</code></pre>
-
-<p>然后浏览地址<code>http://server-name:55672/</code>, 官方说3.0以下版本端口是55672</p>
 
 		
 		

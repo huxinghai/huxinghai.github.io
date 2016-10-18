@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sublime | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/sublime/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2016-10-18T23:15:56+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[当你的Sublime打开项目卡顿的时候修改配置]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2016/03/13/sublime-folder-exclude-patterns/"/>
+    <updated>2016-03-13T22:28:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2016/03/13/sublime-folder-exclude-patterns</id>
+    <content type="html"><![CDATA[<p>菜单路径<code>Preferences -&gt; Settings-User</code></p>
+
+<pre><code>"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", "node_modules", "bower_components", "tmp"]
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

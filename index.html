@@ -7,29 +7,7 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="一个emoji是4bytes的存储空间, 如果你的MySQL使用的是utf8编码格式那emoji符号存储将会截断字符因为utf8一个字符只是
-3bytes的存储空间 例子： 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-mysql& &hellip;">
+	<meta name="description" content="Ruby-2.3.0版本添加安全操作符&amp;, 其实我们之前可能是用try处理这种安全调用，但毕竟try是依赖Rails的ActiveSupport Module，&amp;与try之间还是有些区别的; 使用场景 在代码中我们防止nil对象调用报错，我们一般会使用下面这样的逻辑判断来避免错误 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -112,11 +90,106 @@ mysql& &hellip;">
   
 
 
+<time datetime="2016-10-18T22:21:00+08:00" pubdate data-updated="true">Oct 18<span>th</span>, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/10/18/operator-in-ruby//index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2016/10/18/operator-in-ruby/">Ruby链式调用安全符号(&.)</a></h1>
+	<div class="entry-content">
+		<blockquote><p>Ruby-2.3.0版本添加安全操作符<code>&amp;</code>, 其实我们之前可能是用<code>try</code>处理这种安全调用，但毕竟try是依赖Rails的ActiveSupport Module，&amp;与try之间还是有些区别的;</p></blockquote>
+
+<h4>使用场景</h4>
+
+<p>在代码中我们防止nil对象调用报错，我们一般会使用下面这样的逻辑判断来避免错误</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">account</span> <span class="o">&amp;&amp;</span> <span class="n">account</span><span class="o">.</span><span class="n">owner</span> <span class="o">&amp;&amp;</span> <span class="n">account</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">address</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果我们includes ActiveSupport我们会这样调用</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:owner</span><span class="p">)</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:address</span><span class="p">)</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用&amp;符号</p>
+
+<pre><code>account&amp;.owner&amp;.address
+</code></pre>
+
+<p>其实&amp;与try区别在于&amp;前面方法返回nil就会终止链式调用, try则是检测最后的方法是否存在如果不存在就返回nil</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">account</span> <span class="o">=</span> <span class="no">Account</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">owner</span><span class="p">:</span> <span class="no">Object</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</span><span class='line'><span class="n">account</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">address</span>
+</span><span class='line'><span class="c1"># =&gt; NoMethodError: undefined method `address&#39; for #&lt;Object:0x00559996b5bde8&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">account</span> <span class="o">&amp;&amp;</span> <span class="n">account</span><span class="o">.</span><span class="n">owner</span> <span class="o">&amp;&amp;</span> <span class="n">account</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">address</span>
+</span><span class='line'><span class="c1"># =&gt; NoMethodError: undefined method `address&#39; for #&lt;Object:0x00559996b5bde8&gt;`</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">account</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:owner</span><span class="p">)</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:address</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># =&gt; nil</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">account</span><span class="o">&amp;.</span><span class="n">owner</span><span class="o">&amp;.</span><span class="n">address</span>
+</span><span class='line'><span class="c1"># =&gt; NoMethodError: undefined method `address&#39; for #&lt;Object:0x00559996b5bde8&gt;`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2016-09-05T22:40:00+08:00" pubdate data-updated="true">Sep 5<span>th</span>, 2016</time></div>
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/mysql/'>MySQL</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>
+	<a class='category' href='/blog/categories/mysql/'>mysql</a>, <a class='category' href='/blog/categories/rails/'>rails</a>
 
 
 </div>
@@ -549,7 +622,7 @@ mysql& &hellip;">
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/leetcode/'>LeetCode</a>
+	<a class='category' href='/blog/categories/leetcode/'>leetcode</a>
 
 
 </div>
@@ -601,7 +674,7 @@ end
 		<div class="tags">
 
 
-	<a class='category' href='/blog/categories/leetcode/'>LeetCode</a>
+	<a class='category' href='/blog/categories/leetcode/'>leetcode</a>
 
 
 </div>
@@ -672,6 +745,10 @@ Given s = &#8220;leetcode&#8221;, return &#8220;leotcede&#8221;.</p>
 <time datetime="2016-03-13T22:28:00+08:00" pubdate data-updated="true">Mar 13<span>th</span>, 2016</time></div>
 		<div class="tags">
 
+
+	<a class='category' href='/blog/categories/sublime/'>sublime</a>
+
+
 </div>
 		
 			<span class="comments"><a href="/blog/2016/03/13/sublime-folder-exclude-patterns//index.html#disqus_thread">Comments</a></span>
@@ -707,6 +784,10 @@ Given s = &#8220;leetcode&#8221;, return &#8220;leotcede&#8221;.</p>
 
 <time datetime="2016-03-12T23:41:00+08:00" pubdate data-updated="true">Mar 12<span>th</span>, 2016</time></div>
 		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/devise/'>devise</a>, <a class='category' href='/blog/categories/gem/'>gem</a>
+
 
 </div>
 		
@@ -840,90 +921,6 @@ package.json    =&gt; npm依赖配置
 <h4>bower与npm区别</h4>
 
 <p>  bower是管理前端库、npm是管理nodo开发使用库，前者是扁平化后者是树形结构。</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-02-21T00:09:00+08:00" pubdate data-updated="true">Feb 21<span>st</span>, 2016</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/运维/'>运维</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2016/02/21/devops-traceroute//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2016/02/21/devops-traceroute/">检测服务器网络traceroute工具收集</a></h1>
-	<div class="entry-content">
-		<p>traceroute追踪网络路由工具，可以很详细的看到与服务器之间的每跳路由与访问状态与时间</p>
-
-<h4>网关出现问题</h4>
-
-<pre><code>$ traceroute 10.1.2.5                                               
-traceroute to 10.1.2.5 (10.1.2.5), 64 hops max, 52 byte packets
- 1  192.168.1.1 (192.168.1.1)  1.265 ms  0.643 ms  0.660 ms
- 2  10.1.1.1 (10.1.1.1)  1.166 ms  1.250 ms  1.115 ms
- 3  218.19.177.1 (218.19.177.1)  3.438 ms  5.116 ms  2.960 ms
- 4  58.62.222.33 (58.62.222.33)  5.073 ms  3.072 ms  3.620 ms
- 5  * * *
- 6  * * *
- 7  * * *
- 8  * * *
-</code></pre>
-
-<p>追踪当前电脑与10.1.2.5之间的每一跳路由，从上面信息可以看到了第5步时候变成星号说明
-问题出在网关，你需要检查这条路线，排查不能再两个网络中传递数据包的原因。</p>
-
-<h4>连接网关超时</h4>
-
-<pre><code>$ traceroute 10.1.2.5                                               
-traceroute to 10.1.2.5 (10.1.2.5), 64 hops max, 52 byte packets
- 1  192.168.1.1 (192.168.1.1)  1.265 ms  0.643 ms  0.660 ms
- 2  10.1.1.1 (10.1.1.1)  3006.47 ms !H  3006.77 ms !H  3007 ms
-</code></pre>
-
-<p>这个例子中连接网关超时，所有主机可能已经宕机</p>
-
-<h4>诊断网路慢</h4>
-
-<pre><code>$ traceroute yohoo.cn
-traceroute to 212.82.102.24 (212.82.102.24), 64 hops max, 52 byte packets
- 1  192.168.1.1 (192.168.1.1)  2.370 ms  1.435 ms  0.616 ms
- 2  10.1.1.1 (10.1.1.1)  1.140 ms  3.270 ms  1.317 ms
- 3  218.19.177.1 (218.19.177.1)  3.620 ms  3.441 ms  5.840 ms
- 4  183.56.38.189 (183.56.38.189)  17.443 ms  2.369 ms  3.142 ms
- 5  121.8.223.5 (121.8.223.5)  5.467 ms  8.928 ms
-    61.144.3.10 (61.144.3.10)  4.603 ms
- 6  * 202.97.35.246 (202.97.35.246)  106.464 ms  113.461 ms
- 7  202.97.91.234 (202.97.91.234)  107.816 ms
-    202.97.60.42 (202.97.60.42)  109.543 ms
-    202.97.34.90 (202.97.34.90)  105.858 ms
- 8  202.97.58.38 (202.97.58.38)  613.035 ms  408.620 ms  314.500 ms
-</code></pre>
-
-<p>这是yahoo服务器，我们可以通过看每一跳之间的时间得出假设，当你到达第6跳时从4ms跳跃到113ms这说明已经离开本区域了是从中国
-雅虎服务器到美国雅虎服务器跳跃。</p>
 
 		
 		

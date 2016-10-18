@@ -7,20 +7,8 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="不相同的域可以相互通讯, 例如iframe与页面进行通讯, postMessage是个封装不错的包 简单实例解释 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14 //在iframe 绑定频道 pm.bind(&quot;message1&quot;, function(data &hellip;">
+	<meta name="description" content="rabbitmq是用于消息列队处理的,准备研究一下它来做消息处理
+rabbitmq是用Erlang开发的,所有安装之前要部署Erlang环境 Erlang部署 wget https://elearning.erlang-solutions.com/binaries/sources/ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -87,6 +75,79 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-11T12:28:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/rabbitmq/'>rabbitmq</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/05/11/rabbitmq-install//blog/page/4/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2013/05/11/rabbitmq-install/">Ubuntu Rabbitmq 服务器安装过程</a></h1>
+	<div class="entry-content">
+		<p>rabbitmq是用于消息列队处理的,准备研究一下它来做消息处理
+rabbitmq是用Erlang开发的,所有安装之前要部署Erlang环境</p>
+
+<h4>Erlang部署</h4>
+
+<pre><code>wget https://elearning.erlang-solutions.com/binaries/sources/otp_src_R16B.tar.gz
+tar xvzf otp_src_R16B.tar.gz
+cd otp_src_R16B
+./configure
+make &amp;&amp; make install
+</code></pre>
+
+<h4>Rabbitmq部署</h4>
+
+<p><a href="http://www.rabbitmq.com/install-debian.html">官方安装文档</a></p>
+
+<ol>
+<li><p>添加公共key</p>
+
+<p> wget http://www.rabbitmq.com/rabbitmq-signing-key-public.asc</p>
+
+<p> sudo apt-key add rabbitmq-signing-key-public.asc</p></li>
+<li><p>安装</p>
+
+<p> sudo apt-get install rabbitmq-server</p></li>
+</ol>
+
+
+<p><a href="http://www.rabbitmq.com/configure.html">官方配置文档</a>配置文件路径在<code>/etc/rabbitmq/</code></p>
+
+<h4>启动rabbitmq_management管理</h4>
+
+<pre><code>cd /usr/lib/rabbitmq/lib/rabbitmq_server-2.7.1/sbin
+sudo ./rabbitmq-plugins enable rabbitmq_management
+</code></pre>
+
+<p>然后浏览地址<code>http://server-name:55672/</code>, 官方说3.0以下版本端口是55672</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -862,51 +923,6 @@ $ node --debug-brk your/short/node/script.js
 	<h1 class="title"><a href="/blog/2013/01/04/nodejs-faye-chat-dom/">使用nodejs与faye一个简单的聊天室dom</a></h1>
 	<div class="entry-content">
 		<p><a href='https://github.com/huxinghai1988/node_faye_chat_dom'>github</a></p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-03T19:28:00+08:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/jekyll/'>jekyll</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/01/03/add-categoies//blog/page/4/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2013/01/03/add-categoies/">Blog显示所有分类</a></h1>
-	<div class="entry-content">
-		<p>在自己的 blog显示所有分类,但是有个问题没有解决中文分类，出现编码问题！<br /></p>
-
-<p><code>source/_includes/custom/header.html</code>
-文件加如下代码:<br /></p>
-
-<pre><code>{%  for key in site.categories %}
-    &lt;a href="/blog/categories/{{ key[0] }}"&gt;{{ key[0] }}&lt;/a&gt;
-{% endfor %}
-</code></pre>
 
 		
 		
