@@ -3,7 +3,7 @@ layout: post
 title: "使用MySQL存储emoji表情符号"
 date: 2016-09-05 22:40
 comments: true
-categories: Rails MySQL
+categories: rails mysql
 ---
 一个emoji是4bytes的存储空间, 如果你的MySQL使用的是utf8编码格式那emoji符号存储将会截断字符因为utf8一个字符只是
 3bytes的存储空间

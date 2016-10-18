@@ -3,7 +3,7 @@ layout: post
 title: "当你的Sublime打开项目卡顿的时候修改配置"
 date: 2016-03-13 22:28
 comments: true
-categories: 
+categories: sublime
 ---
 
 菜单路径``Preferences -> Settings-User`` 

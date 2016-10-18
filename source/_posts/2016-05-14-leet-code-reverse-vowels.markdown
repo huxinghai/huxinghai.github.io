@@ -3,7 +3,7 @@ layout: post
 title: "Reverse Vowels of a String"
 date: 2016-05-14 17:51
 comments: true
-categories: LeetCode
+categories: leetcode
 ---
 
 Write a function that takes a string as input and reverse only the vowels of a string.
