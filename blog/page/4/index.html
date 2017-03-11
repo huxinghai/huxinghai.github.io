@@ -7,8 +7,18 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="rabbitmq是用于消息列队处理的,准备研究一下它来做消息处理
-rabbitmq是用Erlang开发的,所有安装之前要部署Erlang环境 Erlang部署 wget https://elearning.erlang-solutions.com/binaries/sources/ &hellip;">
+	<meta name="description" content="安装requirejs-rails, 然后新建配置文件config/requirejs.yml requirejs.yml 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+#配置单个模块，会编译一个单独的模块
+modules: - name: &#39;mytoplevel&#39; #路径 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -75,6 +85,70 @@ rabbitmq是用Erlang开发的,所有安装之前要部署Erlang环境 Erlang部�
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-22T00:13:00+08:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ruby/'>ruby</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/06/22/requirejs-rails//blog/page/4/index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2013/06/22/requirejs-rails/">Gem Requirejs-rails Assets Precompile 简介</a></h1>
+	<div class="entry-content">
+		<p>安装<a href="https://github.com/jwhitley/requirejs-rails">requirejs-rails</a>, 然后新建配置文件<code>config/requirejs.yml</code></p>
+
+<p>requirejs.yml</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#配置单个模块，会编译一个单独的模块</span>
+</span><span class='line'><span class="n">modules</span><span class="p">:</span>
+</span><span class='line'>  <span class="o">-</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;mytoplevel&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#路径</span>
+</span><span class='line'><span class="n">paths</span>
+</span><span class='line'>  <span class="n">jquery</span><span class="p">:</span> <span class="s2">&quot;lib/jquery.js&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#设置依赖关系</span>
+</span><span class='line'><span class="n">shim</span><span class="p">:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其实与requirejs配置差不多，只是rails会根据requirejs.yml编译</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -893,43 +967,6 @@ $ node --debug-brk your/short/node/script.js
 
 </article>
 
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-04T19:56:00+08:00" pubdate data-updated="true">Jan 4<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/faye/'>faye</a>, <a class='category' href='/blog/categories/nodejs/'>nodejs</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2013/01/04/nodejs-faye-chat-dom//blog/page/4/index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2013/01/04/nodejs-faye-chat-dom/">使用nodejs与faye一个简单的聊天室dom</a></h1>
-	<div class="entry-content">
-		<p><a href='https://github.com/huxinghai1988/node_faye_chat_dom'>github</a></p>
-
-		
-		
-	</div>
-
-</article>
-
 <nav id="pagenavi">
     
         <a href="/blog/page/3/" class="prev">Prev</a>
@@ -940,7 +977,7 @@ $ node --debug-brk your/short/node/script.js
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2016
+			<footer id="footer" class="inner">Copyright &copy; 2017
 
     kaka
 </footer>
