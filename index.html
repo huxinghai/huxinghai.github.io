@@ -7,7 +7,7 @@
 	<meta name="author" content="kaka">
 
 	
-	<meta name="description" content="GraphQL是Facekbook开源API数据查询语言，随着现在业务场景越来越复杂，一站式开发会产生工作协调低下、项目结构混乱的一些问题，现在比较流行前后端分离应用开发，前端和后台约定数据格式通过Ajax与API进行数据交互这样职责清晰、项目逻辑专注，而GraphQL就是一个数据抽象层， &hellip;">
+	<meta name="description" content="周末在家一台Acer笔记本电脑显卡Geforce GT 520m安装Ubuntu进行测试使用，但不料安装完环境重启系统之后图形桌面登录不进去，ssh 连接登录方式正常，从网上找了很多资料，包括重新安装显卡驱动、重新安装ubuntu-desktop、权限问题等，最终安装gnome- &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -74,6 +74,52 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner">
+
+
+    <article class="post">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-07-02T18:19:00+08:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2018</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/ubuntu/'>ubuntu</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2018/07/02/ubuntu-14-dot-04-login-loop//index.html#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title"><a href="/blog/2018/07/02/ubuntu-14-dot-04-login-loop/">ubuntu-14.04 无法进入桌面，登录之后又跳回登录页面</a></h1>
+	<div class="entry-content">
+		<p>周末在家一台Acer笔记本电脑显卡Geforce GT 520m安装Ubuntu进行测试使用，但不料安装完环境重启系统之后图形桌面登录不进去，ssh 连接登录方式正常，从网上找了很多资料，包括重新安装显卡驱动、重新安装ubuntu-desktop、权限问题等，最终安装gnome-shell桌面环境解决，下面是处理步骤：</p>
+
+<ol>
+<li>重置主题管理工具unity先<code>sudo apt-get install unity-tweak-tool</code>然后再执行<code>unity-tweak-tool --reset-unity</code></li>
+<li>查看登录用户的home目录.Xauthority与.ICEauthority文件是否所属登录所有，通过<code>chown username:username .Xauthority</code>变更</li>
+<li>安装新桌面环境<code>sudo apt-get install gnome-shell ubuntu-gnome-desktop</code></li>
+<li>安装gdm登录管理器<code>sudo apt-get install gdm</code>然后再执行<code>sudo dpkg-reconfigure gdm</code></li>
+<li>更新系统安装包<code>sudo apt-get update</code>然后升级系统<code>sudo apt-get dist-upgrade</code></li>
+</ol>
+
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post">
@@ -1105,60 +1151,6 @@ Given s = &#8220;leetcode&#8221;, return &#8220;leotcede&#8221;.</p>
 
 </article>
 
-
-    <article class="post">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-03-12T23:41:00+08:00" pubdate data-updated="true">Mar 12<span>th</span>, 2016</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/devise/'>devise</a>, <a class='category' href='/blog/categories/gem/'>gem</a>
-
-
-</div>
-		
-			<span class="comments"><a href="/blog/2016/03/12/devise-authenticate-401//index.html#disqus_thread">Comments</a></span>
-		
-	</div>
-	<h1 class="title"><a href="/blog/2016/03/12/devise-authenticate-401/">Devise Warden报错401</a></h1>
-	<div class="entry-content">
-		<p>今天遇到一个特别的问题在项目里面使用devise应用到User与Admin, 因为User是可以用手机号码和Email登录的,
-而Admin只能邮件登录，结果User可以正常登录，但是Admin应该也可以正常登录，但是就是报401密码错误，经过翻看源码发现一个很好的工具，找到出现问题的原因</p>
-
-<pre><code>(byebug) Devise::Models.check_fields!(Admin)
-*** Devise::Models::MissingAttribute Exception: The following attribute(s) is (are) missing on your model: phone
-</code></pre>
-
-<p>因为我在devise.rb配置了</p>
-
-<pre><code>config.authentication_keys = [:email, :phone]
-</code></pre>
-
-<p>所以我要在Admin模型里面指定authentication_keys</p>
-
-<pre><code>devise :database_authenticatable, :registerable,
-     :recoverable, :rememberable, :trackable, :validatable,
-     :authentication_keys =&gt; [:email]
-</code></pre>
-
-		
-		
-	</div>
-
-</article>
-
 <nav id="pagenavi">
     
     
@@ -1167,7 +1159,7 @@ Given s = &#8220;leetcode&#8221;, return &#8220;leotcede&#8221;.</p>
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
 			</div>
-			<footer id="footer" class="inner">Copyright &copy; 2017
+			<footer id="footer" class="inner">Copyright &copy; 2018
 
     kaka
 </footer>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ubuntu | Ka Ka Blog]]></title>
+  <link href="http://huxinghai1988.github.com/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://huxinghai1988.github.com/"/>
+  <updated>2018-07-02T19:18:41+08:00</updated>
+  <id>http://huxinghai1988.github.com/</id>
+  <author>
+    <name><![CDATA[kaka]]></name>
+    <email><![CDATA[huxinghai1988@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ubuntu-14.04 无法进入桌面，登录之后又跳回登录页面]]></title>
+    <link href="http://huxinghai1988.github.com/blog/2018/07/02/ubuntu-14-dot-04-login-loop/"/>
+    <updated>2018-07-02T18:19:00+08:00</updated>
+    <id>http://huxinghai1988.github.com/blog/2018/07/02/ubuntu-14-dot-04-login-loop</id>
+    <content type="html"><![CDATA[<p>周末在家一台Acer笔记本电脑显卡Geforce GT 520m安装Ubuntu进行测试使用，但不料安装完环境重启系统之后图形桌面登录不进去，ssh 连接登录方式正常，从网上找了很多资料，包括重新安装显卡驱动、重新安装ubuntu-desktop、权限问题等，最终安装gnome-shell桌面环境解决，下面是处理步骤：</p>
+
+<ol>
+<li>重置主题管理工具unity先<code>sudo apt-get install unity-tweak-tool</code>然后再执行<code>unity-tweak-tool --reset-unity</code></li>
+<li>查看登录用户的home目录.Xauthority与.ICEauthority文件是否所属登录所有，通过<code>chown username:username .Xauthority</code>变更</li>
+<li>安装新桌面环境<code>sudo apt-get install gnome-shell ubuntu-gnome-desktop</code></li>
+<li>安装gdm登录管理器<code>sudo apt-get install gdm</code>然后再执行<code>sudo dpkg-reconfigure gdm</code></li>
+<li>更新系统安装包<code>sudo apt-get update</code>然后升级系统<code>sudo apt-get dist-upgrade</code></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
